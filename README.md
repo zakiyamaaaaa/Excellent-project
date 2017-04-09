@@ -1,7 +1,4 @@
 # excellent-project
 
-## serer develop setup
-glide をインストール
-ルートディレクトリでglide install
-あとはてきとうにじっこうする
-
+## API Server 
+[document](/server/README.md)
