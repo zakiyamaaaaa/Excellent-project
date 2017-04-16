@@ -31,10 +31,10 @@ sudo yum-config-manager --enable docker-ce-edge
 sudo yum makecache fast
 sudo yum install docker-ce-17.04.0.ce-1.el7.centos
  
-# docker deamonの起動
+# startup docker deamon
 sudo systemctl start docker
  
-# docker mysqlの起動
+# startup docker mysql
 sudo docker run --name mysql -d -p 3306:3306 -v /home/yamazaki/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root
   mysql:5.7.17
 ```

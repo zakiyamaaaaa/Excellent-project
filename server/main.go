@@ -1,45 +1,98 @@
 package main
 
 import (
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-	"log"
+	"encoding/json"
+	"excellent-project/server/dao"
+	"github.com/gorilla/mux"
+	"github.com/sirupsen/logrus"
+	"net/http"
 )
 
-func getDB(dbName, username, password string) (*sql.DB, error) {
+func main() {
+	router := mux.NewRouter()
+	router.HandleFunc("/register", register).Methods("POST")
+	router.HandleFunc("/auth", auth).Methods("GET")
+	router.HandleFunc("/geometry/register", registerGeometry).Methods("POST")
+	router.HandleFunc("/search", search).Methods("GET")
+	http.Handle("/", router)
 
-	db, err := sql.Open("mysql",
-		username+":"+password+"@/"+dbName)
+	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
-		return nil, err
+		logrus.Fatal(err.Error())
 	}
-
-	return db, nil
 }
 
-func main() {
-	db, err := getDB("test", "root", "root")
+func register(w http.ResponseWriter, r *http.Request) {
+	uid := r.FormValue("uid")
+	name := r.FormValue("name")
+	email := r.FormValue("email")
+
+	user := dao.User{UID: uid, Name: name, Email: email}
+	logrus.Info(user)
+	err := user.Save()
 	if err != nil {
-		log.Fatal(err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		logrus.Error(err.Error())
+		return
 	}
 
-	// レコード挿入
-	_, err = db.Exec(`insert into test values (?, ?)`, "ichihara", "shinji")
+	w.WriteHeader(http.StatusOK)
+}
+func auth(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("ke", "value")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("test"))
+
+}
+
+func registerGeometry(w http.ResponseWriter, r *http.Request) {
+	/*vars := mux.Vars(r)
+	uid := vars["uid"]
+	lat := vars["lat"]
+	lon := vars["lon"]
+
+	user, err := (&dao.User{}).Load(uid)
 	if err != nil {
-		log.Fatal(err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		logrus.Error(err.Error())
+		return
 	}
 
-	rows, err := db.Query("select last_name, first_name from test")
+	user.Lat = lat
+	user.Lon = lon
+	err = user.Save()
 	if err != nil {
-		log.Fatal(err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		logrus.Error(err.Error())
+		return
 	}
 
-	var last_name string
-	var first_name string
+	w.WriteHeader(http.StatusOK)
+	*/
+}
 
-	for rows.Next() {
-		rows.Scan(&last_name, &first_name)
-		log.Print(last_name + ":" + first_name)
+type searchResponse struct {
+	Count int        `json:"count"`
+	Users []dao.User `json:"users"`
+}
+
+func search(w http.ResponseWriter, r *http.Request) {
+
+	users, err := (&dao.User{}).SearchUser()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		logrus.Error(err.Error())
+		return
 	}
 
+	res := searchResponse{Count: len(users), Users: users}
+	json, err := json.Marshal(res)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		logrus.Error(err.Error())
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(json)
 }
