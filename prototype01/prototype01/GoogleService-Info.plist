@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>971720650476-1hcd28s77gr9q7527jbtrmiuqp1abh5g.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.971720650476-1hcd28s77gr9q7527jbtrmiuqp1abh5g</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBV04ilxU0BTxu0jyvv7GvPeSmkoMGbW4g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>971720650476</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>zakiyamaaaaa.prototype01</string>
+	<key>PROJECT_ID</key>
+	<string>noside-89910</string>
+	<key>STORAGE_BUCKET</key>
+	<string>noside-89910.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:971720650476:ios:e8e30590b2137b14</string>
+	<key>DATABASE_URL</key>
+	<string>https://noside-89910.firebaseio.com</string>
+</dict>
+</plist>
