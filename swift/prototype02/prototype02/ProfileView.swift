@@ -114,7 +114,9 @@ class ProfileView: UIScrollView , UIScrollViewDelegate{
     }
     
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        profileEditButton?.isHidden = true
+        UIView.transition(with: profileEditButton!, duration: 1.0, options: .transitionCrossDissolve, animations: { 
+            self.profileEditButton?.isHidden = true
+        }, completion: nil)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -124,9 +126,9 @@ class ProfileView: UIScrollView , UIScrollViewDelegate{
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 //        profileEditButton?.layer.animation(forKey: "isHidden")
 //        profileEditButton?.layer.add(animation, forKey: nil)
-        profileEditButton?.isHidden = false
-        
-        
+        UIView.transition(with: profileEditButton!, duration: 1.0, options: .transitionCrossDissolve, animations: {
+            self.profileEditButton?.isHidden = false
+        }, completion: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {

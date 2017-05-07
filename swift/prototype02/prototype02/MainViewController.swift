@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     var userData:[[String:Any]]?
     
@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     
     var numberOfOrder:Int = 0
     
-    var userMessageUserItem:[[String:Any]] = []
+    var messageableUserItem:[[String:Any]] = []
     
     enum direction{
         case right
@@ -46,6 +46,8 @@ class MainViewController: UIViewController {
     
     var currentPageNumber:Int = 1 //profile:0, main:1,message:2最初はmain
     
+    
+    var userMessageTableView:UITableView!
     
     //UserDefault関係
     var myUUID:String!
@@ -57,7 +59,7 @@ class MainViewController: UIViewController {
     var myUnFavariteFood:String?
     
     
-    
+    let tableViewCellHeight:CGFloat = 80
     var tabBarItemTransitionValue:CGFloat!
     
     override func viewDidLoad() {
@@ -68,11 +70,11 @@ class MainViewController: UIViewController {
         myUUID = ud.string(forKey: "uuid")
         myname = ud.string(forKey: "username")
         
-        ud.register(defaults: ["school" : "school: default"])
-        ud.register(defaults: ["faculty" : "faculty: default"])
-        ud.register(defaults: ["schoolyear" : "school year: default"])
-        ud.register(defaults: ["favaritefood" : "favarite food: default"])
-        ud.register(defaults: ["unfavaritefood" : "unfavarite food: default"])
+        ud.register(defaults: ["school" : "default"])
+        ud.register(defaults: ["faculty" : "default"])
+        ud.register(defaults: ["schoolyear" : "default"])
+        ud.register(defaults: ["favaritefood" : "default"])
+        ud.register(defaults: ["unfavaritefood" : "default"])
         
         mySchool = ud.string(forKey: "school")
         myFaculty = ud.string(forKey: "faculty")
@@ -147,6 +149,7 @@ class MainViewController: UIViewController {
         
         
         
+        
         //Button setting--------------------------------------------------------
         let iconLength = navigationBarHeight/4*3
         let messageButton = NavScrollButton(frame: CGRect(x: screenWidth*3/2-iconLength, y: (navigationBarHeight-iconLength)/2, width: iconLength, height: iconLength))
@@ -184,6 +187,15 @@ class MainViewController: UIViewController {
         
         tabBarItemTransitionValue = (screenWidth - iconLength)/2
         
+        
+        //TableViewの設定
+        userMessageTableView = UITableView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
+        userMessageTableView.delegate = self
+        userMessageTableView.dataSource = self
+        userMessageTableView.register(MessageTableViewCell.self, forCellReuseIdentifier: "Cell")
+//        userMessageTableView.isUserInteractionEnabled 
+        messageView.addSubview(userMessageTableView)
+        
         // Do any additional setup after loading the view.
     }
     
@@ -199,7 +211,35 @@ class MainViewController: UIViewController {
     }
     
     
+    //TableView Method
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messageableUserItem.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! MessageTableViewCell
+        let userInfo:[String:Any] = messageableUserItem[indexPath.row]
+        let userImage:UIImage = getImage(uuid: userInfo["uuid"] as! String)
+        cell.messageableUserImageView.image = userImage
+        cell.messageableUserNameLabel.text = userInfo["uuid"] as? String
+        cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        return cell
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //selectされたuseridとのチャット画面移行
+//        performSegue(withIdentifier: "chatSegue", sender: messageableUserItem[indexPath.row])
+        let chatVC:ChatViewController = ChatViewController()
+        let selectedUser:[String:Any] = messageableUserItem[indexPath.row]
+        chatVC.recieverUUID = selectedUser["uuid"] as! String
+        self.present(chatVC, animated: true, completion: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableViewCellHeight
+    }
     
     
 
@@ -336,7 +376,7 @@ class MainViewController: UIViewController {
         case .began:
             print("began")
         case .changed:
-            print("change")
+//            print("change")
             
             let moveValue:CGPoint = sender.translation(in: view)
             sender.view!.center.x += moveValue.x
@@ -366,10 +406,13 @@ class MainViewController: UIViewController {
                 guard let tag = sender.view?.tag else { return }
                 let num = getNumOfPage(swipedViewTag: tag)
                 swipeDirectionHandler(numberOfPage: num, swipeDirection: swipeDirection)
+                //post user action
                 swipeHandler(swipedViewTag: tag, swipeFlag: swipeDirection)
                 return
             }else{
             
+                
+            //ここでアニメーションが終わるまえに他の画面に映ると、アニメーション途中でとまったりバグるので、一括処理をするように。
             snapAnimator.removeAllBehaviors()
             snapBehavior = UISnapBehavior(item: sender.view!, snapTo: locationBySnap!)
             snapAnimator.addBehavior(snapBehavior!)
@@ -377,6 +420,38 @@ class MainViewController: UIViewController {
         default:
             print("default")
         }
+    }
+    
+    var matchFlag:Bool = false
+    var likeflag:Bool = false
+    
+    //Userのスワイプアクション結果をポストする
+    func postUserSwipe(numberOfPage:Int,swipeDirection:direction){
+        
+        guard let uuid = userData?[numberOfPage]["uuid"] else{ return }
+        
+        
+        if swipeDirection == .right{ likeflag = true}
+        let postData = ["uuid":myUUID,"encounterd":uuid,"likeflag":likeflag,"matchflag":matchFlag]
+        guard let updateLocationUrl = URL(string: "http://localhost:8888/test/updateUserSwipe.php") else {return}
+        
+        var request = URLRequest(url: updateLocationUrl)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do{
+            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: JSONSerialization.WritingOptions.prettyPrinted)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                print("response:\(response!)")
+                print("post successed!!")
+            })
+            task.resume()
+        }catch{
+            print(error.localizedDescription)
+        }
+        
+        likeflag = false
+        matchFlag = false
+        
     }
     
     func swipeHandler(swipedViewTag:Int,swipeFlag:direction){
@@ -437,27 +512,50 @@ class MainViewController: UIViewController {
             //最初は値を引き継ごうとしたが、うまくできなかったので、当面userDefaultで読み書きすることに。
         }
         
+        if segue.identifier == "chatSegue"{
+            let vc = segue.destination as! ChatViewController
+            
+        }
 
     }
     
     func swipeDirectionHandler(numberOfPage:Int,swipeDirection:direction){
         let swipedData = userData![numberOfPage]
-        let swipedDataLiked:[String] = swipedData["liked"] as? [String] ?? [""]
+        
+        //↓ここがどうにも分解できずに止まってる。
+        
+        
+//        let swipedDataLiked = swipedData["liked"] as! [String]
+        
+        print("526:\(swipedData)")
+        //encounter
+        //相手と自分のdataをpostして更新
+        //uuid,encounterd,liked,matched
+        
         
         switch swipeDirection {
         case .right:
-            if swipedDataLiked.contains(myUUID){
-                let str = userData![numberOfOrder]["uuid"] as! String
-                userMessageUserItem.append(["uuid" : str])
-                performSegue(withIdentifier: "matchSegue", sender: nil)
-            }
+            print("right")
+            print("535\(myUUID)")
+
+            
+//            if (swipedDataLiked as AnyObject).contains(myUUID){
+//                //matching Event
+//                print("contains")
+//                let str = userData![numberOfOrder]["uuid"] as! String
+//                messageableUserItem.append(["uuid" : str])
+//                matchFlag = true
+//                userMessageTableView.reloadData()
+//                performSegue(withIdentifier: "matchSegue", sender: nil)
+//            }
         case .left:
             print("left")
         default:
             print("default")
         }
-        //相手と自分のdataをpostして更新
-        //uuid,encounterd,liked,matched
+        
+        self.postUserSwipe(numberOfPage: numberOfPage, swipeDirection: swipeDirection)
+
     }
 
     /*

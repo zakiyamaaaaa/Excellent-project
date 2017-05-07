@@ -61,6 +61,24 @@
             </objects>
             <point key="canvasLocation" x="893.60000000000002" y="36.431784107946029"/>
         </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="lnT-aU-lPc">
+            <objects>
+                <viewController id="tgR-5K-q99" customClass="ChatViewController" customModule="prototype02" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UlU-aG-LpU"/>
+                        <viewControllerLayoutGuide type="bottom" id="4i3-Wz-AaH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Nv3-HJ-ijp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="102-qb-j2F" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1613" y="-691"/>
+        </scene>
         <!--Main View Controller-->
         <scene sceneID="XQ0-yf-ZVl">
             <objects>
@@ -77,11 +95,12 @@
                     <connections>
                         <segue destination="ph3-9i-gMD" kind="show" identifier="matchSegue" id="f4Y-DU-F6k"/>
                         <segue destination="nla-9S-IiZ" kind="show" identifier="segueProfileEdit" id="cnG-MB-iIs"/>
+                        <segue destination="tgR-5K-q99" kind="show" identifier="chatSegue" id="h7H-lz-vV7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kV7-gG-Ylw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1622" y="34"/>
+            <point key="canvasLocation" x="1668" y="36"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="zye-5O-Blt">

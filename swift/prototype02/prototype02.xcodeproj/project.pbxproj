@@ -23,6 +23,8 @@
 		39272EA41EAF48FB0068C079 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39272EA31EAF48FB0068C079 /* ProfileView.swift */; };
 		3944B1261EB06C30005E4798 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3944B1251EB06C30005E4798 /* EditProfileViewController.swift */; };
 		3944B1281EB08CA4005E4798 /* UITextFieldBtmBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3944B1271EB08CA4005E4798 /* UITextFieldBtmBorder.swift */; };
+		3944B12A1EB1B7A7005E4798 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3944B1291EB1B7A7005E4798 /* MessageTableViewCell.swift */; };
+		3944B12C1EB1B7B3005E4798 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3944B12B1EB1B7B3005E4798 /* ChatViewController.swift */; };
 		397DC4B61EB033E700499FE3 /* UILabelBtmBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397DC4B51EB033E700499FE3 /* UILabelBtmBorder.swift */; };
 		586503D993C7EF835DF56754 /* Pods_prototype02UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 864268772F205744B43362C1 /* Pods_prototype02UITests.framework */; };
 		AECF29877E9F6EE9D851C12E /* Pods_prototype02Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A272540E6319828A500BEA3A /* Pods_prototype02Tests.framework */; };
@@ -72,6 +74,8 @@
 		39272EA31EAF48FB0068C079 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		3944B1251EB06C30005E4798 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		3944B1271EB08CA4005E4798 /* UITextFieldBtmBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextFieldBtmBorder.swift; sourceTree = "<group>"; };
+		3944B1291EB1B7A7005E4798 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		3944B12B1EB1B7B3005E4798 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		397DC4B51EB033E700499FE3 /* UILabelBtmBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelBtmBorder.swift; sourceTree = "<group>"; };
 		487B967163D672499B4F9428 /* Pods-prototype02Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prototype02Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-prototype02Tests/Pods-prototype02Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		7061276881CD8AE9C8AC5D8F /* Pods-prototype02UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prototype02UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-prototype02UITests/Pods-prototype02UITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -148,8 +152,10 @@
 				39272E651EAF246C0068C079 /* MatchViewController.swift */,
 				39272E2D1EADDAF90068C079 /* ViewController.swift */,
 				397DC4B51EB033E700499FE3 /* UILabelBtmBorder.swift */,
+				3944B12B1EB1B7B3005E4798 /* ChatViewController.swift */,
 				3944B1271EB08CA4005E4798 /* UITextFieldBtmBorder.swift */,
 				39272E671EAF36840068C079 /* NavScrollButton.swift */,
+				3944B1291EB1B7A7005E4798 /* MessageTableViewCell.swift */,
 				3944B1251EB06C30005E4798 /* EditProfileViewController.swift */,
 				39272E611EADEB6D0068C079 /* MainViewController.swift */,
 				39272EA31EAF48FB0068C079 /* ProfileView.swift */,
@@ -485,9 +491,11 @@
 				397DC4B61EB033E700499FE3 /* UILabelBtmBorder.swift in Sources */,
 				39272E5C1EADDD190068C079 /* SearchLocationViewController.swift in Sources */,
 				39272E681EAF36840068C079 /* NavScrollButton.swift in Sources */,
+				3944B12A1EB1B7A7005E4798 /* MessageTableViewCell.swift in Sources */,
 				39272E2E1EADDAF90068C079 /* ViewController.swift in Sources */,
 				39272E641EAEC9EF0068C079 /* NearUserView.swift in Sources */,
 				39272E2C1EADDAF90068C079 /* AppDelegate.swift in Sources */,
+				3944B12C1EB1B7B3005E4798 /* ChatViewController.swift in Sources */,
 				3944B1261EB06C30005E4798 /* EditProfileViewController.swift in Sources */,
 				3944B1281EB08CA4005E4798 /* UITextFieldBtmBorder.swift in Sources */,
 				39272E621EADEB6D0068C079 /* MainViewController.swift in Sources */,
