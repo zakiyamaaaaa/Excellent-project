@@ -3,10 +3,11 @@
 	$requestUserJsonData = file_get_contents('php://input');
 	$requestUserData = json_decode($requestUserJsonData,true);
 
-	$my_id = $requestUserData["uid"];
+	$my_id = $requestUserData["uuid"];
 	$my_lat = $requestUserData["lat"];
 	$my_lng = $requestUserData["lng"];
 
+	//Connect Database
 	try{
 		$user = "root";
 		$passward = "dreamcometrue";
@@ -23,8 +24,33 @@
 		exit();
 	}
 
+	//Update user location
 	try{
-		$myid_array = array($my_id);
+		// $location = 'point('. $my_lng. ' '. {$my_lat}.')';
+		// $location = 'point(130 20)';
+		$location = 'point('.$my_lng.' '.$my_lat.')';
+
+
+		//Insert 新しく作るとき
+		// $stmt = $pdo->prepare('insert into pt_jobhuntertb01(uuid,username,email,latlng,currentlogintime,encounterd,matched)values(:uuid,"takashi","aaa",PointFromText(:location),now(),null,null)');
+		$stmt = $pdo->prepare('update pt_jobhuntertb01 set latlng = PointFromText(:location),currentlogintime = NOW() where uuid = :uuid');
+		// $stmt = $pdo->prepare('insert into pt_jobhuntertb01(uuid,registertime)values(:uuid,now())');
+		$stmt->bindValue(':uuid',$my_id,PDO::PARAM_STR);
+		$stmt->bindValue(':location',$location,PDO::PARAM_STR);
+		$stmt->execute();
+		// echo $location;
+	}catch(Exception $e){
+		echo "Error";
+		echo $e->getMessage();
+		exit();
+	}
+
+
+
+	//Search near Userdata
+	try{
+		$dummyUUID = "hoge";
+		$myid_array = array($dummyUUID);
 		$json = json_encode($myid_array);
 		$length = 500000;
 		// $my_id = '["hoge"]';
@@ -35,8 +61,10 @@
 
 		// $sql = "select * from pt_recruitertb01;";
 		
-		$stmt = $pdo->prepare('select s2.uuid,s2.username,st_distance_sphere((select latlng from pt_jobhuntertb01 where !json_contains(s2.encounterd,:uuid)),s2.latlng) as distance from pt_recruitertb01 as s1 inner join pt_recruitertb01 as s2 group by s2.uuid having distance < :length and distance is not null order by distance asc');
-		$stmt->bindValue(':uuid',$json,PDO::PARAM_STR);
+
+		$stmt = $pdo->prepare('select s2.uuid,s2.username,s2.liked,s2.encounterd,st_distance_sphere((select latlng from pt_jobhuntertb01 where uuid = :uuid and !json_contains(pt_jobhuntertb01.encounterd,json_array(s2.uuid))),s2.latlng) as distance from pt_recruitertb01 as s1 inner join pt_recruitertb01 as s2 group by s2.uuid having distance < :length and distance is not null order by distance asc');
+		$stmt->bindValue(':uuid',$my_id,PDO::PARAM_STR);
+		// $stmt->bindValue(':jsonuuid',$json,PDO::PARAM_STR);
 		$stmt->bindValue(':length',$length,PDO::PARAM_INT);
 		$stmt->execute();
 
@@ -49,7 +77,9 @@
 			 $userDataArray[]=array(
 		    'uuid'=>$row['uuid'],
 		    'username'=>$row['username'],
-		    'distance'=>$row['distance']
+		    'distance'=>$row['distance'],
+		    'encounterd'=>$row['encounterd'],
+		    'liked'=>$row['liked']
 		    // 'companyname'=>$row['companyname'],
 		    // 'position'=>$row['position'],
 		    // 'appreciation'=>$row['appreciation'],
