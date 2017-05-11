@@ -1,0 +1,15 @@
+Pt02テスト環境構築方法
+
+・ユーザー画像取得
+このURL（http://localhost:8888/test/img/\(uuid)/userimg.jpg）からswiftで引っ張ってきてる
+imgフォルダーに画像が入っているので、上のようにtestフォルダの直下にimg置くだけでよい
+
+・DB
+mysqlを使用。
+dbフォルダに元になっている求職者と企業側のダミーデータがあるので、これをmysqlに入れてください。
+
+DB名 prototypedb
+Table名 pt_jobhuntertb01, pt_recruitertb01
+※これは、php側のDBアクセスする部分で、変更可能です。
+
+
