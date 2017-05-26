@@ -14,7 +14,7 @@
 	//Connect Database
 	try{
 		$user = "root";
-		$passward = "dreamcometrue";
+		$passward = "**************";
 		$db_name = "prototypedb";
 		$host = "localhost:3306";
 		$dsn = "mysql:host={$host};dbname={$db_name};charset=utf8";
