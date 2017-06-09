@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12117" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12084"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="bV5-7m-ncv">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LXc-Bh-hBy">
+                                <rect key="frame" x="67" y="538.5" width="240" height="84.5"/>
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="71"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="headTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oqg-5P-oxk">
+                                <rect key="frame" x="14" y="154" width="347" height="86.5"/>
+                                <string key="text">If today were the last day of my life,
+would I want to do 
+what I am about to do today?</string>
+                                <fontDescription key="fontDescription" name="BodoniSvtyTwoSCITCTT-Book" family="Bodoni 72 Smallcaps" pointSize="24"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="headTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ifg-gJ-z7e">
+                                <rect key="frame" x="16" y="261" width="343" height="61.5"/>
+                                <string key="text">もし今日が人生最後の日だとしたら、
+今やろうとしていることは
+本当に自分のやりたいことだろうか？</string>
+                                <fontDescription key="fontDescription" name="BodoniSvtyTwoSCITCTT-Book" family="Bodoni 72 Smallcaps" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="LXc-Bh-hBy" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="51" id="0xv-3X-d30"/>
+                            <constraint firstItem="bV5-7m-ncv" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="BGV-sC-BX0"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="LXc-Bh-hBy" secondAttribute="bottom" constant="44" id="C9g-KL-glf"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="bV5-7m-ncv" secondAttribute="bottom" id="IQR-h5-Jtu"/>
+                            <constraint firstItem="oqg-5P-oxk" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="14" id="QKd-dz-cNa"/>
+                            <constraint firstAttribute="trailing" secondItem="oqg-5P-oxk" secondAttribute="trailing" constant="14" id="QWk-Jg-hTj"/>
+                            <constraint firstItem="bV5-7m-ncv" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="bjr-Ed-UUn"/>
+                            <constraint firstAttribute="trailing" secondItem="bV5-7m-ncv" secondAttribute="trailing" id="bta-9H-hki"/>
+                            <constraint firstItem="ifg-gJ-z7e" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="16" id="hWe-Fm-7tb"/>
+                            <constraint firstItem="oqg-5P-oxk" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="134" id="k0Z-4b-3ou"/>
+                            <constraint firstAttribute="trailing" secondItem="ifg-gJ-z7e" secondAttribute="trailing" constant="16" id="kCj-6G-6yr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="LXc-Bh-hBy" secondAttribute="trailing" constant="52" id="rdc-3a-uEj"/>
+                            <constraint firstItem="ifg-gJ-z7e" firstAttribute="top" secondItem="oqg-5P-oxk" secondAttribute="bottom" constant="20.5" id="ue8-dg-8xT"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="background" width="320" height="568"/>
+    </resources>
+</document>
