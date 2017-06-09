@@ -1,0 +1,27 @@
+version: '2'
+services:
+  nginx:
+    image: nginx:1.11.13
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+  web:
+    image: golang:1.8.0
+    volumes:
+      - ./:/go/src/excellent-project/server
+    ports:
+      - 5000:5000
+#    command: tail -f /dev/null
+    command: go run src/excellent-project/server/main.go
+  mysql:
+    image: mysql:5.7.17
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=noside
+      - MYSQL_PASSWORD=noside
+      - MYSQL_ROOT_PASSWORD=root
