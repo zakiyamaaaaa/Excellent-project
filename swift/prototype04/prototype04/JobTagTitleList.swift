@@ -13,10 +13,7 @@ struct jobTagTitleList {
     var occupation = ["総務","経理","人事","経営企画","MR","経営コンサル","営業","保育士","教師","国家公務員","映像デザイナー","プログラマー",
                        "PR","接客","栄養士","秘書"]
     
-    init() {
-        
-    }
-    
+    //リストを返す
     func getList(type:jobTagType)->[String]{
         switch type {
         case .industry:

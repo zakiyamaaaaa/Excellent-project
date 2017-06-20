@@ -1,29 +1,26 @@
 //
-//  RegisterPhotoViewController.swift
+//  RegisterPhotoViewController02.swift
 //  prototype04
 //
-//  Created by shoichiyamazaki on 2017/05/13.
+//  Created by shoichiyamazaki on 2017/06/07.
 //  Copyright © 2017年 shoichiyamazaki. All rights reserved.
 //
 
 import UIKit
 
-class RegisterPhotoViewController: UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIViewControllerTransitioningDelegate {
-    
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var navItem: UINavigationItem!
+class RegisterPhotoViewController:UIViewController,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIViewControllerTransitioningDelegate {
 
+    @IBOutlet weak var imageFrameView: UIView!
+    @IBOutlet weak var myImageView: UIImageView!
+    
+    //imagePickerで選択された画像
     var selectedImage:UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerButton.isEnabled = false
-        navItem.titleView?.layer.shadowOffset = CGSize(width: 0, height: 2)
-        navItem.titleView?.layer.shadowOpacity = 1
-        navItem.titleView?.layer.shadowRadius = 10
-        navItem.titleView?.layer.shadowColor = UIColor.yellow.cgColor
-        registerButton.alpha = 0.3
+        self.navigationItem.hidesBackButton = true
+        imageFrameView.layer.borderWidth = 1
+        myImageView.layer.borderWidth = 1
         
         
         // Do any additional setup after loading the view.
@@ -34,17 +31,13 @@ class RegisterPhotoViewController: UIViewController,UINavigationControllerDelega
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func backView(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //upload buttonが押されたとき
+    //ImagePickerが発動
     @IBAction func uploadPhoto(_ sender: Any) {
         let alertController = UIAlertController(title: "Confirmation", message: "Choose", preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera){
-            print("Available to camera")
-            
-            
             let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {(action:UIAlertAction) in
                 let ipc = UIImagePickerController()
                 ipc.sourceType = .camera
@@ -71,16 +64,14 @@ class RegisterPhotoViewController: UIViewController,UINavigationControllerDelega
         let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         alertController.addAction(cancelAction)
         present(alertController,animated: true,completion: nil)
-        
-        
+
     }
-    
+
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //imagePickerで写真が選択されたとき
+    //切り取り画面に遷移する
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-//        profileImageView.image = info[UIImagePickerControllerOriginalImage] as? UIImage
-//        selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage
-//        registerButton.isEnabled = true
-//        registerButton.alpha = 1
-//        dismiss(animated: true, completion: nil)
+        
         selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage
         
         dismiss(animated: true) {
@@ -88,52 +79,68 @@ class RegisterPhotoViewController: UIViewController,UINavigationControllerDelega
         }
     }
     
-    @IBAction func returnToTop(segue: UIStoryboardSegue) {
-        
-        if segue.identifier  == "unwindCrop"{
-            print("unwind")
-            let vc = segue.source as! CropEditViewController
-            profileImageView.image = vc.maskedImage
-            
-            registerButton.isEnabled = true
-            registerButton.alpha = 1
-        }
-    }
-    
-    @IBAction func register(_ sender: Any) {
-        print("click")
-        
-        let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let imgFileName = "sample.png"
-        
-        guard let image = profileImageView.image else { return }
-        
-        let pngData = UIImagePNGRepresentation(image)
-        do{
-            try pngData?.write(to: URL(fileURLWithPath: "\(documentDir)/\(imgFileName)"))
-        }catch{
-            print(error.localizedDescription)
-        }
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc = storyboard.instantiateViewController(withIdentifier: "previewVC") as! PreviewProfileViewController
-        vc.transitioningDelegate = self
-        self.present(vc, animated: true, completion: nil)
-    }
-    
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //Animation
+    //Disolveのアニメーション
+    //present
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return Animation()
     }
     
+    //Disolveのアニメーション
+    //dismiss
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return Animation()
     }
     
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //VCの画面遷移
+    //cropVCから戻ってくるときに発動
+    @IBAction func returnToTop(segue: UIStoryboardSegue) {
+        
+        if segue.identifier  == "unwindCrop"{
+            
+            let vc = segue.source as! CropEditViewController
+            myImageView.image = vc.maskedImage
+            
+            //            registerButton.isEnabled = true
+            //            registerButton.alpha = 1
+        }
+    }
+    
+    //cropSegueのとき
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueCrop"{
             let vc = segue.destination as! CropEditViewController
             vc.originalImage = selectedImage
         }
+    }
+    
+    //戻るボタンが押されたとき
+    //前の画面に戻る
+    @IBAction func backVC(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    //すすむボタンが押されたとき
+    //次の画面に戻る
+    @IBAction func nextButtonTapped(_ sender: Any) {
+        let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let imgFileName = "sample.png"
+        
+        if let image = myImageView.image {
+            let pngData = UIImagePNGRepresentation(image)
+            do{
+                try pngData?.write(to: URL(fileURLWithPath: "\(documentDir)/\(imgFileName)"))
+            }catch{
+                print(error.localizedDescription)
+            }
+        }
+            
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "previewVC") as! PreviewViewController
+        vc.transitioningDelegate = self
+        self.present(vc, animated: true, completion: nil)
     }
     /*
     // MARK: - Navigation

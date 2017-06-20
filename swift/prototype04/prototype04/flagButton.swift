@@ -24,11 +24,10 @@ class flagButton: UIButton {
         super.init(frame: frame)
         self.setTitle(title, for: .normal)
         self.setTitleColor(UIColor.black, for: .normal)
-        self.titleLabel?.font = UIFont(name: "HiraginoSans-W3", size: 14)
+        self.titleLabel?.font = UIFont(name: "HiraginoSans-W3", size: 12)
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 5
-//        self.layer.borderWidth = 5
-//        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor.white
         type = Tagtype
         
         switch Tagtype {
@@ -39,8 +38,9 @@ class flagButton: UIButton {
             borderColor = UIColor.rgbColor(0x6EBF1D)
             
         }
-//        self.layer.borderColor = borderColor.cgColor
-        self.backgroundColor = borderColor
+        self.layer.borderColor = borderColor.cgColor
+        self.layer.borderWidth = 2
+//        self.backgroundColor = borderColor
         self.sizeToFit()
     }
     

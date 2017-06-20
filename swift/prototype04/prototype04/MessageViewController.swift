@@ -14,8 +14,8 @@ class MessageViewController: JSQMessagesViewController {
     var messages:[JSQMessage] = []
     var senderImage:UIImage?
     var recieverImage:UIImage?
-    var userInfo:[String:Any] = [:]
-    
+    var recieverInfo:[String:Any] = [:]
+    var senderInfo:UserInfo = UserInfo()
     
     enum targetType{
         case sender
@@ -27,17 +27,20 @@ class MessageViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        senderId = udSetting.read(key: .uuid)
+        senderInfo.uuid = udSetting.read(key: .uuid)
+        
+        senderId = senderInfo.uuid
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "sample.png"
         let tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         senderImage =  tmp
         senderDisplayName = udSetting.read(key: .username)
         
-        recieverImage = getImage(uuid: userInfo["uuid"] as! String)
+        recieverImage = getImage(uuid: recieverInfo["uuid"] as! String)
         // Do any additional setup after loading the view.
     }
     
+    //uuidを指定して、画像を取得
     func getImage(uuid:String)->UIImage?{
         guard let imgFilePath = URL(string: "http://52.163.126.71/test/img/\(uuid)/userimg.jpg") else { return nil}
         var img:UIImage?
@@ -61,7 +64,7 @@ class MessageViewController: JSQMessagesViewController {
         return messages[indexPath.row]
     }
     
-    //imageの設定
+    //imageの表示設定
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
         self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize(width: 40, height: 40)
         self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize(width: 40, height: 40)
@@ -108,7 +111,7 @@ class MessageViewController: JSQMessagesViewController {
     }
     
     
-    
+    //画面中のアイテム数
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }

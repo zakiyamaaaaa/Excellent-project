@@ -1,112 +1,568 @@
 //
-//  ProfileEditViewController.swift
+//  ProfileEditViewController02.swift
 //  prototype04
 //
-//  Created by shoichiyamazaki on 2017/05/11.
+//  Created by shoichiyamazaki on 2017/06/09.
 //  Copyright © 2017年 shoichiyamazaki. All rights reserved.
 //
 
 import UIKit
 
-class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
+class ProfileEditViewController: UIViewController,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UINavigationControllerDelegate,UIImagePickerControllerDelegate {
 
     @IBOutlet weak var myImageView: UIImageView!
-    @IBOutlet weak var myTableView: UITableView!
-    @IBOutlet weak var myNameLabel: UILabel!
-    var sectionList = ["Job(選べるのは6つまで)","Background"]
-    var jobItems = ["気になる職種","気になる業界"]
-//    var foodItems = ["好きな食べ物","嫌いな食べ物"]
-    var backgroundItems = ["学校","資格"]
-    var selectedImage:UIImage?
-    
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var sexSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var ageTextField: NonCaretTextField!
+    @IBOutlet weak var belongingTextField: UITextField!
+    @IBOutlet weak var jobTagErrorLabel: UILabel!
     @IBOutlet weak var myScrollView: UIScrollView!
-    var interestingJob:String?
-    var interestingCategory:String?
+
+    @IBOutlet weak var jobTagTextField: NonCaretTextField!
+    @IBOutlet weak var appealTextField: UITextField!
+    @IBOutlet weak var appealErrorLabel: UILabel!
+    var selectedImage:UIImage?
+    let udSetting:UserDefaultSetting = UserDefaultSetting()
+    var userInfo:UserInfo = UserInfo()
+    let jobIndustryList:[String] = jobTagTitleList.init().industry
+    let jobOccupationList:[String] = jobTagTitleList.init().occupation
+    
+    var jobInputView:UIScrollView!
+    let jobTitleList = ["気になる業界","気になる業種"]
+    let jobTitleFontSize:CGFloat = 13
+    var selectedTagList:[flagButton] = []
+    var num:[Int:Int] = [:]
+    var tappedTextField:UITextField!
+    let tagLabelFontSize:CGFloat = 14
     var originalY:CGFloat = 0
+    var selectedTagList02:[jobTagType:[flagButton]] = [.industry:[],.occupation:[]]
+    var toolBar:UIToolbar!
+    var toolBar02:UIToolbar!
     
-    var favoriteFood:String?
-    var unfavoriteFood:String?
-    var background:String?
-    var qualification:String?
+    //タグを選択できる最大の数
+    let maxJobSelectCount:Int = 6
     
-    var originData:[String:Any]!
-    var tmpData:[String:Any]!
+    //ageの設定のため今年の年を設定
+    let thisYear = 2017
     
-    var jobTextField01:UITextField!
-    var jobTextField02:UITextField!
-    
-    var jobCategoryList:[String] = jobTagTitleList.init().industry
-    var jobTypeList:[String] = jobTagTitleList.init().occupation
-    var jobCellHeight:[jobTagType:CGFloat] = [:]
-    var dummyJobData = ["営業","不動産","経営企画","経営コンサル"]
-    var jobInputView01:UIView!
-    var jobInputView02:UIView!
-    var activeTextField:UITextField?
-    var userSettingList:[String:Any]?
-    let UDsetting:UserDefaultSetting = UserDefaultSetting()
-    
-    var backgroundTextField:UITextField!
-    var qualificationTextField:UITextField!
+    //picker
+    var agePicker:UIPickerView!
+    var ageDataSource:[String] = [String]()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //key:タグ value:選択されてる順番 ※選択されてないときは0
+        for i in 0 ..< jobIndustryList.count + jobOccupationList.count - 1{
+            num[i] = 0
+        }
+        
+        //初期設定
+        initialSet()
+        
+        //エラーのラベルを透過
+        appealErrorLabel.alpha = 0
+        jobTagErrorLabel.alpha = 0
+        
+        myImageView.layer.borderWidth = 1
+        
+        //tagviewのツールバー設定
+        toolBar = UIToolbar(frame: CGRect(x: 0, y: 30, width: self.view.frame.width, height: 30))
+        toolBar.barStyle = .blackTranslucent
+        toolBar.tintColor = UIColor.white
+        let closeButton = UIBarButtonItem(title: "完了", style: .done, target: self, action: #selector(self.resignJobFieled(sender:)))
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        toolBar.items = [flexible,closeButton]
+        
+        
+        //ageのところのツールバー設定
+        toolBar02 = UIToolbar(frame: CGRect(x: 0, y: 30, width: self.view.frame.width, height: 30))
+        toolBar02.barStyle = .blackTranslucent
+        toolBar02.tintColor = UIColor.white
+        let closeButton02 = UIBarButtonItem(title: "完了", style: .done, target: self, action: #selector(self.resignAgeField(sender:)))
+        let flexible02 = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        toolBar02.items = [flexible02,closeButton02]
+        //age のpickerの設定
+        agePicker = UIPickerView()
+        agePicker.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 150)
+        agePicker.delegate = self
+        agePicker.dataSource  = self
+        agePicker.isUserInteractionEnabled = true
+        ageTextField.inputView = agePicker
+        
+        //Pickerに設定するageDataを格納
+        for i in 18 ... 80{
+            ageDataSource.append("\(thisYear - i)年生まれ(\(i)歳)")
+        }
+        let initialPickerNum = Int(userInfo.age)!
+        agePicker.selectRow(initialPickerNum - 18, inComponent: 0, animated: false)
+        ageTextField.inputAccessoryView = toolBar02
+        jobTagTextField.inputAccessoryView = toolBar
+        
+        
+        //testfieldのNotificationの設定
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        myScrollView.delegate = self
+        
+        //segmentedControl
+        switch userInfo.sex {
+        case "female":
+            sexSegmentedControl.selectedSegmentIndex = 0
+        case "male":
+            sexSegmentedControl.selectedSegmentIndex = 1
+        default:
+            break
+        }
+        
+        
+        nameTextField.delegate = self
+        jobTagTextField.delegate = self
+        ageTextField.delegate = self
+        appealTextField.delegate = self
+        belongingTextField.delegate = self
+        
+        //JobTagViewの設定
+        jobInputView = UIScrollView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 250))
+        jobInputView.contentSize = CGSize(width: self.view.frame.width, height: 500)
+        jobInputView.delegate = self
+        
+        let tagButtonHeight:CGFloat = 30
+        let inputViewLabel01 = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: tagButtonHeight))
+        let inputViewLabel02 = UILabel(frame: inputViewLabel01.frame)
+        inputViewLabel01.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        inputViewLabel01.textAlignment = NSTextAlignment.center
+        inputViewLabel02.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        inputViewLabel02.textAlignment = NSTextAlignment.center
+        inputViewLabel01.text = jobTitleList[0]
+        inputViewLabel02.text = jobTitleList[1]
+        inputViewLabel01.font = UIFont.systemFont(ofSize: jobTitleFontSize)
+        inputViewLabel02.font = UIFont.systemFont(ofSize: jobTitleFontSize)
+        inputViewLabel01.center.x = jobInputView.center.x
+        inputViewLabel02.center.x = jobInputView.center.x
+        jobInputView.addSubview(inputViewLabel01)
+        
+        createTagButton(originY: inputViewLabel01.frame.height,list:jobIndustryList, type: .industry)
+        
+        let lastItem = jobInputView.subviews.last!
+        let lastHeight = lastItem.frame.origin.y + lastItem.frame.height
+        inputViewLabel02.frame.origin.y = lastHeight + 20
+        jobInputView.addSubview(inputViewLabel02)
+        let y = inputViewLabel02.frame.origin.y + inputViewLabel02.frame.height
+        
+        createTagButton(originY: y, list: jobOccupationList, type: .occupation)
+        
+        jobInputView.backgroundColor = UIColor.white
+        jobInputView.isOpaque = false
+        jobTagTextField.inputView = jobInputView
+        
+        
+        let last = jobInputView.subviews.last
+        let scrollEdgeY = last!.frame.origin.y + last!.frame.height + tagButtonHeight
+        jobInputView.contentSize.height = scrollEdgeY
+        // Do any additional setup after loading the view.
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //初期設定
+    func initialSet(){
+        userInfo.userName = udSetting.read(key: .username)
+        userInfo.sex = udSetting.read(key: .sex)
+        userInfo.age = udSetting.read(key: .age)
+        userInfo.appeal = udSetting.read(key: .appeal)
+        userInfo.favoriteJob = udSetting.read(key: .job)
+        userInfo.belonging = udSetting.read(key: .belonging)
+        
+        nameTextField.text = userInfo.userName
+        ageTextField.text = userInfo.age + "歳"
+        appealTextField.text = userInfo.appeal
+        belongingTextField.text = userInfo.belonging
+        
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "sample.png"
         let tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         myImageView.image = tmp
         
-        
-        userSettingList = UDsetting.returnSetValue()
-        dummyJobData = userSettingList?[userDefautlsKeyList.job.rawValue] as! [String]
-        
-        myNameLabel.text = userSettingList?[userDefautlsKeyList.username.rawValue] as? String
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShown(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHidden(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        myScrollView.delegate = self
-        
-        backgroundTextField = UITextField(frame: CGRect.zero)
-        qualificationTextField = UITextField(frame: CGRect.zero)
-        backgroundTextField.delegate = self
-        qualificationTextField.delegate = self
-        
-        
-        jobTextField01 = UITextField(frame: CGRect.zero)
-        jobTextField01.delegate = self
-        jobTextField02 = UITextField(frame: CGRect.zero)
-        jobTextField02.delegate = self
-        self.view.addSubview(jobTextField01)
-        self.view.addSubview(jobTextField02)
-        
-        let screenWidth = self.view.frame.width
-        
-        jobInputView01 = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
-        jobInputView01.backgroundColor = UIColor.white
-        jobInputView02 = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 300))
-        jobInputView02.backgroundColor = UIColor.lightGray
-        
-        
-        
-        createTagButton(originY: 10, list: jobCategoryList, type: .industry)
-        createTagButton(originY: 10, list: jobTypeList, type: .occupation)
-        
-        jobTextField01.inputView = jobInputView01
-        jobTextField02.inputView = jobInputView02
-        
-        jobInputView01.frame.size = CGSize(width: screenWidth, height: jobInputView01.subviews.last!.frame.origin.y + jobInputView01.subviews.last!.frame.height + 50)
-        jobInputView02.frame.size = CGSize(width: screenWidth, height: jobInputView02.subviews.last!.frame.origin.y + jobInputView02.subviews.last!.frame.height + 50)
-        
-        
-        myTableView.delegate = self
-        myTableView.dataSource = self
-        myTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "myCell")
-        
-        
-//        let appDelegate:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//        originData = appDelegate.myDataDelegate
-        // Do any additional setup after loading the view.
+        createTag()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //pickerメソッド
+    //Pickerのコンポーネントの数
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    //Pickerのコンポーネントの中の数
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return ageDataSource.count
+    }
+    
+    //Pickerのコンポーネントの中の値
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return ageDataSource[row]
+    }
+    
+    //Pickerのコンポーネントが選択されたとき
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(ageDataSource[row])
+        ageTextField.text = ageDataSource[row]
+        userInfo.age = renameAge(selectedAge: ageDataSource[row])
+    }
+    
+    //Ageの切り取り
+    func renameAge(selectedAge:String)->String{
+        let startIndex = selectedAge.index(selectedAge.endIndex, offsetBy: -4)
+        let endIndex = selectedAge.index(selectedAge.endIndex, offsetBy: -2)
+        let range = startIndex..<endIndex
+        
+        let subString = selectedAge.substring(with: range)
+        return subString
+    }
+    
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //Tag
+    
+    //Tagを生成する------------------------------------------
+    func createTagButton(originY:CGFloat,list:[String],type:jobTagType){
+        var pointX:CGFloat = 0
+        var pointY:CGFloat = originY + 10
+        for (index,value) in list.enumerated(){
+            
+            let myButton = flagButton(frame: .zero, title: value, Tagtype: type)
+            myButton.frame.origin.x = pointX + 10
+            myButton.frame.origin.y = pointY
+            myButton.frame.size = CGSize(width: myButton.frame.width + 10, height: myButton.frame.height)
+            
+            if myButton.frame.origin.x + myButton.frame.width > self.view.frame.width{
+                myButton.frame.origin.x = 10
+                myButton.frame.origin.y = pointY + myButton.frame.height + 10
+            }
+            
+            pointX = myButton.frame.origin.x + myButton.frame.width
+            pointY = myButton.frame.origin.y
+            
+            if (self.userInfo.favoriteJob?.contains(value))!{
+                myButton.flag = true
+                myButton.alpha = 0.2
+            }
+            
+            switch type {
+            case .industry:
+                
+                myButton.tag = index
+                myButton.type = .industry
+            case .occupation:
+                
+                myButton.tag = index + jobIndustryList.count
+                myButton.type = .occupation
+            }
+            
+            myButton.addTarget(self, action: #selector(self.clickButton(sender:)), for: UIControlEvents.touchUpInside)
+            jobInputView.addSubview(myButton)
+        }
+    }
+    
+    
+    //Tagをクリックした時の動作-------------------------------------------
+    func clickButton(sender:flagButton){
+        if selectedTagList.count == maxJobSelectCount && sender.flag == false{
+            jobTagErrorLabel.alpha = 1
+            return
+        }
+        
+        sender.flag = !sender.flag
+        
+        if sender.flag{
+            sender.alpha = 0.2
+            addTag(senderTag: sender.tag, sectionType: sender.type)
+            
+        }else{
+            sender.alpha = 1
+            removeTag(senderTag:sender.tag,senderOrder: num[sender.tag]!,sectionType: sender.type)
+            jobTagErrorLabel.alpha = 0
+        }
+        update(senderTag: sender.tag,sectionType: sender.type)
+        
+        if selectedTagList.count > 0{
+            jobTagTextField.placeholder = ""
+        }else{
+            jobTagTextField.placeholder = "入力してください"
+        }
+    }
+    
+    
+    //Tagを選択リストに追加する-------------------------------------------
+    func addTag(senderTag:Int,sectionType:jobTagType){
+        //        let button = flagButton(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        var list:[String] = []
+        list = jobIndustryList + jobOccupationList
+        let button = flagButton(frame: .zero, title: list[senderTag], Tagtype: sectionType)
+        
+        
+        switch sectionType {
+        case .industry:
+            list = jobIndustryList
+            button.type = .industry
+        case .occupation:
+            list = jobOccupationList
+            button.type = .occupation
+            
+        }
+        
+        button.frame.size = CGSize(width: button.frame.width + 10, height: button.frame.height)
+        
+        num[senderTag] = selectedTagList.count
+        button.tag = senderTag
+        selectedTagList.append(button)
+        
+    }
+    
+    //最初に設定
+    func createTag(){
+        //最初addして
+        
+        guard let favoriteJob = userInfo.favoriteJob else { return }
+        
+        for jobTag in favoriteJob{
+            if jobIndustryList.contains(jobTag){
+                let tagNum = jobIndustryList.index(of: jobTag)!
+                print("357tag:\(tagNum)")
+                addTag(senderTag: tagNum, sectionType: .industry)
+            }
+            if jobOccupationList.contains(jobTag){
+                let tagNum = jobOccupationList.index(of: jobTag)! + jobIndustryList.count
+                addTag(senderTag: tagNum, sectionType: .occupation)
+                print("363tag:\(tagNum)")
+            }
+            
+        }
+        
+        //次にupdate
+        update()
+        print("num:\(num)")
+    }
+    
+    
+    //タグの位置を更新する（追加・除外どちらにもうごく）
+    func update(senderTag:Int,sectionType:jobTagType){
+        let width = jobTagTextField.frame.width
+        var pointX:CGFloat = 0
+        var pointY:CGFloat = 10
+        
+        for button in selectedTagList{
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                button.frame.origin.x = pointX + 6
+                button.frame.origin.y = pointY
+                pointY = button.frame.origin.y
+                pointX = button.frame.origin.x + button.frame.width
+                
+                if pointX + 5 > width{
+                    button.frame.origin.x = 6
+                    button.frame.origin.y = pointY + button.frame.height + 6
+                }
+                pointY = button.frame.origin.y
+                pointX = button.frame.origin.x + button.frame.width
+                
+                self.jobTagTextField.addSubview(button)
+            })
+        }
+        
+    }
+    
+    //最初に使用
+    func update(){
+        let width = jobTagTextField.frame.width
+        var pointX:CGFloat = 0
+        var pointY:CGFloat = 10
+        for button in selectedTagList{
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                button.frame.origin.x = pointX + 6
+                button.frame.origin.y = pointY
+                pointY = button.frame.origin.y
+                pointX = button.frame.origin.x + button.frame.width
+                
+                if pointX + 5 > width{
+                    button.frame.origin.x = 6
+                    button.frame.origin.y = pointY + button.frame.height + 6
+                }
+                pointY = button.frame.origin.y
+                pointX = button.frame.origin.x + button.frame.width
+                
+                self.jobTagTextField.addSubview(button)
+            })
+        }
+        
+    }
+    
+    //Tagを選択リストから除外する-------------------------------------------
+    func removeTag(senderTag:Int,senderOrder:Int,sectionType:jobTagType){
+        
+        if selectedTagList.count > 1{
+            for i in senderOrder ..< selectedTagList.count{
+                num[selectedTagList[i].tag] = i - 1
+            }
+        }
+        
+        selectedTagList[senderOrder].removeFromSuperview()
+        selectedTagList.remove(at: senderOrder)
+    }
+    
+    //ジョブタグリストを閉じる-------------------------------------------
+    func resignJobFieled(sender:UIBarButtonItem){
+        var selectedJobString:[String] = [String]()
+        for button in selectedTagList{
+            guard let str = button.titleLabel?.text else { continue }
+            selectedJobString.append(str)
+        }
+        userInfo.favoriteJob = selectedJobString
+        jobTagTextField.resignFirstResponder()
+    }
+    
+    func resignAgeField(sender:UIBarButtonItem){
+        
+        ageTextField.resignFirstResponder()
+    }
+
+
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //Textfield
+    
+    //テキストフィールドが開かれるとき-------------------------------------------
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        tappedTextField = textField
+        originalY = myScrollView.contentOffset.y
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == nameTextField && textField.text?.isEmpty == false{
+            userInfo.userName = textField.text!
+        }
+        
+    }
+    
+    //Returnキーが押されたとき-------------------------------------------
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        switch textField {
+        case nameTextField:
+            print("name")
+            userInfo.userName = textField.text!
+        case ageTextField:
+            break
+            //            print("age")
+        //            userInfo.age = textField.text!
+        case belongingTextField:
+            print("belonging")
+            userInfo.belonging = textField.text!
+        case appealTextField:
+            userInfo.appeal = textField.text!
+        default:
+            break
+        }
+        
+        
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    //textfieldの値が変更されたときに呼ばれる
+    //入力できる最大数を設定
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength:Int = 20
+        let str = textField.text! + string
+        if str.characters.count <= maxLength{
+            appealErrorLabel.alpha = 0
+            return true
+        }
+        
+        appealErrorLabel.alpha = 1
+        return false
+    }
+    
+    
+    //keyboard
+    func keyboardWillShown(notification:Notification){
+        
+        
+        let userInfo = notification.userInfo!
+        let keyboardScreenEndFrame = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+        
+        let myBoundSize:CGSize = UIScreen.main.bounds.size
+        
+//        var txtLimit:CGFloat = tappedTextField.frame.origin.y + tappedTextField.frame.height
+        var txtLimit:CGFloat = 500
+        
+        if let superView = tappedTextField.superview{
+            txtLimit = superView.frame.origin.y + superView.frame.height + self.navigationController!.navigationBar.frame.height
+        }
+        
+        var kbdLimit = myBoundSize.height - keyboardScreenEndFrame.cgRectValue.size.height
+        if tappedTextField == jobTagTextField{
+            kbdLimit = myBoundSize.height - self.jobInputView.frame.height + 100
+        }
+        
+        
+        print("テキストフィールドの下辺：(\(txtLimit))")
+        print("キーボードの上辺：(\(kbdLimit))")
+        
+        if txtLimit >= kbdLimit{
+            
+            myScrollView.contentOffset.y = txtLimit - kbdLimit + 30
+            
+        }
+        self.view.isUserInteractionEnabled = true
+    }
+    
+    
+    
+    
+    //キーボードが閉じるとき-------------------------------------------
+    func keyboardWillHidden(notification:Notification){
+        
+        myScrollView.contentOffset.y = originalY
+    }
+    
+    
+    
+    @IBAction func returnToTop(segue: UIStoryboardSegue) {
+        
+        if segue.identifier  == "unwindCrop"{
+            print("unwind")
+            let vc = segue.source as! CropEditViewController
+            myImageView.image = vc.maskedImage
+            
+            //            registerButton.isEnabled = true
+            //            registerButton.alpha = 1
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "segueCrop"{
+            let vc = segue.destination as! CropEditViewController
+            vc.originalImage = selectedImage
+        }
+    }
+
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //画像アップ
     @IBAction func photoUpload(_ sender: Any) {
+        
         let alertController = UIAlertController(title: "Confirmation", message: "Choose", preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera){
@@ -149,189 +605,100 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
             self.performSegue(withIdentifier: "segueCrop", sender: self.selectedImage)
         }
     }
-    
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionList.count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionList[section]
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return jobItems.count
-        case 1:
-            return backgroundItems.count
-//        case 2:
-//            return backgroundItems.count
-        default:
-            return 0
-        }
-    }
-    
-    let tagLabelFontSize:CGFloat = 13
-    func createTagButton(originY:CGFloat,list:[String],type:jobTagType){
-        
-        let screenWidth = self.view.frame.width
-        let doneButton:UIButton = UIButton(frame: CGRect(x: screenWidth - 50, y: 0, width: 50, height: 40))
-        let inputViewLabel:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth, height: 40))
-        inputViewLabel.text = "選べるタグは６個までです"
-        inputViewLabel.textColor = UIColor.red
-        inputViewLabel.alpha = 0
-        
-        
-        doneButton.addTarget(self, action: #selector(self.closeTagView(sender:)), for: UIControlEvents.touchUpInside)
-        doneButton.setTitle("完了", for: UIControlState.normal)
-        doneButton.backgroundColor = UIColor.blue
-        
-        switch type {
-        case .industry:
-            doneButton.tag = 1
-//            inputViewLabel.text = ""
-            jobInputView01.addSubview(inputViewLabel)
-            jobInputView01.addSubview(doneButton)
-        case .occupation:
-            doneButton.tag = 2
-//            inputViewLabel.text = "気になる職種"
-            jobInputView02.addSubview(inputViewLabel)
-            jobInputView02.addSubview(doneButton)
-        }
-        
-        var pointX:CGFloat = 0
-        var pointY:CGFloat = doneButton.frame.height + 10
-        for (index,value) in list.enumerated(){
-            
-//            let myButton = flagButton(frame: CGRect(x: 0, y: 0, width: 50, height: 20))
-            let myButton = flagButton(frame: .zero, title: value, Tagtype: type)
-//            myButton.titleLabel?.font = UIFont.systemFont(ofSize: tagLabelFontSize)
-//            myButton.setTitle(value, for: UIControlState.normal)
-//            myButton.sizeToFit()
-            myButton.frame.origin.x = pointX + 10
-            myButton.frame.origin.y = pointY
-//            myButton.layer.masksToBounds = true
-//            myButton.layer.cornerRadius = 10
-//            myButton.layer.borderWidth = 3
-            myButton.frame.size = CGSize(width: myButton.frame.width + 20, height: myButton.frame.height)
-            
-            if myButton.frame.origin.x + myButton.frame.width > self.view.frame.width{
-                myButton.frame.origin.x = 10
-                myButton.frame.origin.y = pointY + myButton.frame.height + 10
-            }
-            
-            pointX = myButton.frame.origin.x + myButton.frame.width
-            pointY = myButton.frame.origin.y
-//            myButton.setTitleColor(UIColor.black, for: .normal)
-            myButton.tag = index
-            
-            if dummyJobData.contains(value){
-                myButton.alpha = 0.2
-                myButton.flag = true
-                
-            }
-            
-            myButton.addTarget(self, action: #selector(self.clickTag(sender:)), for: UIControlEvents.touchUpInside)
-            switch type {
-            case .industry:
-//                myButton.layer.borderColor = UIColor.red.cgColor
-//                myButton.type = .industry
-                jobInputView01.addSubview(myButton)
-            case .occupation:
-//                myButton.layer.borderColor = UIColor.blue.cgColor
-//                myButton.type = .occupation
-                jobInputView02.addSubview(myButton)
-            }
-            
-//            myButton.addTarget(self, action: #selector(self.clickButton(sender:)), for: UIControlEvents.touchUpInside)
-            
-        }
-    }
-    
-    func closeTagView(sender:UIButton){
-        print("162:\(sender.tag)")
-        switch sender.tag {
-        case 1:
-            jobTextField01.resignFirstResponder()
-        case 2:
-            jobTextField02.resignFirstResponder()
-        default:
-            print("error")
-        }
-        
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        switch indexPath.section {
-        case 0:
-            
-            switch jobItems[indexPath.row] {
-            case "気になる職種":
-                
-                jobTextField01.becomeFirstResponder()
-                
-            case "気になる業界":
-                
-                jobTextField02.becomeFirstResponder()
-            default:
-                print("hogeho")
-            }
-            
-        case 1:
-            
-            switch backgroundItems[indexPath.row] {
-            case "学校":
-                
-                backgroundTextField.becomeFirstResponder()
-            case "資格":
-                
-                qualificationTextField.becomeFirstResponder()
-            default:
-                print("hoge")
-            }
 
-        default:
-            print("kakaka")
-        }
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
+
+
+extension ProfileEditViewController{
+    
+    func updateTag(type:jobTagType){
         
-//        performSegue(withIdentifier: "segueEditDetailView", sender: nil)
+        var pointX:CGFloat =  10
+        var pointY:CGFloat =  10
+        var lastHeight:CGFloat = 0
+        let width = jobTagTextField.frame.width
+        
+        guard let list = selectedTagList02[type] else { return }
+        
+        //セルの中のviewを初期化。
+        //もともとセルには、ラベルがくっついてるので、それらはスルーする。0,1
+        
+        for button in list{
+            jobTagTextField.addSubview(button)
+            button.frame.origin = CGPoint(x: pointX, y: pointY)
+            pointY = button.frame.origin.y
+            pointX = button.frame.origin.x + button.frame.width
+            
+            
+            if pointX > width{
+                button.frame.origin.x = 10
+                button.frame.origin.y = pointY + button.frame.height + 6
+                
+            }
+            
+            
+            pointX = button.frame.origin.x + button.frame.width + 10
+            pointY = button.frame.origin.y
+            
+            if lastHeight < pointY + button.frame.height{
+                lastHeight = pointY + button.frame.height
+            }
+        }
+//        guard let lastbutton = targetCell.subviews.last else { return }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+    
+    func addTag02(type:jobTagType){
+        guard let job = userInfo.favoriteJob else { return }
+        selectedTagList02[type]?.removeAll()
+        for data in job{
+            var tag:jobTagType
+            var buttonColor:UIColor = UIColor()
+            var num:Int
+            if jobIndustryList.contains(data){
+                tag = jobTagType.industry
+                buttonColor = UIColor.red
+                num = jobIndustryList.index(of: data)!
+                
+            }else{
+                tag = jobTagType.occupation
+                num = jobOccupationList.index(of: data)!
+                buttonColor = UIColor.blue
+            }
+            if type != tag {
+                continue
+            }
+            
+            let button = flagButton(frame: .zero, title: data, Tagtype: type)
+            button.frame.size = CGSize(width: button.frame.width + 20, height: button.frame.height)
+            button.tag = num
+            
+            selectedTagList02[type]?.append(button)
+        }
         
-        myTableView.reloadData()
-        
-        textField.clearsContextBeforeDrawing = true
-        
-        return true
     }
+
+    
     
     func clickTag(sender:flagButton){
-        let a = selectedTagList[.industry]?.count ?? 0
-        let b = selectedTagList[.occupation]?.count ?? 0
+        let a = selectedTagList02[.industry]?.count ?? 0
+        let b = selectedTagList02[.occupation]?.count ?? 0
         
         print(sender.type)
         print(sender.flag)
         if  a + b == 6{
             
-            var inputView = UIView()
-            switch sender.type {
-            case .industry:
-                inputView = jobInputView01
-            case .occupation:
-                inputView = jobInputView02
-            }
-            let label = inputView.subviews.first as! UILabel
-            switch sender.flag {
-            case true:
-                label.alpha = 0
-            case false:
-                label.alpha = 1
-                return
-            }
+            //６文字まで
             
         }
         
@@ -340,174 +707,57 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
         if sender.flag{
             sender.alpha = 0.2
-            dummyJobData.append(str)
+            userInfo.favoriteJob!.append(str)
             addTag02(type: sender.type)
         }else{
             sender.alpha = 1
             removeTag(sender: sender)
         }
         
-        myTableView.reloadData()
-        
     }
     
     func removeTag(sender:flagButton){
         print("senderTag:\(sender.tag)")
         guard let str = sender.titleLabel?.text else { return }
-        dummyJobData.remove(at: dummyJobData.index(of: str)!)
-        guard let list = selectedTagList[sender.type] else { return }
+        userInfo.favoriteJob!.remove(at: userInfo.favoriteJob!.index(of: str)!)
+        guard let list = selectedTagList02[sender.type] else { return }
         for (index,button) in list.enumerated() {
             print("buttonTag:\(button.tag)")
             if button.tag == sender.tag{
                 print(index)
                 button.removeFromSuperview()
-                selectedTagList[sender.type]?.remove(at: index)
+                selectedTagList02[sender.type]?.remove(at: index)
                 
             }
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        var height = tableView.rowHeight
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //Segue
+    
+    //なにもせずに前画面に戻る
+    @IBAction func cancel(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //Saveボタンを御した時
+    //状態をlocalStorageに保存して前画面に戻る
+    @IBAction func save(_ sender: Any) {
         
-        if indexPath.section == 0{
-            switch indexPath.row {
-            case 0:
-                if jobCellHeight[.industry] != nil{
-                    height = jobCellHeight[jobTagType.industry]!
-                }
-                return height + 10
-            case 1:
-                if jobCellHeight[.occupation] != nil{
-                    height = jobCellHeight[jobTagType.occupation]!
-                }
-                return height + 10
-            default:
-                return height + 10
-            }
+        udSetting.write(key: .username, value: userInfo.userName)
+        udSetting.write(key: .age, value: userInfo.age)
+        
+        
+        udSetting.write(key: .belonging, value: userInfo.belonging)
+        udSetting.write(key: .username, value: userInfo.userName)
+        
+        if let job = userInfo.favoriteJob{
+            udSetting.write(key: .job, value: job)
+        }
+        if let appeal = userInfo.appeal{
+            udSetting.write(key: .appeal, value: appeal)
         }
         
-        return tableView.rowHeight
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! CustomTableViewCell
-        let titleLabelEdge = cell.titleLabel.frame.width + cell.titleLabel.frame.origin.x
-        
-        switch indexPath.section {
-        case 0:
-            cell.titleLabel.text = jobItems[indexPath.row]
-            cell.titleLabel.font = UIFont.init(name: "BodoniSvtyTwoITCTT-Book", size: 15)
-            
-            
-            switch jobItems[indexPath.row] {
-            case "気になる職種":
-                
-                //Add tag
-//                addTag(targetCell: cell, originX: titleLabelEdge, type: .industry)
-                updateTag(targetCell: cell, originX: titleLabelEdge, type: .industry)
-            case "気になる業界":
-                //Add tag
-//                addTag(targetCell: cell, originX: titleLabelEdge, type: .occupation)
-                updateTag(targetCell: cell, originX: titleLabelEdge, type: .occupation)
-            default:
-                print("hogeho")
-            }
-            
-        case 1:
-            cell.titleLabel.text = backgroundItems[indexPath.row]
-            switch backgroundItems[indexPath.row] {
-            case "学校":
-                cell.addSubview(backgroundTextField)
-                backgroundTextField.frame.size = CGSize(width: cell.frame.width/2, height: cell.frame.height)
-                backgroundTextField.frame.origin.x = titleLabelEdge + 10
-                cell.myLabel.text = userSettingList?[userDefautlsKeyList.background.rawValue] as? String
-                if cell.myLabel.text == ""{
-                    backgroundTextField.placeholder = "入力なし"
-                }else{
-                    backgroundTextField.text = ""
-                    backgroundTextField.placeholder = ""
-                }
-                cell.myLabel.frame.origin.x = titleLabelEdge + 10
-                
-            case "資格":
-                
-                cell.addSubview(qualificationTextField)
-                qualificationTextField.frame.size = CGSize(width: cell.frame.width/2, height: cell.frame.height)
-                qualificationTextField.frame.origin.x = titleLabelEdge + 10
-                cell.myLabel.text = userSettingList?[userDefautlsKeyList.qualification.rawValue] as? String
-
-                if cell.myLabel.text == ""{
-                    qualificationTextField.placeholder = "入力なし"
-                }else{
-                    qualificationTextField.text = ""
-                    qualificationTextField.placeholder = ""
-                }
-                
-                
-                cell.myLabel.frame.origin.x = titleLabelEdge + 10
-                
-            default:
-                print("hoge")
-            }
-            
-        default:
-            print("default selected")
-        }
-        cell.myLabel.sizeToFit()
-        cell.myLabel.frame.size = CGSize(width: cell.myLabel.frame.width + 10, height: cell.myLabel.frame.height)
-        return cell
-    }
-    
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        switch textField {
-        case backgroundTextField:
-            userSettingList?[userDefautlsKeyList.background.rawValue] = textField.text
-
-        case qualificationTextField:
-            userSettingList?[userDefautlsKeyList.qualification.rawValue] = textField.text
-
-        default:
-            print("textfield end")
-        }
-        
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        print("aaa")
-        return true
-    }
-    
-    var inputWord:String = ""
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        inputWord += string
-//        userSettingList?[userDefautlsKeyList.background.rawValue] = inputWord
-//        myTableView.reloadData()
-        return true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        addTag02(type: .industry)
-        addTag02(type: .occupation)
-        
-        
-
-    }
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    @IBAction func saveEditProfile(_ sender: Any) {
-        //userdefaultに保存
-        UDsetting.save(key: .job, value: dummyJobData)
-        UDsetting.save(key: .background, value: userSettingList?[userDefautlsKeyList.background.rawValue] as! String)
-        UDsetting.save(key: .qualification, value: userSettingList?[userDefautlsKeyList.qualification.rawValue] as! String)
         
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "sample.png"
@@ -521,155 +771,9 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
             }
         }
         
-        
-        
         dismiss(animated: true, completion: nil)
     }
-    
-    @IBAction func cancelEditProfile(_ sender: Any) {
-        
-        //delegateのデータを戻す
-        
-        dismiss(animated: true, completion: nil)
-    }
-    
-    var selectedTagList:[jobTagType:[flagButton]] = [.industry:[],.occupation:[]]
-    
-    func updateTag(targetCell:CustomTableViewCell,originX:CGFloat,type:jobTagType){
-        
-        var pointX:CGFloat =  originX + 10
-        var pointY:CGFloat =  10
-        var lastHeight:CGFloat = 0
-        let width = targetCell.frame.width
-        
-        guard let list = selectedTagList[type] else { return }
-        
-        //セルの中のviewを初期化。
-        //もともとセルには、ラベルがくっついてるので、それらはスルーする。0,1
-        for (index,view) in targetCell.subviews.enumerated(){
-            if index == 0 { continue }
-            if index == 1 { continue }
-            view.removeFromSuperview()
-        }
-        
-        for button in list{
-            targetCell.addSubview(button)
-            button.frame.origin = CGPoint(x: pointX, y: pointY)
-            pointY = button.frame.origin.y
-            pointX = button.frame.origin.x + button.frame.width
-            
-            
-            if pointX > width{
-                button.frame.origin.x = originX + 10
-                button.frame.origin.y = pointY + button.frame.height + 6
-                
-            }
-            
-            
-            pointX = button.frame.origin.x + button.frame.width + 10
-            pointY = button.frame.origin.y
-            
-            if lastHeight < pointY + button.frame.height{
-                lastHeight = pointY + button.frame.height
-            }
-        }
-        guard let lastbutton = targetCell.subviews.last else { return }
-        jobCellHeight[type] = lastbutton.frame.height + lastbutton.frame.origin.y
-    }
-    
-    
-    func addTag02(type:jobTagType){
 
-        selectedTagList[type]?.removeAll()
-        for data in dummyJobData{
-            var tag:jobTagType
-            var buttonColor:UIColor = UIColor()
-            var num:Int
-            if jobCategoryList.contains(data){
-                tag = jobTagType.industry
-                buttonColor = UIColor.red
-                num = jobCategoryList.index(of: data)!
-                
-            }else{
-                tag = jobTagType.occupation
-                num = jobTypeList.index(of: data)!
-                buttonColor = UIColor.blue
-            }
-            if type != tag {
-                continue
-            }
-            
-            let button = flagButton(frame: .zero, title: data, Tagtype: type)
-            button.frame.size = CGSize(width: button.frame.width + 20, height: button.frame.height)
-            button.tag = num
-            
-            selectedTagList[type]?.append(button)
-        }
-        
-    }
-    
-    func keyboardWillShown(notification:Notification){
-        
-        let userInfo = notification.userInfo!
-        let keyboardScreenEndFrame = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
-        
-        let myBoundSize:CGSize = UIScreen.main.bounds.size
-        
-//        var txtLimit:CGFloat = (activeTextField!.frame.origin.y) + (activeTextField!.frame.height)
-        var txtLimit:CGFloat = 500
-        if activeTextField?.inputView != nil{
-           txtLimit = activeTextField!.inputView!.frame.origin.y + activeTextField!.inputView!.frame.height + 100
-        }
-        
-        let kbdLimit = myBoundSize.height - keyboardScreenEndFrame.cgRectValue.size.height
-        print("テキストフィールドの下辺：(\(txtLimit))")
-        print("キーボードの上辺：(\(kbdLimit))")
-        
-        if txtLimit >= kbdLimit{
-            myScrollView.contentOffset.y = txtLimit - kbdLimit
-        }
-        self.view.isUserInteractionEnabled = true
-    }
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        activeTextField = textField
-        
-        return true
-    }
-    
-    //キーボードが閉じるとき-------------------------------------------
-    func keyboardWillHidden(notification:Notification){
-        
-        myScrollView.contentOffset.y = originalY
-    }
-    
-    
-    @IBAction func returnToTop(segue: UIStoryboardSegue) {
-        
-        if segue.identifier  == "unwindCrop"{
-            print("unwind")
-            let vc = segue.source as! CropEditViewController
-            myImageView.image = vc.maskedImage
-            
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueCrop"{
-            let vc = segue.destination as! CropEditViewController
-            vc.originalImage = selectedImage
-        }
-    }
-    
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }

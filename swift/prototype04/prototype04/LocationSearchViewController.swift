@@ -9,7 +9,6 @@
 import UIKit
 import CoreLocation
 
-
 class LocationSearchViewController: UIViewController, UIViewControllerTransitioningDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate{
 
     @IBOutlet weak var myImageView: UIImageView!
@@ -20,7 +19,6 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         myImageView.layer.masksToBounds = true
         myImageView.layer.cornerRadius = myImageView.frame.width/2
@@ -36,6 +34,7 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
 
     override func viewWillAppear(_ animated: Bool) {
         
+        //自分のimageを設定
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "sample.png"
         let tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
@@ -46,34 +45,38 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
         circleView.backgroundColor = UIColor.rgbColor(0xfffadad)
         self.view.addSubview(circleView)
         self.view.bringSubview(toFront: myImageView)
+        
+        //後ろの動き
         UIView.animate(withDuration: 4, delay: 0, options: [.repeat, .curveLinear], animations: {
             circleView.transform = CGAffineTransform.init(scaleX: 4, y: 4)
+            circleView.alpha = 0
         }, completion: nil)
         requstLocation()
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc = storyboard.instantiateViewController(withIdentifier: "mainVC") as! UINavigationController
         vc.transitioningDelegate = self
         
+        
+        //serverに近くのユーザー問い合わせが返ってこないとnilエラーになるのでわざと遅らせている
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            
-        self.present(vc, animated: true, completion: nil)
+            self.present(vc, animated: true, completion: nil)
         }
-        
-        
     }
     
+    //位置情報取得のパーミッション→リクエスト
     func requstLocation(){
         myLocationManager = CLLocationManager()
         myLocationManager.delegate = self
         
         switch CLLocationManager.authorizationStatus() {
+        //制限されたとき
         case .restricted:
             print("no user")
+        //否定されたとき
         case .denied:
             print("no user")
         case .notDetermined:
@@ -90,6 +93,8 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
         myLocationManager.requestLocation()
     }
     
+    //位置が更新されたときに呼ばれる
+    //サーバーに位置を更新
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = manager.location else { return }
         let lat = location.coordinate.latitude
@@ -98,13 +103,15 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
         requestToServer(lat: lat, lng: lng)
     }
     
+    //位置取得に失敗したときに呼ばれる
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error:\(error.localizedDescription)")
     }
     
+    //サーバーに自分の近い人をリクエスト
     func requestToServer(lat:Double,lng:Double){
         let udsetting = UserDefaultSetting()
-        udsetting.save(key: .uuid, value: "hoge")
+        udsetting.write(key: .uuid, value: "hoge")
         let uuid = udsetting.read(key: .uuid) as String
         let serverConnect = ServerConnection()
 
@@ -114,9 +121,7 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
 
     }
     
-    var nearUserArray:[Any]?
-    
-    
+    //Animation
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return Animation()
     }

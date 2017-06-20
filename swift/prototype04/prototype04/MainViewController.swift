@@ -11,102 +11,107 @@ import UIKit
 class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     
-    @IBOutlet weak var messageTableView: UITableView!
-    @IBOutlet weak var blurVIew: UIView!
-    @IBOutlet weak var cardView01: UserCard!
-    @IBOutlet weak var cardView02: UserCard!
-    @IBOutlet weak var card01NameLabel: UILabel!
-    @IBOutlet weak var card02NameLabel: UILabel!
-    @IBOutlet weak var card01ImageView: UIImageView!
-    @IBOutlet weak var card02ImageView: UIImageView!
-    @IBOutlet weak var matchingView: UIView!
-    @IBOutlet weak var footerNav: UIView!
-    @IBOutlet weak var profileItem: UIButton!
-    @IBOutlet weak var mainItem: UIButton!
-    @IBOutlet weak var mailItem: UIButton!
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var profileImageView: UIImageView!
-    @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var treatView01: UIView!
-    @IBOutlet weak var card02JobTagView: UIView!
-    @IBOutlet weak var cardFrontView: UIView!
-    @IBOutlet weak var profileCircleBackImageView: UIView!
-    @IBOutlet weak var profileContentView: UIView!
     
+    //Main---------------------------------------------------------------------
+    var locationBySnap:CGPoint!
+    var userViewDefaultLocation:CGPoint!
+    //card1
+    @IBOutlet weak var cardView01: UserCard!
+    @IBOutlet weak var card01NameLabel: UILabel!
+    @IBOutlet weak var card01ImageView: UIImageView!
+    @IBOutlet weak var card01jobTagHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var card01jobTagTextField: UITextField!
     @IBOutlet weak var card01TreatView: UIView!
+    @IBOutlet weak var card01CompanyNameLabel: UILabel!
+    @IBOutlet weak var card01CompanyUrlLabel: ClickableTextView!
+    
+    
+    //card2
+    @IBOutlet weak var cardView02: UserCard!
+    @IBOutlet weak var card02NameLabel: UILabel!
+    @IBOutlet weak var card02ImageView: UIImageView!
+    @IBOutlet weak var card02JobTagHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var card02JobTagTextField: UITextField!
     @IBOutlet weak var card02TreatView: UIView!
     @IBOutlet weak var card02CompanyNameLabel: UILabel!
-    @IBOutlet weak var card01CompanyNameLabel: UILabel!
+    @IBOutlet weak var card02CompanyUrlLabel: ClickableTextView!
     
-    @IBOutlet weak var card01JobTagView: UIView!
+    @IBOutlet weak var matchingView: UIView!
+    @IBOutlet weak var cardFrontView: UIView!
+    @IBOutlet weak var blurVIew: UIView!
     @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var myNameLabel: UILabel!
-    @IBOutlet weak var profileTableView: UITableView!
     
     @IBOutlet weak var matchingUserImageView: UIImageView!
     @IBOutlet weak var matchingMyImageView: UIImageView!
     
-    
-//    var sectionList = ["Job","Food","Background"]
-    var sectionList02 = ["Job","Background"]
-    var jobItems = ["気になる職種","気になる業界"]
-//    var foodItems = ["好きな食べ物","嫌いな食べ物"]
-    var backgroundItems = ["学校","資格"]
-    var messageableUserList:[[String:Any]] = [[String:Any]]()
-    let jobCategoryList:[String] = jobTagTitleList.init().industry
-    let jobTypeList:[String] = jobTagTitleList.init().occupation
-    var jobCellHeight:[jobTagType:CGFloat] = [:]
     var snapAnimator:UIDynamicAnimator!
     var pushAnimator:UIDynamicAnimator!
     var pushBehavior:UIPushBehavior!
     var snapBehavior:UISnapBehavior!
-    
-    var locationBySnap:CGPoint!
-    var userViewDefaultLocation:CGPoint!
-    
-    var footerNavOriginY:CGFloat!
-    var UDSetting:UserDefaultSetting = UserDefaultSetting()
-    
-    var userSettingList:[String:Any]?
-    let selectedItemTintColor = UIColor.white
-    
-    //user data field
-    // username,uuid,encounterd,likeflag,matchflag(prototype02)
-    // + companyname,job,url,suggestion,intro
-    
-    var cardList:[[String:Any]] = []
-    var cardList02:[Any] = []
-    var myInfo:[String:Any] = [:]
-    
-    
-    
     var selectedCardGesture:UITapGestureRecognizer = UITapGestureRecognizer()
     var flipedCardGesture:UITapGestureRecognizer = UITapGestureRecognizer()
+    
+    //Message TableView---------------------------------------------------------------------
+    @IBOutlet weak var messageTableView: UITableView!
+    var messageableUserList:[[String:Any]] = [[String:Any]]()
+    
+    //Profile View---------------------------------------------------------------------
+    @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var profileTableView: UITableView!
+    @IBOutlet weak var profileCircleBackImageView: UIView!
+    @IBOutlet weak var profileContentView: UIView!
+    @IBOutlet weak var appealLabel: UILabel!
+    var sectionList = ["基本情報","気になる◯◯"]
+    var basicItemTitle = ["性別","年齢","所属"]
+    var jobIndex = ["気になる職種","気になる業界"]
+    let jobIndustryList:[String] = jobTagTitleList.init().industry
+    let jobOccupationList:[String] = jobTagTitleList.init().occupation
+    var jobCellHeight:[jobTagType:CGFloat] = [:]
+    
+    //下のナビゲーション---------------------------------------------------------------------
+    @IBOutlet weak var footerNav: UIView!
+    @IBOutlet weak var profileItem: UIButton!
+    @IBOutlet weak var mainItem: UIButton!
+    @IBOutlet weak var mailItem: UIButton!
+    var footerNavOriginY:CGFloat!
+    let selectedItemTintColor = UIColor.black
+    let unselectedItemTintColor = UIColor.gray
+    
+    @IBOutlet weak var contentView: UIView!
+    
+    let udSetting:UserDefaultSetting = UserDefaultSetting()
+    
+    var userSettingList:[String:Any]?
+
+    var cardList:[Any] = []
+    var myInfo:[String:Any] = [:]
+    
+    var userInfo:UserInfo = UserInfo()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        card01ImageView.layer.borderWidth = 1
+        card02ImageView.layer.borderWidth = 1
         
         cardFrontView.alpha = 0
         
-        profileCircleBackImageView.layer.borderWidth = 2
-        profileCircleBackImageView.layer.masksToBounds = true
-        profileCircleBackImageView.layer.cornerRadius = profileCircleBackImageView.frame.width/2
-        
-        
+        //プロフィール編集ボタン
         editButton.backgroundColor = UIColor.white
         editButton.layer.masksToBounds = true
-        editButton.layer.cornerRadius = 20
         editButton.layer.borderWidth = 2
-        editButton.setTitle("EDIT", for: UIControlState.normal)
+        editButton.setTitle("Edit", for: UIControlState.normal)
         editButton.titleLabel?.font = UIFont(name: "Georgia-Bold", size: 14)
         editButton.setTitleColor(UIColor.black, for: .normal)
+        editButton.layer.cornerRadius = 5
         
+        //マッチングしたときのビューの中にあるユーザー画像
         matchingUserImageView.layer.masksToBounds = true
         matchingUserImageView.layer.cornerRadius = matchingUserImageView.frame.width/2
         matchingMyImageView.layer.masksToBounds = true
         matchingMyImageView.layer.cornerRadius = matchingMyImageView.frame.width/2
+        
         
         
         // ブラーエフェクトからエフェクトビューを生成
@@ -118,7 +123,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         // エフェクトビューのサイズを指定（オリジナル画像と同じサイズにする）
         visualEffectView.frame = matchingView.bounds
         visualEffectView02.frame = profileContentView.bounds
-        profileContentView.insertSubview(visualEffectView02, at: 0)
+//        profileContentView.insertSubview(visualEffectView02, at: 0)
         
         blurVIew.addSubview(visualEffectView)
         matchingView.alpha = 0
@@ -129,26 +134,20 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let myUUID = "hoge"//Dummy
         let sc:ServerConnection = ServerConnection()
-        myInfo = sc.getMyData(uuid: myUUID)
-        cardList02 = app.cardListDelegate!
+        myInfo = sc.requestMyData(uuid: myUUID)
+        cardList = app.cardListDelegate!
         
         messageTableView.delegate = self
         messageTableView.dataSource = self
         
-        
-        card01JobTagView.layer.masksToBounds = true
-        card01JobTagView.layer.cornerRadius = 10
-        
-        card02JobTagView.layer.masksToBounds = true
-        card02JobTagView.layer.cornerRadius = 10
-        
+        //profileImageに設定
+        profileImageView.layer.borderWidth = 1
         profileImageView.layer.masksToBounds = true
         profileImageView.layer.cornerRadius = profileImageView.frame.width/2
-        
-        myNameLabel.text = userSettingList?[userDefautlsKeyList.username.rawValue] as? String
+        profileCircleBackImageView.layer.borderWidth = 2
+        profileCircleBackImageView.layer.masksToBounds = true
+        profileCircleBackImageView.layer.cornerRadius = profileCircleBackImageView.frame.width/2
 
-        editButton.layer.masksToBounds = true
-        editButton.layer.cornerRadius = 5
         
         footerNavOriginY = footerNav.bounds.origin.y
         
@@ -157,7 +156,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         
         cardView01.addGestureRecognizer(selectedCardGesture)
-        
         
         cardFrontView.addGestureRecognizer(flipedCardGesture)
         cardFrontView.layer.borderWidth = 2
@@ -192,9 +190,6 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         updateCard(targetCard: cardView01)
         updateCard(targetCard: cardView02)
-        
-        
-        
         
         //Footer関係----------------------------------------------------------
         let profileItemImage = UIImage(named: "footer_user_icon")
@@ -238,36 +233,14 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             transitionedCard = cardView01
         }
         
-//        UIView.transition(with: cardView01, duration: 1, options: [.transitionFlipFromLeft], animations: nil, completion: nil)
         UIView.transition(with: transitionedCard, duration: 1, options: [.transitionFlipFromLeft], animations: {
-//            self.cardFrontView.alpha = 1
+
             transitionedCard.alpha = 0
             transitionCard.alpha = 1
         }, completion: nil)
         
         touchFlag = !touchFlag
-        
-//        var fromView:UIView = UIView()
-//        var toView:UIView = UIView()
-//        flipedCard.isHidden = false
-//        switch sender {
-//        case selectedCardGesture:
-//            fromView = cardView01
-//            toView = flipedCard
-//            
-//        case flipedCardGesture:
-//            fromView = flipedCard
-//            toView = cardView01
-//            
-////            flipedCard.removeFromSuperview()
-//        default:
-//            break
-//        }
-//        
-//        
-//        UIView.transition(from: fromView, to: toView, duration: 1, options: [.transitionFlipFromLeft]) { (Bool) in
-//            print("lll")
-//        }
+
     }
     
     //navigationBarのセンターをタッチしたときの挙動
@@ -280,11 +253,20 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
-        userSettingList = UDSetting.returnSetValue()
+        print("willappear")
+        userInfo.uuid = udSetting.read(key: .uuid)
+        userInfo.userName = udSetting.read(key: .username)
+        userInfo.age = udSetting.read(key: .age)
+        userInfo.sex = udSetting.read(key: .sex)
+        userInfo.belonging = udSetting.read(key: .belonging)
+        userInfo.appeal = udSetting.read(key: .appeal)
+        userInfo.favoriteJob = udSetting.read(key: .job)
+//        userSettingList = UDSetting.returnSetValue()
+        userSettingList = udSetting.returnSetValue()
         profileTableView.reloadData()
+        appealLabel.text = userInfo.appeal
         
-        
+        //profileのイメージ読み込み
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "sample.png"
         let tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
@@ -297,7 +279,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueMessage"{
             let vc = segue.destination as! MessageViewController
-            vc.userInfo = selectedUser
+            vc.recieverInfo = selectedUser
         }
         
     }
@@ -375,13 +357,14 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
     }
 
-    
+    //スワイプされたときの処理
     func swipeHandler(swipedView:UserCard,direction:direction){
-        let userInfo = cardList02[swipedView.numberOfOage] as? [String:Any]
+        let userInfo = cardList[swipedView.numberOfOage] as? [String:Any]
         
         var encounterList:[String] = myInfo["encounterd"] as! [String]
         
-        let myUUID = UDSetting.read(key: .uuid) as String
+//        let myUUID = UDSetting.read(key: .uuid) as String
+        let myUUID = udSetting.read(key: .uuid) as String
         let uuid = userInfo?["uuid"] as? String
         
         var matchList = myInfo["matched"] as? [String]
@@ -468,17 +451,19 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         case cardView02:
             nameLabel = card02NameLabel
         default:
-            print("default")
+            break
         }
-        addTag(user: cardList02[targetCard.numberOfOage] as! [String:Any],card: targetCard)
-        addTreat(user: cardList02[targetCard.numberOfOage] as! [String:Any] , cardView: targetCard)
-        let list = cardList02[targetCard.numberOfOage] as! [String:Any]
+        addTag(user: cardList[targetCard.numberOfOage] as! [String:Any],card: targetCard)
+        addTreat(user: cardList[targetCard.numberOfOage] as! [String:Any] , cardView: targetCard)
+        let list = cardList[targetCard.numberOfOage] as! [String:Any]
         nameLabel.text = list["username"] as? String
         self.setImage(targetCard: targetCard)
     }
     
+    //★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+    //画像の処理
     func setImage(targetCard:UserCard){
-        let list = cardList02[targetCard.numberOfOage] as! [String:Any]
+        let list = cardList[targetCard.numberOfOage] as! [String:Any]
         
         
         // as? にすると、Optional()がつくので、urlがきちんととれない
@@ -528,7 +513,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         switch tableView {
         case profileTableView:
-            return sectionList02.count
+            return sectionList.count
         case messageTableView:
             
             return 1
@@ -543,7 +528,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         switch tableView {
         case profileTableView:
-            return sectionList02[section]
+            return sectionList[section]
         case messageTableView:
             return nil
         default:
@@ -559,9 +544,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         case profileTableView:
             switch section {
             case 0:
-                return jobItems.count
+                return basicItemTitle.count
             case 1:
-                return backgroundItems.count
+                return jobIndex.count
             default:
                 return 0
             }
@@ -604,7 +589,23 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let titleLabelEdge = cell.titleLabel.frame.width + cell.titleLabel.frame.origin.x
             switch indexPath.section {
             case 0:
-                cell.titleLabel.text = jobItems[indexPath.row]
+                cell.titleLabel.text = basicItemTitle[indexPath.row]
+                cell.titleLabel.font = UIFont.init(name: "BodoniSvtyTwoITCTT-Book", size: 15)
+                switch basicItemTitle[indexPath.row] {
+                case basicItemTitle[0]:
+                    //性別
+                    cell.myLabel.text = userInfo.sex
+                case basicItemTitle[1]:
+                    //年齢
+                    cell.myLabel.text = userInfo.age + "歳"
+                case basicItemTitle[2]:
+                    //所属
+                    cell.myLabel.text = userInfo.belonging
+                default:
+                    break
+                }
+            case 1:
+                cell.titleLabel.text = jobIndex[indexPath.row]
                 cell.titleLabel.font = UIFont.init(name: "BodoniSvtyTwoITCTT-Book", size: 15)
                 
                 for view in cell.subviews{
@@ -620,19 +621,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 }
                 addTag(targetCell: cell, originX: titleLabelEdge, type: type)
                 cell.addSubview(cell.titleLabel)
-                
-            case 1:
-                cell.titleLabel.text = backgroundItems[indexPath.row]
-                switch backgroundItems[indexPath.row] {
-                case "学校":
-                    cell.myLabel.text = userSettingList?[userDefautlsKeyList.background.rawValue] as? String
-                    cell.myLabel.frame.origin.x = titleLabelEdge + 10
-                case "資格":
-                    cell.myLabel.text = userSettingList?[userDefautlsKeyList.qualification.rawValue] as? String
-                    cell.myLabel.frame.origin.x = titleLabelEdge + 10
-                default:
-                    print("hoge")
-                }
+
             default:
                 print("default selected")
             }
@@ -661,7 +650,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         switch tableView {
         case profileTableView:
-            if indexPath.section == 0{
+            if indexPath.section == 1{
                 switch indexPath.row {
                 case 0:
                     if jobCellHeight[.industry] != nil{
@@ -693,7 +682,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //プロフィールのタグ付け
     func addTag(targetCell:CustomTableViewCell,originX:CGFloat,type:jobTagType){
-        let dummyJobData = UDSetting.read(key: .job) as [String]
+        let dummyJobData = udSetting.read(key: .job) as [String]
         var pointX:CGFloat = originX + 10
         var pointY:CGFloat =  10
         var lastHeight:CGFloat = 0
@@ -702,7 +691,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         for data in dummyJobData{
             var tag:jobTagType
-            if jobCategoryList.contains(data){
+            if jobIndustryList.contains(data){
                 tag = jobTagType.industry
             }else{
                 tag = jobTagType.occupation
@@ -716,7 +705,7 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let button = flagButton(frame: CGRect.zero,title: data,Tagtype:tag)
             button.sizeToFit()
             
-            button.frame.size = CGSize(width: button.frame.width + 20, height: button.frame.height)
+            button.frame.size = CGSize(width: button.frame.width + 10, height: button.frame.height)
             targetCell.addSubview(button)
             
             button.frame.origin = CGPoint(x: pointX, y: pointY)
@@ -738,18 +727,23 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 lastHeight = pointY + button.frame.height
             }
         }
+        
         guard let lastbutton = targetCell.subviews.last else { return }
         jobCellHeight[type] = lastbutton.frame.height + lastbutton.frame.origin.y
     }
     
     //カードのタグ付け
     func addTag(user:[String:Any],card:UserCard){
-        var jobTagView = UIView()
+        var jobTagView:UITextField!
+        var heightConstraint:NSLayoutConstraint!
+        
         switch card {
         case cardView01:
-            jobTagView = card01JobTagView
+            jobTagView = card01jobTagTextField
+            heightConstraint = card01jobTagHeightConstraint
         case cardView02:
-            jobTagView = card02JobTagView
+            jobTagView = card02JobTagTextField
+            heightConstraint = card02JobTagHeightConstraint
         default:
             break
         }
@@ -761,6 +755,9 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         var pointY:CGFloat = 10
         
         for view in jobTagView.subviews{
+            if view == jobTagView.subviews.first{
+                continue
+            }
             view.removeFromSuperview()
         }
         
@@ -785,7 +782,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             if jobTagTitleList.init().occupation.contains(tag){
                 tagType = .occupation
             }
-
+            var lastHeight:CGFloat = 0
+            
             let label = flagButton(frame: CGRect.zero, title: tag, Tagtype: tagType)
 
             label.sizeToFit()
@@ -806,7 +804,10 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             pointX = label.frame.origin.x + label.frame.width + 10
             pointY = label.frame.origin.y
-            
+            if lastHeight < pointY + label.frame.height{
+                lastHeight = pointY + label.frame.height
+            }
+            heightConstraint.constant = lastHeight + 10
             jobTagView.addSubview(label)
         }
         
@@ -833,8 +834,8 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             return}
 
         
-        let width = treatView.frame.width
-        var pointX:CGFloat = width
+//        let width = treatView.frame.width
+        var pointX:CGFloat = 0
         
         for item in treatList{
             let itemImgView = UIImageView(frame: CGRect.zero)
@@ -845,22 +846,26 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             var itemImgstr:String = ""
             switch item {
             case "cafe":
-                itemImgstr = "cafe_icon"
+                itemImgstr = "cafe_mono"
             case "morning":
-                itemImgstr = "morning_icon"
+                itemImgstr = "morning_mono"
             case "lunch":
-                itemImgstr = "lunch_icon"
+                itemImgstr = "lunch_mono"
             case "dinner":
-                itemImgstr = "dinner_icon"
+                itemImgstr = "dinner_mono"
             default:
                 break
             }
             itemImgView.image = UIImage(named: itemImgstr)
             
-            itemImgView.frame.origin = CGPoint(x: pointX - itemImgView.frame.width, y: 0)
+            //右並び
+//            itemImgView.frame.origin = CGPoint(x: pointX - itemImgView.frame.width, y: 0)
+//            treatView.addSubview(itemImgView)
+//            pointX -= 50
+            //左並び
+            itemImgView.frame.origin = CGPoint(x: pointX, y: 0)
             treatView.addSubview(itemImgView)
-            
-            pointX -= 50
+            pointX = itemImgView.frame.width + 10
             
         }
     }
@@ -871,25 +876,25 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         UIView.animate(withDuration: 0.5) { 
             self.contentView.transform = CGAffineTransform.init(translationX: self.view.frame.width, y: 0)
             self.profileItem.tintColor = self.selectedItemTintColor
-            self.mainItem.tintColor = UIColor.gray
-            self.mailItem.tintColor = UIColor.gray
+            self.mainItem.tintColor = self.unselectedItemTintColor
+            self.mailItem.tintColor = self.unselectedItemTintColor
             
         }
     }
     @IBAction func scrollToMain(_ sender: UIButton) {
         UIView.animate(withDuration: 0.5) {
             self.contentView.transform = CGAffineTransform.init(translationX: 0, y: 0)
-            self.profileItem.tintColor = UIColor.gray
+            self.profileItem.tintColor = self.unselectedItemTintColor
             self.mainItem.tintColor = self.selectedItemTintColor
-            self.mailItem.tintColor = UIColor.gray
+            self.mailItem.tintColor = self.unselectedItemTintColor
         }
     }
 
     @IBAction func scrollToMail(_ sender: UIButton) {
         UIView.animate(withDuration: 0.5) {
             self.contentView.transform = CGAffineTransform.init(translationX: -self.view.frame.width, y: 0)
-            self.profileItem.tintColor = UIColor.gray
-            self.mainItem.tintColor = UIColor.gray
+            self.profileItem.tintColor = self.unselectedItemTintColor
+            self.mainItem.tintColor = self.unselectedItemTintColor
             self.mailItem.tintColor = self.selectedItemTintColor
         }
     }

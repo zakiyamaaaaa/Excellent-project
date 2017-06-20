@@ -24,11 +24,7 @@ class CropEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-//        let imageRatio = originalImage.size.width/self.view.frame.width
-//        let diffHeight:CGFloat = (originalImage.size.height/imageRatio - maskView.frame.height)/2
-//
-        
+        self.navigationController?.isNavigationBarHidden = true
         let ratio:CGFloat = self.view.frame.width/originalImage!.size.width
         let newImage:UIImage =  originalImage!.resize(ratio: ratio)
         
@@ -83,13 +79,13 @@ class CropEditViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-        
+//        self.dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: "unwindCrop", sender: nil)
     }
 
     @IBAction func saveButtonTapped(_ sender: Any) {
         let ratio:CGFloat = self.view.frame.width/originalImage!.size.width
-        print(ratio)
+        
         let newImage:UIImage =  originalImage!.resize(ratio: ratio)
         let diffHeight:CGFloat = (newImage.size.height - maskView.frame.height)/2
         
@@ -137,5 +133,23 @@ extension UIImage{
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return resizedImage!
+    }
+    
+    func cropping(to: CGRect) -> UIImage? {
+        var opaque = false
+        if let cgImage = cgImage {
+            switch cgImage.alphaInfo {
+            case .noneSkipLast, .noneSkipFirst:
+                opaque = true
+            default:
+                break
+            }
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(to.size, opaque, scale)
+        draw(at: CGPoint(x: -to.origin.x, y: -to.origin.y))
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
     }
 }

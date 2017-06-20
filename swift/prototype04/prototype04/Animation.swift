@@ -6,6 +6,11 @@
 //  Copyright © 2017年 shoichiyamazaki. All rights reserved.
 //
 
+//画面遷移時、Disolveでアニメーション遷移する
+//利用ファイル
+//registerPhoto→Preview
+//Preview→Location
+
 import UIKit
 
 class Animation: NSObject, UIViewControllerAnimatedTransitioning {
