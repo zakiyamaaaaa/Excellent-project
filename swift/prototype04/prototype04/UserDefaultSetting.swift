@@ -100,8 +100,12 @@ struct UserDefaultSetting{
     func read(key:userDefautlsKeyList)->[String]{
         let keyStr = key.rawValue
         print("userdefaultRead::key:\(keyStr),value:\(ud.array(forKey: keyStr))")
-        return ud.array(forKey: key.rawValue) as! [String]
         
+        if ud.array(forKey: key.rawValue) == nil{
+            return [""]
+        }
+        
+        return ud.array(forKey: key.rawValue) as! [String]
     }
     
     func returnSetValue()->[String:Any]{

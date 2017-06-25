@@ -25,6 +25,7 @@ class CropEditViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationController?.isNavigationBarHidden = true
+        
         let ratio:CGFloat = self.view.frame.width/originalImage!.size.width
         let newImage:UIImage =  originalImage!.resize(ratio: ratio)
         

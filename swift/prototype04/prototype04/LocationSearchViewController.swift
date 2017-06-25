@@ -56,15 +56,7 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc = storyboard.instantiateViewController(withIdentifier: "mainVC") as! UINavigationController
-        vc.transitioningDelegate = self
         
-        
-        //serverに近くのユーザー問い合わせが返ってこないとnilエラーになるのでわざと遅らせている
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.present(vc, animated: true, completion: nil)
-        }
     }
     
     //位置情報取得のパーミッション→リクエスト
@@ -115,8 +107,10 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
         let uuid = udsetting.read(key: .uuid) as String
         let serverConnect = ServerConnection()
 
-        print("\n")
-        serverConnect.requestCard(uuid: uuid, lat: lat, lng: lng)
+        
+        requestCard(uuid: uuid, lat: lat, lng: lng)
+//        serverConnect.requestMyData(uuid: "hoge")
+        serverConnect.requestMyData(inuuid: uuid)
         //サーバーから受け取ったjsonデータをjson decode
 
     }
@@ -134,3 +128,49 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
 
 }
 
+extension LocationSearchViewController{
+    
+    //locationVCで使用
+    func requestCard(uuid:String,lat:Double,lng:Double){
+        let postData:[String:Any] = ["uuid":uuid,"lat":lat,"lng":lng]
+        
+        var returnData:[Any]?
+        
+        guard let requestURL = URL(string: "http://52.163.126.71/test/updateLocation.php") else {return}
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do{
+            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                do{
+                    returnData = try JSONSerialization.jsonObject(with: data!, options: []) as? [Any]
+                    //app deleagetに取得したデータを格納
+                    let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    app.cardListDelegate = returnData
+                    print("setted")
+                    
+                    let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                    let vc = storyboard.instantiateViewController(withIdentifier: "mainVC") as! UINavigationController
+                    vc.transitioningDelegate = self
+                    
+                    
+                    //serverに近くのユーザー問い合わせが返ってこないとnilエラーになるのでわざと遅らせている
+                    //location取得してるときにrequestCardが終わってから遷移するように
+                    
+                    self.present(vc, animated: true, completion: nil)
+                    
+                    
+                }catch{
+                    print("json decode error:\(error.localizedDescription)")
+                }
+                
+            })
+            
+            task.resume()
+        }catch{
+            print("error:\(error.localizedDescription)")
+        }
+    }
+    
+}

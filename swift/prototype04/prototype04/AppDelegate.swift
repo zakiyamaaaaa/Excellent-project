@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var cardListDelegate:[Any]?
+    var myInfoDelegate:[String:Any]?
     
     var selectedTagListDelegate:[[jobTagType:String]]?
     
