@@ -12,8 +12,9 @@ import UIKit
 struct ServerConnection {
     
     
+    //未利用
     //自分の座標を投げて、近くのユーザーを取得する
-    //locationVCで使用
+    //locationVCで使用していたが、リクエストデータ返ってきた所で遷移するように、locatioinVCの中で関数を実行するように変更した
     func requestCard(uuid:String,lat:Double,lng:Double){
         let postData:[String:Any] = ["uuid":uuid,"lat":lat,"lng":lng]
 
@@ -32,6 +33,7 @@ struct ServerConnection {
                     let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     app.cardListDelegate = returnData
                     print("setted")
+                    
                 }catch{
                     print("json decode error:\(error.localizedDescription)")
                 }
@@ -46,7 +48,6 @@ struct ServerConnection {
     
     //自分の情報を取得
     //MainVCで使用
-    
     func requestMyData(uuid:String)->[String:Any]{
         let postData:[String:Any] = ["uuid":uuid]
         
@@ -72,6 +73,33 @@ struct ServerConnection {
         }
         sleep(5)
         return dic!
+    }
+    
+    func requestMyData(inuuid:String){
+        let postData:[String:Any] = ["uuid":inuuid]
+        
+        var dic:[String:Any]?
+        let requestURL = URL(string: "http://52.163.126.71/test/requestMyData.php")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do{
+            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                //                let str = String(data: data!, encoding:.utf8)
+                do{
+                    dic = try JSONSerialization.jsonObject(with: data!, options: []) as? [String:Any]
+                    let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    app.myInfoDelegate = dic
+                }catch{
+                    print(error.localizedDescription)
+                }
+            })
+            task.resume()
+        }catch{
+            print("error:\(error.localizedDescription)")
+            //            return errorData
+        }
     }
     
     //自分の情報の更新

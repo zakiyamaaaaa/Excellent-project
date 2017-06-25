@@ -132,9 +132,15 @@ class MainViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        let myUUID = "hoge"//Dummy
-        let sc:ServerConnection = ServerConnection()
-        myInfo = sc.requestMyData(uuid: myUUID)
+//        let myUUID = "hoge"//Dummy
+//        let sc:ServerConnection = ServerConnection()
+        
+        //ここで自分の出会ったユーザー、マッチングしたユーザー、LIKEしたユーザーなどを取得している
+//        myInfo = sc.requestMyData(uuid: myUUID)
+        
+        //locationのときにappDelegateに値を渡している
+        //エラー処理をする必要あり
+        myInfo = app.myInfoDelegate!
         cardList = app.cardListDelegate!
         
         messageTableView.delegate = self

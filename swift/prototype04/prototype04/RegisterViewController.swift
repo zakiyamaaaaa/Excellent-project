@@ -48,6 +48,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIScrollViewD
         
         //button
         nextButton.isUserInteractionEnabled = false
+        nextButtonUnderLabel.alpha = 0.2
         nextButton.isEnabled = false
         nextButton.alpha = 0.5
         
@@ -194,6 +195,7 @@ class RegisterViewController: UIViewController,UITextFieldDelegate,UIScrollViewD
             self.nextButton.isEnabled = true
             self.nextButton.isUserInteractionEnabled = true
             self.nextButton.alpha = 1
+            self.nextButtonUnderLabel.alpha = 1
         }
         
         textField.resignFirstResponder()
