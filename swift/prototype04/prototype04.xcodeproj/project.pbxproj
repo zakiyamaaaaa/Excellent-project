@@ -46,6 +46,13 @@
 		394E31D21EEAE9C70005F362 /* ClickableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E31D11EEAE9C70005F362 /* ClickableTextView.swift */; };
 		39B1052E1ED58AD500DF49A4 /* messageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */; };
 		39B105301ED5F94200DF49A4 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B1052F1ED5F94200DF49A4 /* MessageViewController.swift */; };
+		39D5F0AD1EFF8ADB00418FEA /* RecruiterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0AC1EFF8ADB00418FEA /* RecruiterViewController.swift */; };
+		39D5F0AF1EFF900B00418FEA /* TagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0AE1EFF900B00418FEA /* TagLabel.swift */; };
+		39D5F0B11EFF911A00418FEA /* dummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B01EFF911A00418FEA /* dummyData.swift */; };
+		39D5F0B31EFFB3DF00418FEA /* CompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */; };
+		39D5F0B51EFFB40B00418FEA /* RecruiterPersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B41EFFB40B00418FEA /* RecruiterPersonalViewController.swift */; };
+		39D5F0B71F008D0400418FEA /* ContainerViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */; };
+		39D5F0B91F00B27900418FEA /* MessageViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */; };
 		5370497DE4C6BE4E93FB8933 /* Pods_prototype04.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C527F672B89E1D9767CE4307 /* Pods_prototype04.framework */; };
 		645F4532B9E056EA983C3E70 /* Pods_prototype04UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD51314212AA6891A187D99F /* Pods_prototype04UITests.framework */; };
 		75FDA3C329CD228207C4ADA9 /* Pods_prototype04Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3147D0B7174B1B52F62D967F /* Pods_prototype04Tests.framework */; };
@@ -115,6 +122,13 @@
 		394E31D11EEAE9C70005F362 /* ClickableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickableTextView.swift; sourceTree = "<group>"; };
 		39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = messageTableViewCell.swift; sourceTree = "<group>"; };
 		39B1052F1ED5F94200DF49A4 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		39D5F0AC1EFF8ADB00418FEA /* RecruiterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruiterViewController.swift; sourceTree = "<group>"; };
+		39D5F0AE1EFF900B00418FEA /* TagLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagLabel.swift; sourceTree = "<group>"; };
+		39D5F0B01EFF911A00418FEA /* dummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dummyData.swift; sourceTree = "<group>"; };
+		39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyViewController.swift; sourceTree = "<group>"; };
+		39D5F0B41EFFB40B00418FEA /* RecruiterPersonalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruiterPersonalViewController.swift; sourceTree = "<group>"; };
+		39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewControllerTest.swift; sourceTree = "<group>"; };
+		39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewControllerTest.swift; sourceTree = "<group>"; };
 		648A6A0C49A0EDB725490113 /* Pods-prototype04.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prototype04.debug.xcconfig"; path = "Pods/Target Support Files/Pods-prototype04/Pods-prototype04.debug.xcconfig"; sourceTree = "<group>"; };
 		84CBFA047EBCBD7E1998B2F0 /* Pods-prototype04UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prototype04UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-prototype04UITests/Pods-prototype04UITests.release.xcconfig"; sourceTree = "<group>"; };
 		8B816D71B5D0CEF59BA72A71 /* Pods-prototype04Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-prototype04Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-prototype04Tests/Pods-prototype04Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -199,6 +213,13 @@
 			isa = PBXGroup;
 			children = (
 				392ED6871EC0C669003EB555 /* Main.storyboard */,
+				39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */,
+				39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */,
+				39D5F0B41EFFB40B00418FEA /* RecruiterPersonalViewController.swift */,
+				39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */,
+				39D5F0B01EFF911A00418FEA /* dummyData.swift */,
+				39D5F0AC1EFF8ADB00418FEA /* RecruiterViewController.swift */,
+				39D5F0AE1EFF900B00418FEA /* TagLabel.swift */,
 				392ED6831EC0C669003EB555 /* AppDelegate.swift */,
 				394E31D51EEB08570005F362 /* ViewController */,
 				39B105311ED6F7E400DF49A4 /* Trash */,
@@ -572,10 +593,12 @@
 				394E31D21EEAE9C70005F362 /* ClickableTextView.swift in Sources */,
 				392ED6CE1EC6216E003EB555 /* UILabelBtmBorder.swift in Sources */,
 				39B105301ED5F94200DF49A4 /* MessageViewController.swift in Sources */,
+				39D5F0B51EFFB40B00418FEA /* RecruiterPersonalViewController.swift in Sources */,
 				392ED6B81EC2A49B003EB555 /* CustomTableViewCell.swift in Sources */,
 				392ED7241ECE044C003EB555 /* Enum.swift in Sources */,
 				392ED6B21EC0DFBC003EB555 /* MainViewController.swift in Sources */,
 				392ED7161ECC5A1C003EB555 /* NonCaretTextField.swift in Sources */,
+				39D5F0B91F00B27900418FEA /* MessageViewControllerTest.swift in Sources */,
 				39067BB81EEA19E1004B1BEC /* RectView.swift in Sources */,
 				39067BA91EE7BF72004B1BEC /* RegisterViewController.swift in Sources */,
 				392ED6861EC0C669003EB555 /* LocationSearchViewController.swift in Sources */,
@@ -586,12 +609,15 @@
 				392ED6841EC0C669003EB555 /* AppDelegate.swift in Sources */,
 				39067BAF1EE8C409004B1BEC /* PreviewViewController.swift in Sources */,
 				392ED7121ECA9D7F003EB555 /* TagTestViewController.swift in Sources */,
+				39D5F0B71F008D0400418FEA /* ContainerViewControllerTest.swift in Sources */,
+				39D5F0AD1EFF8ADB00418FEA /* RecruiterViewController.swift in Sources */,
 				391B0A7E1EE05EFC00E9884C /* MaskView.swift in Sources */,
 				39067BAD1EE7FF9C004B1BEC /* RegisterPhotoViewController.swift in Sources */,
 				392ED6C21EC43C1B003EB555 /* UIColor.swift in Sources */,
 				391B0A801EE071F400E9884C /* SnapshotViewController.swift in Sources */,
 				39067BBA1EEA21B2004B1BEC /* ProfileEditViewController.swift in Sources */,
 				391649B01ED2510F003175D1 /* ServerConnection.swift in Sources */,
+				39D5F0B11EFF911A00418FEA /* dummyData.swift in Sources */,
 				39034F211EE79C29009FD68E /* TransitionButton.swift in Sources */,
 				392ED70E1EC7FB0A003EB555 /* Animation.swift in Sources */,
 				391B0A7C1EDFF8E800E9884C /* CropEditViewController.swift in Sources */,
@@ -601,6 +627,8 @@
 				39067BB51EE8EAD2004B1BEC /* UserInfo.swift in Sources */,
 				392ED7261ECED0B0003EB555 /* UserDefaultSetting.swift in Sources */,
 				392ED7141ECAB417003EB555 /* flagButton.swift in Sources */,
+				39D5F0B31EFFB3DF00418FEA /* CompanyViewController.swift in Sources */,
+				39D5F0AF1EFF900B00418FEA /* TagLabel.swift in Sources */,
 				39067BB31EE8D4F3004B1BEC /* RectLabel.swift in Sources */,
 				392ED7201ECDFB9C003EB555 /* JobTagTitleList.swift in Sources */,
 			);
