@@ -10,14 +10,14 @@ import UIKit
 
 class RecruiterPersonalViewController: UIViewController {
 
-    @IBOutlet weak var recruiterMessageView: UITextView!
+//    @IBOutlet weak var recruiterMessageView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        recruiterMessageView.layer.borderWidth = 1
-        recruiterMessageView.layer.masksToBounds = true
-        recruiterMessageView.layer.cornerRadius = 5
+//        recruiterMessageView.layer.borderWidth = 1
+//        recruiterMessageView.layer.masksToBounds = true
+//        recruiterMessageView.layer.cornerRadius = 5
         
         // Do any additional setup after loading the view.
     }
