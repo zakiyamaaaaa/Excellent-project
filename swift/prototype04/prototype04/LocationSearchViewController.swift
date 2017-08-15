@@ -24,7 +24,7 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
         myImageView.layer.cornerRadius = myImageView.frame.width/2
         
         userImageView01.layer.masksToBounds = true
-        userImageView01.layer.cornerRadius = 75/2
+        userImageView01.layer.cornerRadius = userImageView01.frame.width/2
         userImageView01.layer.borderWidth = 3
         userImageView01.layer.borderColor = UIColor.white.cgColor
         
@@ -107,10 +107,11 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
         let uuid = udsetting.read(key: .uuid) as String
         let serverConnect = ServerConnection()
 
-        
-        requestCard(uuid: uuid, lat: lat, lng: lng)
-//        serverConnect.requestMyData(uuid: "hoge")
         serverConnect.requestMyData(inuuid: uuid)
+        writeMessage()
+//        requestCard(uuid: uuid, lat: lat, lng: lng)
+//        serverConnect.requestMyData(uuid: "hoge")
+        
         //サーバーから受け取ったjsonデータをjson decode
 
     }
@@ -130,13 +131,43 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
 
 extension LocationSearchViewController{
     
+    func writeMessage(){
+        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        let uuid = app.myInfoDelegate?["uuid"] as! String
+        let postData:[String:Any] = ["uuid":uuid]
+        var returnData:[Any]?
+        
+        guard let requestURL = URL(string: "http://localhost:8888/test/requestMessageUserList.php") else {return}
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do{
+            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                do{
+                    returnData = try JSONSerialization.jsonObject(with: data!, options: []) as? [Any]
+                    let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+                    app.messageList = returnData
+                    print(app.messageList)
+                    
+                }catch{
+                    print(error.localizedDescription)
+                }
+            })
+            task.resume()
+        }catch{
+            print(error.localizedDescription)
+        }
+    }
+    
     //locationVCで使用
     func requestCard(uuid:String,lat:Double,lng:Double){
         let postData:[String:Any] = ["uuid":uuid,"lat":lat,"lng":lng]
         
         var returnData:[Any]?
         
-        guard let requestURL = URL(string: "http://52.163.126.71/test/updateLocation.php") else {return}
+        guard let requestURL = URL(string: "http://localhost:8888/test/updateLocation.php") else {return}
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
