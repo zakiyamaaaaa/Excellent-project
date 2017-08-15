@@ -36,7 +36,7 @@ class AssessmentViewController: UIViewController {
                     let vc = storyboard.instantiateViewController(withIdentifier: "readyToMain") as! ReadyMainViewController
                     vc.modalTransitionStyle = .crossDissolve
                     vc.modalPresentationStyle = .overFullScreen
-                    self.show(vc, sender: nil)
+//                    self.show(vc, sender: nil)
                 }
             })
         }
@@ -47,6 +47,8 @@ class AssessmentViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func confirmProfile(_ sender: Any) {
+    }
 
     /*
     // MARK: - Navigation

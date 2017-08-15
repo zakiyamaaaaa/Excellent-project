@@ -1,3 +1,4 @@
+
 //
 //  ProfileRegistrationViewController.swift
 //  prototype04
@@ -23,32 +24,54 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
     var facultyText:String?
     var graduationText:String?
     
+    @IBOutlet weak var sectionTitleLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        var a = my()
-        
-        var educationArray:[Any] = a.getValue(key: .education) as! [Any]
-        
+        let a = my()
         nameText = a.getValue(key: .name) as? String
-        schoolNameText = educationArray[0] as? String
-        facultyText = educationArray[1] as? String
         birthText = a.getValue(key: .birth) as? String
-        graduationText = educationArray[2] as? String
         
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "userimg.png"
         let tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         myImageView.image = tmp
+        
+        guard let status = my().status else { return }
+        
+        switch status {
+        case 1:
+            title = "会社"
+//            var careerArray:[Any] = a.getValue(key: .ca) as! [Any]
+            schoolNameText = Recruiter().company_name
+            facultyText = Recruiter().position
+            graduationYearLabel.isHidden = true
+            
+        case 2:
+            title = "学校"
+            var educationArray:[Any] = a.getValue(key: .education) as! [Any]
+            schoolNameText = educationArray[0] as? String
+            facultyText = educationArray[1] as? String
+            graduationText = educationArray[2] as? String
+        default:
+            break
+        }
+        sectionTitleLabel.text = title
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         myNameLabel.text =  nameText
+        myBirthLabel.text = birthText
+        
+        
+        //ステータスによって、ラベルに表示する情報を変える
         schoolNameLabel.text = schoolNameText
         facultyLabel.text = facultyText
-        myBirthLabel.text = birthText
         graduationYearLabel.text = graduationText
     }
     
@@ -105,9 +128,19 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
     }
 
     @IBAction func editEducationInfo(_ sender: Any) {
+        guard let status = my().status else { return }
         
-        performSegue(withIdentifier: "editEducationInfoSegue", sender: nil)
-        
+        switch status {
+        case 1:
+            performSegue(withIdentifier: "editCompanyInfoSegue", sender: nil)
+        case 2:
+            performSegue(withIdentifier: "editEducationInfoSegue", sender: nil)
+        default:
+            break
+        }
+    }
+    @IBAction func closeButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func editBasicInfo(_ sender: Any) {
@@ -151,7 +184,7 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
     
     @IBAction func updateUser(_ sender: Any) {
         //userdefault更新して、サーバーのDBもデータ更新
-        
+        ServerConnection().updateBeforeValid(postImage: selectedImage)
     }
 
     /*

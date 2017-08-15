@@ -73,7 +73,7 @@ class MainViewControllerTest: UIViewController {
     var snapBehavior:UISnapBehavior!
     
     var cardList:[[Any]] = []
-    let properthName = recruiterPropety2.self
+    let properthName = recruiterPropety.self
 //    Id/String
 //    名前/String
 //    生年月日/Date
@@ -97,8 +97,14 @@ class MainViewControllerTest: UIViewController {
     
     var cardList2:[Any] = []
     
+    var myStatus = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if User().status != nil{
+            myStatus = User().status!
+        }
         
         //マッチングしたときのビュー、透過してる
         let blurEffect = UIBlurEffect(style: .dark)
@@ -156,52 +162,101 @@ class MainViewControllerTest: UIViewController {
         let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         var count = 0
         var valueCount = 0
-        let b = studentPropety.self
         
-        let message:String? = app.myInfoDelegate?[b.message.getString()] as? String
-        if message != nil && message?.isEmpty == false{
-            count += 1
-        }
-        valueCount += 1
         
-        let education:[Any]? = app.myInfoDelegate?[b.education.getString()] as? [Any]
-        if education != nil && education?.isEmpty == false{
-            count += 1
+        switch myStatus {
+        case 1:
+            let message:String? = app.myInfoDelegate?[recruiterPropety.message.rawValue] as? String
+            if message != nil && message?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let education:[Any]? = app.myInfoDelegate?[recruiterPropety.education.rawValue] as? [Any]
+            if education != nil && education?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            //未
+            let company_intro:String? = app.myInfoDelegate?[recruiterPropety.company_introduction.rawValue] as? String
+            if company_intro != nil && company_intro?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let company_feature:String? = app.myInfoDelegate?[recruiterPropety.company_feature.rawValue] as? String
+            if company_feature != nil && company_feature?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let company_recruit:[String]? = app.myInfoDelegate?[recruiterPropety.company_recruitment.rawValue] as? [String]
+            if company_recruit != nil && company_recruit?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+//            let belonging:[Any]? = app.myInfoDelegate?[studentPropety.belonging.rawValue] as? [Any]
+//            if belonging != nil && belonging?.isEmpty == false{
+//                count += 1
+//            }
+//            valueCount += 1
+//            
+//            let interesting:[Any]? = app.myInfoDelegate?[studentPropety.interesting.rawValue] as? [Any]
+//            if interesting != nil && interesting?.isEmpty == false{
+//                count += 1
+//            }
+        case 2:
+            let message:String? = app.myInfoDelegate?[studentPropety.message.rawValue] as? String
+            if message != nil && message?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let education:[Any]? = app.myInfoDelegate?[studentPropety.education.rawValue] as? [Any]
+            if education != nil && education?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let goodpoint:String? = app.myInfoDelegate?[studentPropety.goodpoint.rawValue] as? String
+            if goodpoint != nil && goodpoint?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let badpoint:String? = app.myInfoDelegate?[studentPropety.badpoint.rawValue] as? String
+            if badpoint != nil && goodpoint?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let introduction:String? = app.myInfoDelegate?[studentPropety.introduction.rawValue] as? String
+            if introduction != nil && introduction?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let belonging:[Any]? = app.myInfoDelegate?[studentPropety.belonging.rawValue] as? [Any]
+            if belonging != nil && belonging?.isEmpty == false{
+                count += 1
+            }
+            valueCount += 1
+            
+            let interesting:[Any]? = app.myInfoDelegate?[studentPropety.interesting.rawValue] as? [Any]
+            if interesting != nil && interesting?.isEmpty == false{
+                count += 1
+            }
+        default:
+            break
         }
-        valueCount += 1
         
-        let goodpoint:String? = app.myInfoDelegate?[b.goodpoint.getString()] as? String
-        if goodpoint != nil && goodpoint?.isEmpty == false{
-            count += 1
-        }
-        valueCount += 1
         
-        let badpoint:String? = app.myInfoDelegate?[b.badpoint.getString()] as? String
-        if badpoint != nil && goodpoint?.isEmpty == false{
-            count += 1
-        }
-        valueCount += 1
-        
-        let introduction:String? = app.myInfoDelegate?[b.introduction.getString()] as? String
-        if introduction != nil && introduction?.isEmpty == false{
-            count += 1
-        }
-        valueCount += 1
-        
-        let belonging:[Any]? = app.myInfoDelegate?[b.belonging.getString()] as? [Any]
-        if belonging != nil && belonging?.isEmpty == false{
-            count += 1
-        }
-        valueCount += 1
-        
-        let interesting:[Any]? = app.myInfoDelegate?[b.interesting.getString()] as? [Any]
-        if interesting != nil && interesting?.isEmpty == false{
-            count += 1
-        }
         valueCount += 1
         
         let ratio = count*100/valueCount
-        print("ratio:\(ratio)")
+        
         
         return ratio
     }
@@ -348,15 +403,15 @@ class MainViewControllerTest: UIViewController {
             
             
             //Likeリストに追加
-            if app.myInfoDelegate![recruiterPropety2.liked.rawValue] != nil{
+            if app.myInfoDelegate![recruiterPropety.liked.rawValue] != nil{
                 
                 let uid = cardInfo[properthName.uuid.rawValue] as! String
                 var list:[String] = app.myInfoDelegate?[properthName.liked.rawValue] as! [String]
                 list.append(uid)
-                app.myInfoDelegate![recruiterPropety2.liked.rawValue] = list
+                app.myInfoDelegate![recruiterPropety.liked.rawValue] = list
                 
             }else{
-                app.myInfoDelegate?[recruiterPropety2.liked.rawValue] = cardInfo[properthName.uuid.rawValue]
+                app.myInfoDelegate?[recruiterPropety.liked.rawValue] = cardInfo[properthName.uuid.rawValue]
             }
             
             
@@ -375,15 +430,15 @@ class MainViewControllerTest: UIViewController {
                 
                 let matchingUser:[String] = [cardInfo[properthName.uuid.rawValue] as! String,roomKey,dateString]
 
-                if app.myInfoDelegate![recruiterPropety2.matched.rawValue] != nil{
+                if app.myInfoDelegate![recruiterPropety.matched.rawValue] != nil{
                     
 //                    let uid = cardInfo[properthName.uuid.rawValue] as! String
                     var list:[[String]] = app.myInfoDelegate?[properthName.matched.rawValue] as! [[String]]
                     list.append(matchingUser)
-                    app.myInfoDelegate![recruiterPropety2.matched.rawValue] = list
+                    app.myInfoDelegate![recruiterPropety.matched.rawValue] = list
                     
                 }else{
-                    app.myInfoDelegate?[recruiterPropety2.matched.rawValue] = cardInfo[properthName.uuid.rawValue]
+                    app.myInfoDelegate?[recruiterPropety.matched.rawValue] = cardInfo[properthName.uuid.rawValue]
                 }
                 
 //                myMathingList?.append(matchingUser)
@@ -407,15 +462,15 @@ class MainViewControllerTest: UIViewController {
 //            encounterdList = [cardInfo[properthName.uuid.rawValue] as! String]
 //        }
         
-        if app.myInfoDelegate![recruiterPropety2.encounterd.rawValue] != nil{
+        if app.myInfoDelegate![recruiterPropety.encounterd.rawValue] != nil{
             
             let uid = cardInfo[properthName.uuid.rawValue] as! String
             var list:[String] = app.myInfoDelegate?[properthName.encounterd.rawValue] as! [String]
             list.append(uid)
-            app.myInfoDelegate![recruiterPropety2.encounterd.rawValue] = list
+            app.myInfoDelegate![recruiterPropety.encounterd.rawValue] = list
             
         }else{
-            app.myInfoDelegate?[recruiterPropety2.encounterd.rawValue] = cardInfo[properthName.uuid.rawValue]
+            app.myInfoDelegate?[recruiterPropety.encounterd.rawValue] = cardInfo[properthName.uuid.rawValue]
         }
 //
 //        if encounterdList == nil || encounterdList?.isEmpty == true{
@@ -501,66 +556,68 @@ class MainViewControllerTest: UIViewController {
         guard let userInfo:[String:Any] = cardList2[target.numberOfOage] as? [String : Any] else { return }
         let list = cardList2[target.numberOfOage] as! [String:Any]
         
-//        let uuid = list["uuid"] as! String
-        
-        //print("uuid:\(uuid)")
-//        let list = cardList2[target.numberOfOage] as! [String:Any]
-//        let uuid:String = list["uuid"] as! String
-        
         let ogoriRect = CGRect(x: 0, y: 0, width: card1OgoriView.frame.height, height: card1OgoriView.frame.height)
         let ogoriPadding:CGFloat = 5
         
         switch target {
         case cardView01:
             card1UserNameLabel.text = userInfo[properthName.name.rawValue] as? String
-            card1CompanyNameLabel.text = userInfo[properthName.company_name.rawValue] as? String
-            card1UserJobLabel.text = userInfo[properthName.position.rawValue] as? String
-            card1CompanyLink.text = userInfo[properthName.company_link.rawValue] as? String
             card1UserImageView.image = getImage(uuid: userInfo[properthName.uuid.rawValue] as! String)
             let birthDate = DateUtils.date(userInfo[properthName.birth.rawValue] as! String, format:"yyyy-MM-dd" )
-            let age = DateUtils.age(byBirthDate: birthDate)
-            card1AgeLabel.text = "(" + String(age) + ")"
-            switch age {
-            case 0..<30:
-                card1LabelImageView.image = #imageLiteral(resourceName: "wakate-label")
-            case 30..<45:
-                card1LabelImageView.image = #imageLiteral(resourceName: "middle-label")
-            default:
-                card1LabelImageView.image = #imageLiteral(resourceName: "beteran-label")
-            }
-            pasteTag(forView: card1ExperienceTagView, forTagList: userInfo[properthName.skill.rawValue] as! [String], heightConstraint: card1experienceTagViewHeightConstraint)
-            
             card1MessageLabel.text = userInfo[properthName.message.rawValue] as? String
             removeFromAllChildView(parentView: card1OgoriView)
             
-            
-            var count:CGFloat = 0
-            
-            if userInfo[properthName.ogori.rawValue] != nil{
-                for ogori in userInfo[properthName.ogori.rawValue] as! [Int]{
-                    let ogoriImageView = UIImageView(frame: ogoriRect)
-                     card1OgoriView.addSubview(ogoriImageView)
-                    switch ogori {
-                    case 0:
-                        ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
-                    case 1:
-                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
-                    case 2:
-                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
-                    case 3:
-                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
-                    default:
-                        break
-                    }
-                    
-                    if count == 0{
-                        ogoriImageView.layer.position.x = ogoriRect.height/2
-                    }else{
-                        ogoriImageView.layer.position.x = count*ogoriRect.height + ogoriRect.height/2 + ogoriPadding
-                    }
-                    
-                    count += 1
+            switch myStatus {
+            case 1:
+                card1LabelImageView.image = #imageLiteral(resourceName: "shinsotsu-label")
+                card1CompanyLink.isHidden = true
+                card1CompanyNameLabel.isHidden = true
+            case 2:
+                let age = DateUtils.age(byBirthDate: birthDate)
+                card1AgeLabel.text = "(" + String(age) + ")"
+                switch age {
+                case 0..<30:
+                    card1LabelImageView.image = #imageLiteral(resourceName: "wakate-label")
+                case 30..<45:
+                    card1LabelImageView.image = #imageLiteral(resourceName: "middle-label")
+                default:
+                    card1LabelImageView.image = #imageLiteral(resourceName: "beteran-label")
                 }
+                card1CompanyNameLabel.text = userInfo[recruiterPropety.company_name.rawValue] as? String
+                card1UserJobLabel.text = userInfo[recruiterPropety.position.rawValue] as? String
+                card1CompanyLink.text = userInfo[recruiterPropety.company_link.rawValue] as? String
+                
+                pasteTag(forView: card1ExperienceTagView, forTagList: userInfo[recruiterPropety.skill.rawValue] as! [String], heightConstraint: card1experienceTagViewHeightConstraint)
+                var count:CGFloat = 0
+                
+                if userInfo[recruiterPropety.ogori.rawValue] != nil{
+                    for ogori in userInfo[recruiterPropety.ogori.rawValue] as! [Int]{
+                        let ogoriImageView = UIImageView(frame: ogoriRect)
+                        card1OgoriView.addSubview(ogoriImageView)
+                        switch ogori {
+                        case 0:
+                            ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
+                        case 1:
+                            ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
+                        case 2:
+                            ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
+                        case 3:
+                            ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
+                        default:
+                            break
+                        }
+                        
+                        if count == 0{
+                            ogoriImageView.layer.position.x = ogoriRect.height/2
+                        }else{
+                            ogoriImageView.layer.position.x = count*ogoriRect.height + ogoriRect.height/2 + ogoriPadding
+                        }
+                        
+                        count += 1
+                    }
+                }
+            default:
+                break
             }
             
         case cardView02:
@@ -586,38 +643,38 @@ class MainViewControllerTest: UIViewController {
             card2UserImageView.image = getImage(uuid: userInfo[properthName.uuid.rawValue] as! String)
 //            card2LabelImageView.image = userInfo[2] as? UIImage
 //            card2CompanyLogoImageView.image = userInfo[11] as? UIImage
-            pasteTag(forView: card2ExperienceTagView, forTagList: userInfo[properthName.skill.rawValue] as! [String], heightConstraint: card2experienceTagViewHeightConstraint)
-            
-            removeFromAllChildView(parentView: card2OgoriView)
-            
-            var count:CGFloat = 0
-            
-            if userInfo[properthName.ogori.rawValue] != nil{
-                for ogori in userInfo[properthName.ogori.rawValue] as! [Int]{
-                    let ogoriImageView = UIImageView(frame: ogoriRect)
-                    card2OgoriView.addSubview(ogoriImageView)
-                    switch ogori {
-                    case 0:
-                        ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
-                    case 1:
-                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
-                    case 2:
-                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
-                    case 3:
-                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
-                    default:
-                        break
-                    }
-                    
-                    if count == 0{
-                        ogoriImageView.layer.position.x = ogoriRect.height/2
-                    }else{
-                        ogoriImageView.layer.position.x = count*ogoriRect.height + ogoriRect.height/2 + ogoriPadding
-                    }
-                    
-                    count += 1
-                }
-            }
+//            pasteTag(forView: card2ExperienceTagView, forTagList: userInfo[properthName.skill.rawValue] as! [String], heightConstraint: card2experienceTagViewHeightConstraint)
+//            
+//            removeFromAllChildView(parentView: card2OgoriView)
+//            
+//            var count:CGFloat = 0
+//            
+//            if userInfo[properthName.ogori.rawValue] != nil{
+//                for ogori in userInfo[properthName.ogori.rawValue] as! [Int]{
+//                    let ogoriImageView = UIImageView(frame: ogoriRect)
+//                    card2OgoriView.addSubview(ogoriImageView)
+//                    switch ogori {
+//                    case 0:
+//                        ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
+//                    case 1:
+//                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
+//                    case 2:
+//                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
+//                    case 3:
+//                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
+//                    default:
+//                        break
+//                    }
+//                    
+//                    if count == 0{
+//                        ogoriImageView.layer.position.x = ogoriRect.height/2
+//                    }else{
+//                        ogoriImageView.layer.position.x = count*ogoriRect.height + ogoriRect.height/2 + ogoriPadding
+//                    }
+//                    
+//                    count += 1
+//                }
+//            }
         default:
             break
         }

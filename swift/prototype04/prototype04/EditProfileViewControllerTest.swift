@@ -43,18 +43,18 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
         }
         myPhotoImageView.image = tmp
         let a = studentPropety.self
-        selfIntroText = app.myInfoDelegate?[a.introduction.getString()] as? String
-        interestingTagList = app.myInfoDelegate?[a.interesting.getString()] as? [String]
-        educationArray = app.myInfoDelegate?[a.education.getString()] as? [Any]
-        appealText = app.myInfoDelegate?[a.message.getString()] as? String
-        goodPointString = app.myInfoDelegate?[a.goodpoint.getString()] as? String
-        badPointString = app.myInfoDelegate?[a.badpoint.getString()] as? String
-        skillList = app.myInfoDelegate?[a.skill.getString()] as? [String]
-        belonging = app.myInfoDelegate?[a.belonging.getString()] as? [String]
+        selfIntroText = app.myInfoDelegate?[a.introduction.rawValue] as? String
+        interestingTagList = app.myInfoDelegate?[a.interesting.rawValue] as? [String]
+        educationArray = app.myInfoDelegate?[a.education.rawValue] as? [Any]
+        appealText = app.myInfoDelegate?[a.message.rawValue] as? String
+        goodPointString = app.myInfoDelegate?[a.goodpoint.rawValue] as? String
+        badPointString = app.myInfoDelegate?[a.badpoint.rawValue] as? String
+        skillList = app.myInfoDelegate?[a.skill.rawValue] as? [String]
+        belonging = app.myInfoDelegate?[a.belonging.rawValue] as? [String]
         
-        nameLabel.text = app.myInfoDelegate?[a.name.getString()] as? String
+        nameLabel.text = app.myInfoDelegate?[a.name.rawValue] as? String
         
-        if let dateString:String = app.myInfoDelegate?[a.birth.getString()] as? String{
+        if let dateString:String = app.myInfoDelegate?[a.birth.rawValue] as? String{
             let date = DateUtils.date(dateString, format: "YYYY-MM-dd")
             let year = NSCalendar.current.component(.year, from: date)
             let month = NSCalendar.current.component(.month, from: date)
@@ -423,13 +423,13 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         //各項目をlocalstorage保存かつサーバーにデータ更新
         let a = studentPropety.self
-        app.myInfoDelegate?[a.introduction.getString()] = selfIntroText
-        app.myInfoDelegate?[a.interesting.getString()] = interestingTagList
-        app.myInfoDelegate?[a.education.getString()] = educationArray
-        app.myInfoDelegate?[a.goodpoint.getString()] = goodPointString
-        app.myInfoDelegate?[a.badpoint.getString()] = badPointString
-        app.myInfoDelegate?[a.skill.getString()] = skillList
-        app.myInfoDelegate?[a.belonging.getString()] = belonging
+        app.myInfoDelegate?[a.introduction.rawValue] = selfIntroText
+        app.myInfoDelegate?[a.interesting.rawValue] = interestingTagList
+        app.myInfoDelegate?[a.education.rawValue] = educationArray
+        app.myInfoDelegate?[a.goodpoint.rawValue] = goodPointString
+        app.myInfoDelegate?[a.badpoint.rawValue] = badPointString
+        app.myInfoDelegate?[a.skill.rawValue] = skillList
+        app.myInfoDelegate?[a.belonging.rawValue] = belonging
         
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "userimg.png"

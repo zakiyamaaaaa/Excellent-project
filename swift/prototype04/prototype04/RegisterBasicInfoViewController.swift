@@ -29,6 +29,9 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        namaText = User().name
+        birthText = User().birth
+        
         nameTextField.text = namaText
         birthTextField.text = birthText
     }
@@ -44,7 +47,6 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
             
             myDatePicker.datePickerMode = .date
             myDatePicker.maximumDate = Date()
-//            myDatePicker.addTarget(self, action: #selector(self.onDidChangeDate(sender:)), for: .valueChanged)
             textField.inputView = myDatePicker
             
             vc.view.addSubview(myDatePicker)
@@ -84,10 +86,6 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
         return .none
     }
     
-//    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-//        return .fullScreen
-//    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -106,8 +104,18 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
             let str = DateUtils.string(myDatePicker.date, format: "yyyy-MM-dd")
             a.register(key: .name, value: nameTextField.text!)
             a.register(key: .birth, value: str)
-//            ServerConnection().registerUser()
-            performSegue(withIdentifier: "nextSegue1", sender: nil)
+            
+            let status = a.status!
+            
+            
+            switch status {
+            case 1:
+                performSegue(withIdentifier: "companySegue", sender: nil)
+            case 2:
+                performSegue(withIdentifier: "nextSegue1", sender: nil)
+            default:
+                break
+            }
             
         }else{
             errorMessageLabel.isHidden = false

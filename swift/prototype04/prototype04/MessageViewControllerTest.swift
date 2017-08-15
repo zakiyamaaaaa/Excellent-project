@@ -50,7 +50,7 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
     var cardList2:[Any]?
     let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
     var myMatchingList:[[String]]?
-    let propetyName = recruiterPropety2.self
+    let propetyName = recruiterPropety.self
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -24,6 +24,7 @@ class ChoiceStatusViewController: UIViewController {
     
     @IBAction func recruiterButtonTapped(_ sender: Any) {
         //recruiterとして登録
+        print("aaa")
         var a = my()
         a.register(key: .status, value: 1)
         //このあと、それぞれの設定画面へ遷移する(storyboardで設定済み)
@@ -31,6 +32,7 @@ class ChoiceStatusViewController: UIViewController {
 
     @IBAction func studentButtonTapped(_ sender: Any) {
         //studentとして登録
+        print("bbb")
         var a = my()
         a.register(key: .status, value: 2)
         //このあと、それぞれの設定画面へ遷移する(storyboardで設定済み)
