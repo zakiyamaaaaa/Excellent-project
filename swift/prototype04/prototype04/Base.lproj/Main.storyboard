@@ -881,7 +881,8 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uyt-Sa-NcQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2044" y="2666"/>
+
+            <point key="canvasLocation" x="2044" y="2666"
         </scene>
         <!--Message View Controller-->
         <scene sceneID="9bm-00-Jr4">
@@ -997,9 +998,11 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ael-Ng-l9b">
                                                 <rect key="frame" x="32" y="140" width="256" height="50"/>
                                                 <subviews>
+
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BkB-me-VCz">
                                                         <rect key="frame" x="0.0" y="48" width="256" height="2"/>
                                                         <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="2" id="hKt-cv-rxE"/>
                                                         </constraints>
@@ -2599,13 +2602,108 @@
             </objects>
             <point key="canvasLocation" x="6367.5" y="143.66197183098592"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="zuJ-bV-wNQ">
+            <objects>
+                <viewController id="i2r-Q5-2PU" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="db1-NG-M7m"/>
+                        <viewControllerLayoutGuide type="bottom" id="9Qs-VQ-N2c"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oSe-Va-URy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1000"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="何をやっているのか" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfb-ge-gPd">
+                                <rect key="frame" x="82" y="65" width="156" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCz-uB-CHn">
+                                <rect key="frame" x="92" y="101" width="220" height="67"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="220" id="wTg-uK-ISG"/>
+                                </constraints>
+                                <string key="text">弊社ででは、月に数本のアプリのデザインをしています。 基本的に弊社ではエンジニアと高頻度に連絡をとりながら、サービスの開発を行っております。
+</string>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="経歴" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fej-08-9lh">
+                                <rect key="frame" x="82" y="228" width="35" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xs5-MD-snc">
+                                <rect key="frame" x="92" y="318" width="220" height="83"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">2014.3 バカ田大学卒業
+2015.4 前田工業入社
+2017.3 前田工業退社
+2017.4 現職</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="前職について" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fry-ik-60p">
+                                <rect key="frame" x="82" y="461" width="104" height="21"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6I-zD-xbD">
+                                <rect key="frame" x="92" y="502" width="220" height="67"/>
+                                <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">前職ではDMM.comでデザイナーとして５年間働いていました。
+そこでは、Webサイトのデザインをメインとし、ビデオサイトから、英会話サービスまで、約２０種類のサイトのデザインを担当しました。
+</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="メッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oNZ-FA-ajT">
+                                <rect key="frame" x="82" y="622" width="72" height="17"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pO6-dZ-nk1">
+                                <rect key="frame" x="92" y="655" width="220" height="374"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <string key="text">はじめまして、現在株式会社ヤフーで働く山田太郎といいます！ 現在弊社では、エンジニアの採用を急激に高めていますので、もしご興味ある方は
+ご連絡ください！！</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="e6I-zD-xbD" firstAttribute="top" secondItem="fry-ik-60p" secondAttribute="bottom" constant="20" id="6kX-52-SEe"/>
+                            <constraint firstItem="fry-ik-60p" firstAttribute="top" secondItem="xs5-MD-snc" secondAttribute="bottom" constant="60" id="BsA-m5-m1g"/>
+                            <constraint firstItem="Fej-08-9lh" firstAttribute="top" secondItem="WCz-uB-CHn" secondAttribute="bottom" constant="60" id="MvQ-0E-Aqg"/>
+                            <constraint firstItem="WCz-uB-CHn" firstAttribute="top" secondItem="vfb-ge-gPd" secondAttribute="bottom" constant="15" id="OMa-CO-CVJ"/>
+                            <constraint firstItem="pO6-dZ-nk1" firstAttribute="top" secondItem="oNZ-FA-ajT" secondAttribute="bottom" constant="16" id="OPU-cU-6o2"/>
+                            <constraint firstItem="xs5-MD-snc" firstAttribute="top" secondItem="Fej-08-9lh" secondAttribute="bottom" constant="69" id="hXo-Tf-Cud"/>
+                            <constraint firstItem="oNZ-FA-ajT" firstAttribute="top" secondItem="e6I-zD-xbD" secondAttribute="bottom" constant="53" id="rpd-bO-4dx"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="1000"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LY1-pV-qWn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1453" y="2047"/>
+        </scene>
         <!--Recruiter Personal View Controller-->
         <scene sceneID="Zb5-Ws-lmg">
             <objects>
                 <viewController id="EUi-u1-QTJ" customClass="RecruiterPersonalViewController" customModule="prototype04" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="A6k-04-Cof"/>
-                        <viewControllerLayoutGuide type="bottom" id="p8F-9a-TR9"/>
+                        <viewControllerLayoutGuide type="top" id="fpi-05-1nn"/>
+                        <viewControllerLayoutGuide type="bottom" id="GGB-qp-GJn"/>
                     </layoutGuides>
                     <scrollView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" id="04J-zQ-b6d">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
@@ -2686,12 +2784,31 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メッセージ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gau-7s-rTA">
                                         <rect key="frame" x="40" y="665" width="72" height="17"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                        <color key="textColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <constraints>
+                                            <constraint firstItem="bbJ-IK-Amw" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="30" id="6JS-On-61A"/>
+                                            <constraint firstAttribute="trailing" secondItem="Lgw-Pc-vw9" secondAttribute="trailing" constant="30" id="6kx-6A-QLA"/>
+                                            <constraint firstItem="eds-FV-RfY" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="30" id="9J9-5s-iVW"/>
+                                            <constraint firstItem="4ZY-VC-BQA" firstAttribute="top" secondItem="eds-FV-RfY" secondAttribute="bottom" constant="43.5" id="AqN-6z-UHb"/>
+                                            <constraint firstItem="7h2-b7-7wR" firstAttribute="top" secondItem="BuZ-qA-2Cl" secondAttribute="bottom" constant="74" id="BPE-HY-2f3"/>
+                                            <constraint firstItem="Lgw-Pc-vw9" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="30" id="IcV-PR-6Re"/>
+                                            <constraint firstItem="BuZ-qA-2Cl" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="30" id="PKV-6x-OvG"/>
+                                            <constraint firstItem="Pzn-hg-RPv" firstAttribute="top" secondItem="Lgw-Pc-vw9" secondAttribute="bottom" constant="30" id="SI1-Iz-dgf"/>
+                                            <constraint firstItem="4ZY-VC-BQA" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="45" id="V1a-zq-ORN"/>
+                                            <constraint firstAttribute="trailing" secondItem="bbJ-IK-Amw" secondAttribute="trailing" constant="30" id="VEm-77-tS8"/>
+                                            <constraint firstAttribute="trailing" secondItem="BuZ-qA-2Cl" secondAttribute="trailing" constant="30" id="bpa-GO-0rg"/>
+                                            <constraint firstItem="bbJ-IK-Amw" firstAttribute="top" secondItem="Pzn-hg-RPv" secondAttribute="bottom" constant="30" id="ddj-b9-0bY"/>
+                                            <constraint firstItem="x0b-Fs-h4P" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="45" id="e9X-zd-PqL"/>
+                                            <constraint firstItem="x0b-Fs-h4P" firstAttribute="top" secondItem="W6w-fI-9Pl" secondAttribute="top" constant="40" id="gIC-Oi-oFn"/>
+                                            <constraint firstItem="Pzn-hg-RPv" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="45" id="gXG-W7-RjY"/>
+                                            <constraint firstAttribute="bottom" secondItem="bbJ-IK-Amw" secondAttribute="bottom" constant="30" id="gs2-pa-8Wv"/>
+                                            <constraint firstAttribute="trailing" secondItem="eds-FV-RfY" secondAttribute="trailing" constant="30" id="q9k-1l-UxM"/>
+                                            <constraint firstItem="Lgw-Pc-vw9" firstAttribute="top" secondItem="7h2-b7-7wR" secondAttribute="bottom" constant="60" id="utL-JH-22g"/>
+                                            <constraint firstItem="BuZ-qA-2Cl" firstAttribute="top" secondItem="4ZY-VC-BQA" secondAttribute="bottom" constant="53.5" id="xSi-Ut-NnK"/>
+                                            <constraint firstItem="7h2-b7-7wR" firstAttribute="leading" secondItem="W6w-fI-9Pl" secondAttribute="leading" constant="45" id="xck-fM-ezy"/>
+                                            <constraint firstItem="eds-FV-RfY" firstAttribute="top" secondItem="x0b-Fs-h4P" secondAttribute="bottom" constant="33" id="ybL-8H-VzM"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="AUE-t9-4gB" firstAttribute="top" secondItem="gau-7s-rTA" secondAttribute="top" constant="7" id="519-Yz-iFp"/>
                                     <constraint firstItem="gau-7s-rTA" firstAttribute="leading" secondItem="ePV-dU-WuW" secondAttribute="leading" id="67R-9l-k4Z"/>
@@ -2714,20 +2831,18 @@
                                     <constraint firstItem="JQM-aQ-4hO" firstAttribute="centerX" secondItem="hBk-E0-Ws0" secondAttribute="centerX" id="vDs-Vh-rW5"/>
                                     <constraint firstItem="ePV-dU-WuW" firstAttribute="top" secondItem="Cs8-Tg-Bqa" secondAttribute="bottom" constant="60" id="vK6-no-52A"/>
                                 </constraints>
-                            </view>
+                            </scrollView>
                         </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="hBk-E0-Ws0" secondAttribute="trailing" id="7bm-uV-UGG"/>
-                            <constraint firstItem="hBk-E0-Ws0" firstAttribute="leading" secondItem="04J-zQ-b6d" secondAttribute="leading" id="Do7-eG-a7k"/>
-                            <constraint firstAttribute="bottom" secondItem="hBk-E0-Ws0" secondAttribute="bottom" id="Hgy-PR-pEx"/>
-                            <constraint firstItem="hBk-E0-Ws0" firstAttribute="top" secondItem="04J-zQ-b6d" secondAttribute="top" id="MRl-fD-lKK"/>
-                            <constraint firstItem="hBk-E0-Ws0" firstAttribute="height" secondItem="04J-zQ-b6d" secondAttribute="height" multiplier="2" id="i6Q-lh-fw3"/>
-                            <constraint firstItem="hBk-E0-Ws0" firstAttribute="width" secondItem="04J-zQ-b6d" secondAttribute="width" id="w4f-3o-aGI"/>
+                            <constraint firstAttribute="trailing" secondItem="UMy-ct-70x" secondAttribute="trailing" id="8sh-hP-Yun"/>
+                            <constraint firstItem="UMy-ct-70x" firstAttribute="top" secondItem="fpi-05-1nn" secondAttribute="bottom" id="NcY-ia-JFK"/>
+                            <constraint firstItem="GGB-qp-GJn" firstAttribute="top" secondItem="UMy-ct-70x" secondAttribute="bottom" id="fPV-Tc-OUs"/>
+                            <constraint firstItem="UMy-ct-70x" firstAttribute="leading" secondItem="uHV-5m-f7Z" secondAttribute="leading" id="nfu-3c-YJX"/>
                         </constraints>
-                    </scrollView>
-                    <connections>
-                        <outlet property="recruiterMessageView" destination="AUE-t9-4gB" id="A1o-6R-tOO"/>
-                    </connections>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="1000"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5mS-I4-dsD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -6888,6 +7003,7 @@
                         <segue destination="X8b-Ku-xqe" kind="presentation" identifier="noUserSegue" animates="NO" modalPresentationStyle="currentContext" modalTransitionStyle="coverVertical" id="1ne-Zg-HBd"/>
                     </connections>
                 </viewController>
+
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3hr-Rq-xv6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-423.19999999999999" y="1037.6311844077961"/>
@@ -6895,6 +7011,7 @@
         <!--Main User Detail View Controller-->
         <scene sceneID="f5U-H5-B10">
             <objects>
+
                 <viewController modalPresentationStyle="formSheet" id="1kR-8e-qz9" customClass="MainUserDetailViewController" customModule="prototype04" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tPx-IW-Wm1"/>
