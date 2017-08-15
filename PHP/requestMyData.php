@@ -8,8 +8,8 @@
 
 	try{
 		$user = "root";
-		$passward = "************";
-		$db_name = "prototypedb";
+		$passward = "dreamcometrue";
+		$db_name = "example_db";
 		$host = "localhost:3306";
 		$dsn = "mysql:host={$host};dbname={$db_name};charset=utf8";
 		$pdo = new PDO($dsn,$user,$passward,array(
@@ -22,22 +22,39 @@
 		exit();
 	}
 
-	// $my_uuid = "hoge";
 	try{
-		$stmt = $pdo -> prepare('SELECT * FROM pt_jobhuntertb01 where uuid = :uuid');
+		$stmt = $pdo -> prepare('UPDATE se_dummy SET login_count = login_count + 1,updated_at = now() where uuid = :uuid');
 		$stmt->bindValue(':uuid',$my_uuid,PDO::PARAM_STR);
 		$stmt->execute();
-		// $userDataArray = array();
+	}catch(Exception $e){
+		echo $e->getMessage();
+		exit();
+	}
+
+	try{
+		$stmt = $pdo -> prepare('SELECT * FROM se_dummy where uuid = :uuid');
+		$stmt->bindValue(':uuid',$my_uuid,PDO::PARAM_STR);
+		$stmt->execute();
+		$userDataArray = array();
 
 
 		while($row = $stmt -> fetch(PDO::FETCH_ASSOC)){
 			// echo $row['uuid'];
 			$userDataArray = array(
 				'uuid' => $row['uuid'],
-				'username' => $row['username'],
+				'name' => $row['username'],
+				'birth' => $row['birth'],
 				'encounterd' => json_decode($row['encounterd']),
 				'liked' => json_decode($row['liked']),
-				'matched' => json_decode($row['matched'])
+				'matched' => json_decode($row['matched']),
+				'introduction' => $row['self_introduction'],
+				'message' => $row['message'],
+				'skill' => json_decode($row['skill']),
+				'my_goodpoint' => $row['my_goodpoint'],
+				'my_badpoint' => $row['my_badpoint'],
+				'interesting' => json_decode($row['interesting']),
+				'education' => json_decode($row['education']),
+				'belonging' => json_decode($row['belonging_group'])
 				);
 		}
 		// $userDataArray["encounterd"] = json_decode($userDataArray["encounterd"]);
