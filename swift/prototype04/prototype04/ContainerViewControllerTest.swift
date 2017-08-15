@@ -12,13 +12,23 @@ class ContainerViewControllerTest: UIViewController,RecruiterDelegate{
     
     var vc:RecruiterViewController=RecruiterViewController()
     
+    @IBOutlet weak var mainButton: UIButton!
+    @IBOutlet weak var messageButton: UIButton!
+    @IBOutlet weak var profileButton: UIButton!
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var contentView: UIView!
+    
+    var str = "aaa"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        vc.recruiterVCDelegate = self
+        print(str)
         
+        vc.recruiterVCDelegate = self
+        self.childViewControllers.forEach { (vc) in
+            print(vc)
+        }
         // Do any additional setup after loading the view.
     }
     

@@ -18,25 +18,27 @@ class CropEditViewController: UIViewController {
     var originalImage:UIImage!
     var maskedImage:UIImage!
     
+    let ud = UserDefaults.standard
+    
     @IBOutlet weak var conetntViewHeightContraint: NSLayoutConstraint!
     
     @IBOutlet weak var overlayView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.isNavigationBarHidden = true
+        //self.navigationController?.isNavigationBarHidden = true
         
         let ratio:CGFloat = self.view.frame.width/originalImage!.size.width
         let newImage:UIImage =  originalImage!.resize(ratio: ratio)
         
-        let diffHeight:CGFloat = (newImage.size.height - maskView.frame.height)/2
+        let diffHeight:CGFloat = (newImage.size.height - maskView.frame.height)
         
         if diffHeight > 0 {
             print("Portrait")
 //            scrollView.contentSize.height = scrollView.frame.height + diffHeight
-            conetntViewHeightContraint.constant = diffHeight*2
-            scrollView.contentInset = UIEdgeInsets(top: diffHeight, left: 0, bottom: 0, right: 0)
-            scrollView.contentOffset.y = 0
+            conetntViewHeightContraint.constant = diffHeight
+            scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: diffHeight/4 + UIApplication.shared.statusBarFrame.height, right: 0)
+            scrollView.contentOffset.y = diffHeight/2
         }else{
             print("Landscape")
         }
@@ -47,8 +49,11 @@ class CropEditViewController: UIViewController {
         maskView.layer.borderWidth = 2
         originalSelectedImageView.image = originalImage
         
-        
         setMask(with: maskView.frame, in: overlayView)
+        
+        
+        
+        
         // Do any additional setup after loading the view.
     }
 
@@ -80,17 +85,16 @@ class CropEditViewController: UIViewController {
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
-//        self.dismiss(animated: true, completion: nil)
-        performSegue(withIdentifier: "unwindCrop", sender: nil)
+        self.dismiss(animated: true, completion: nil)
+        //performSegue(withIdentifier: "unwindCrop", sender: nil)
     }
 
     @IBAction func saveButtonTapped(_ sender: Any) {
         let ratio:CGFloat = self.view.frame.width/originalImage!.size.width
         
         let newImage:UIImage =  originalImage!.resize(ratio: ratio)
-        let diffHeight:CGFloat = (newImage.size.height - maskView.frame.height)/2
         
-        let rect = CGRect(x: 0, y: scrollView.contentOffset.y + diffHeight, width: self.view.frame.width, height: self.view.frame.width/4*3)
+        let rect = CGRect(x: 0, y: scrollView.contentOffset.y, width: self.view.frame.width, height: self.view.frame.width/4*3)
         let cropedImage = newImage.cropping(to: rect)
         maskedImage = cropedImage
         
