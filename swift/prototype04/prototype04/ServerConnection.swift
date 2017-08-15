@@ -32,7 +32,6 @@ struct ServerConnection {
                     //app deleagetに取得したデータを格納
                     let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     app.cardListDelegate = returnData
-                    print("setted")
                     
                 }catch{
                     print("json decode error:\(error.localizedDescription)")
@@ -47,47 +46,136 @@ struct ServerConnection {
     }
     
     
+    //ユーザー情報登録するときに実行
     func registerUser(postImage:UIImage?){
-        let a = my()
-//        let b = studentPropety.self
-//        
-//        guard let name = a.getValue(key: .name) else { return }
-//        guard let educationArray = a.getValue(key: .education) else { return }
-//        guard let birth = a.getValue(key: .birth) else { return }
-//        
-//        let postData:[String:Any] = [b.uuid.getString():"bababa",b.birth.getString():birth, b.name.getString():name,b.education.getString():educationArray,"status":1]
+        let user = User()
+        guard let status = user.status else { return }
         
-//        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-//        let postData:[String:Any?] = app.myProperty
-        
-        
-        
-        var postData = a.all
-        if let image = postImage{
+        switch status {
+        case 1:
             
-            let pngImageData = UIImagePNGRepresentation(image)! as NSData
-            let encodedImageData = pngImageData.base64EncodedString(options: [])
-            postData["profileImage"] = encodedImageData
+            var postData = Recruiter().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
             
+            let requestURL = URL(string: "http://localhost:8888/test/registerUser.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str!)
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        case 2:
+            
+            var postData = my().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/registerUser.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str!)
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        default:
+            break
         }
+    }
+    
+    func updateBeforeValid(postImage:UIImage?){
+        let user = User()
+        guard let status = user.status else { return }
         
-        let requestURL = URL(string: "http://localhost:8888/test/registerUser.php")
-        var request = URLRequest(url: requestURL!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        do{
-            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
-            let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
-                print("register my data")
-                let str = String(data:data!,encoding:.utf8)
-                print(str!)
-            })
-            task.resume()
+        switch status {
+        case 1:
             
+            var postData = Recruiter().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
             
-        }catch{
-            print("error:\(error.localizedDescription)")
+            let requestURL = URL(string: "http://localhost:8888/test/updateBeforeValid.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str!)
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        case 2:
             
+            var postData = my().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateBeforeValid.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str!)
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        default:
+            break
         }
     }
     
@@ -168,7 +256,9 @@ struct ServerConnection {
     }
     
     func requestMyData(inuuid:String){
-        let postData:[String:Any] = ["uuid":inuuid]
+        let user = User()
+        guard let status = user.status else { return }
+        let postData:[String:Any] = ["uuid":inuuid,"status":status]
         
         var dic:[String:Any]?
         let requestURL = URL(string: "http://localhost:8888/test/requestMyData.php")
@@ -184,7 +274,6 @@ struct ServerConnection {
                     let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     app.myInfoDelegate = dic
                     
-                    print("MyData:\(dic)")
                 }catch{
                     print(error.localizedDescription)
                 }

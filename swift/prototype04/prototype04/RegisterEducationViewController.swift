@@ -134,6 +134,16 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
     
     @IBAction func finishButtonTapped(_ sender: Any) {
         
+        if schooNameTextField.text?.isEmpty == false && facultyTextField.text?.isEmpty == false && graduationYearTextField.text?.isEmpty == false{
+            let navC = self.navigationController!
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! ProfileRegistrationViewController
+            vc.schoolNameText = schooNameTextField.text!
+            
+            self.navigationController?.popToViewController(vc, animated: true)
+            errorMessageLabel.isHidden = true
+        }else{
+            errorMessageLabel.isHidden = false
+        }
         
     }
     /*

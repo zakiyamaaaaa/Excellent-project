@@ -62,7 +62,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
         
         switch section {
         case 3:
-            let career = userDic[recruiterPropety.career.getString()] as? [String]
+            let career = userDic[recruiterPropety.career.rawValue] as? [String]
             
             if career != nil{
                 return career!.count
@@ -70,7 +70,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             
             return 1
         case 4:
-            let education = userDic[recruiterPropety.education.getString()]
+            let education = userDic[recruiterPropety.education.rawValue]
             
             if education != nil{
                 return 3
@@ -99,17 +99,17 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
         case 0:
             let cell = myTableView.dequeueReusableCell(withIdentifier: "basicUserCell") as! BasicUserTableViewCell
             
-            guard let id:String = userDic[recruiterPropety.uuid.getString()] as? String else { return nilCell }
+            guard let id:String = userDic[recruiterPropety.uuid.rawValue] as? String else { return nilCell }
             
             cell.userImageView.image = getImage(uuid: id)
             cell.labelImageView.image = userData3[1] as? UIImage
             cell.companyImageView.image = userData3[2] as? UIImage
-            cell.nameLabel.text = userDic[recruiterPropety.name.getString()] as? String
-            cell.positionLabel.text = userDic[recruiterPropety.position.getString()] as? String
-            cell.companyNameLabel.text = userDic[recruiterPropety.company_name.getString()] as? String
-            cell.messageLabel.text = userDic[recruiterPropety.message.getString()] as? String
+            cell.nameLabel.text = userDic[recruiterPropety.name.rawValue] as? String
+            cell.positionLabel.text = userDic[recruiterPropety.position.rawValue] as? String
+            cell.companyNameLabel.text = userDic[recruiterPropety.company_name.rawValue] as? String
+            cell.messageLabel.text = userDic[recruiterPropety.message.rawValue] as? String
             
-            let birthDate = DateUtils.date(userDic[recruiterPropety.birth.getString()] as! String, format:"yyyy-MM-dd" )
+            let birthDate = DateUtils.date(userDic[recruiterPropety.birth.rawValue] as! String, format:"yyyy-MM-dd" )
             let age = DateUtils.age(byBirthDate: birthDate)
             cell.ageLabel.text = "(" + String(age) + ")"
             switch age {
@@ -123,7 +123,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             
             removeAllChildView(parent: cell.ogoriView)
             
-            if let skill:[String] = userDic[recruiterPropety.skill.getString()] as? [String]{
+            if let skill:[String] = userDic[recruiterPropety.skill.rawValue] as? [String]{
                     pasteTag(forView: cell.experienceTagView, forTagList: skill, heightConstraint: cell.tagViewHeightConstraint)
             }
             
@@ -132,8 +132,8 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             var count:CGFloat = 0
             let ogoriRect = CGRect(x: 0, y: 0, width: cell.ogoriView.frame.height, height: cell.ogoriView.frame.height)
             let ogoriPadding:CGFloat = 5
-            if userDic[recruiterPropety.ogori.getString()] != nil{
-                for ogori in userDic[recruiterPropety.ogori.getString()] as! [Int]{
+            if userDic[recruiterPropety.ogori.rawValue] != nil{
+                for ogori in userDic[recruiterPropety.ogori.rawValue] as! [Int]{
                     let ogoriImageView = UIImageView(frame: ogoriRect)
                     cell.ogoriView.addSubview(ogoriImageView)
                     switch ogori {
@@ -165,7 +165,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             //ダウンキャストしないとnil判定できない。
             //ダウンキャストしない場合、nsnullが入っており、判定が難しい
             
-            let intro = userDic[recruiterPropety.introduction.getString()] as? String
+            let intro = userDic[recruiterPropety.introduction.rawValue] as? String
             
             if intro == nil{
                 return nilCell
@@ -181,7 +181,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
         //経歴
         //case2
         case 2:
-            let career = userDic[recruiterPropety.career.getString()] as? [[String]]
+            let career = userDic[recruiterPropety.career.rawValue] as? [[String]]
             
             if career == nil{
                 return nilCell
@@ -210,7 +210,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
         //case3
         case 3:
             
-            let educationField = userDic[recruiterPropety.education.getString()] as? [Any]
+            let educationField = userDic[recruiterPropety.education.rawValue] as? [Any]
             
             if educationField == nil{
                 return nilCell
@@ -226,7 +226,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             return cell
         //会社名
         case 4:
-            if userDic[recruiterPropety.company_name.getString()] == nil{
+            if userDic[recruiterPropety.company_name.rawValue] == nil{
                 return nilCell
             }
             
@@ -234,7 +234,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             case 0:
                 let cell = UITableViewCell()
                 
-                cell.textLabel?.text = userDic[recruiterPropety.company_name.getString()] as? String
+                cell.textLabel?.text = userDic[recruiterPropety.company_name.rawValue] as? String
 //                
 //                let link = ClickableTextView(frame: CGRect(x: cell.textLabel!.layer.position.x, y: cell.textLabel!.layer.position.y + 10, width: cell.textLabel!.frame.width, height: cell.textLabel!.frame.height))
                 let link = ClickableTextView(frame: cell.textLabel!.frame)
@@ -242,19 +242,19 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
                 link.transform = CGAffineTransform(translationX: 0, y: cell.textLabel!.layer.position.y + 30)
                 link.dataDetectorTypes = .link
                 link.isEditable = false
-                link.text = userDic[recruiterPropety.company_link.getString()] as? String
+                link.text = userDic[recruiterPropety.company_link.rawValue] as? String
                 cell.addSubview(link)
                 
                 let acell = myTableView.dequeueReusableCell(withIdentifier: "labelAndLinkCell") as! labelAndLinkTextViewTableViewCell
-                acell.myLabel.text = userDic[recruiterPropety.company_name.getString()] as? String
-                acell.linkTextView.text = userDic[recruiterPropety.company_link.getString()] as? String
+                acell.myLabel.text = userDic[recruiterPropety.company_name.rawValue] as? String
+                acell.linkTextView.text = userDic[recruiterPropety.company_link.rawValue] as? String
                 
                 return acell
             case 1:
 
                 let cell = myTableView.dequeueReusableCell(withIdentifier: "simpleCell") as! SimpleTableViewCell
                 cell.titleLabel.text = "社員数"
-                cell.contentLabel.text = String(describing:userDic[recruiterPropety.company_population.getString()] as? Int)
+                cell.contentLabel.text = String(describing:userDic[recruiterPropety.company_population.rawValue] as? Int)
 
                 
                 return cell
@@ -267,7 +267,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
                 
                 let cell = myTableView.dequeueReusableCell(withIdentifier: "simpleCell") as! SimpleTableViewCell
                 cell.titleLabel.text = "業界"
-                cell.contentLabel.text = userDic[recruiterPropety.company_industry.getString()] as? String ?? "-"
+                cell.contentLabel.text = userDic[recruiterPropety.company_industry.rawValue] as? String ?? "-"
                 
                 return cell
             default:
@@ -278,27 +278,27 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             
         //会社紹介
         case 5:
-            if userDic[recruiterPropety.company_introduction.getString()] == nil{
+            if userDic[recruiterPropety.company_introduction.rawValue] == nil{
                 return nilCell
             }
             
 //            cell.contentLabel.text = userDic["company_introduction"] as? String
             
             let cell = UITableViewCell()
-            cell.textLabel?.text = userDic[recruiterPropety.company_introduction.getString()] as? String
+            cell.textLabel?.text = userDic[recruiterPropety.company_introduction.rawValue] as? String
             cell.textLabel?.numberOfLines = 0
             return cell
             
         //会社特徴
         case 6:
-            if userDic[recruiterPropety.company_feature.getString()] == nil{
+            if userDic[recruiterPropety.company_feature.rawValue] == nil{
                 return nilCell
             }
             
             let cell = UITableViewCell()
             var str:String = ""
             
-            let recruitmentArray:[String] = userDic[recruiterPropety.company_feature.getString()] as! [String]
+            let recruitmentArray:[String] = userDic[recruiterPropety.company_feature.rawValue] as! [String]
             
             for text in recruitmentArray{
                 if text == recruitmentArray.first{
@@ -315,14 +315,14 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             
         //募集求人
         case 7:
-            if userDic[recruiterPropety.company_recruitment.getString()] == nil{
+            if userDic[recruiterPropety.company_recruitment.rawValue] == nil{
                 return nilCell
             }
             
             let cell = UITableViewCell()
             var str:String = ""
             
-            let recruitmentArray:[String] = userDic[recruiterPropety.company_recruitment.getString()] as! [String]
+            let recruitmentArray:[String] = userDic[recruiterPropety.company_recruitment.rawValue] as! [String]
             
             for text in recruitmentArray{
                 if text == recruitmentArray.first{

@@ -10,14 +10,22 @@ import Foundation
 
 class User {
     
-    var property:[String:Any?]
-    init() {
-        let a = studentPropety.self
-        
-        property = [a.uuid.getString():nil,
-                    a.name.getString():nil,
-                    a.birth.getString():nil,
-                    a.education.getString():nil]
-    }
-    
+    var name:String? = UserDefaults.standard.string(forKey: userPropety.name.rawValue)
+    var birth:String? = UserDefaults.standard.string(forKey: userPropety.birth.rawValue)
+    var uuid:String? = UserDefaults.standard.string(forKey: userPropety.uuid.rawValue)
+    var status:Int? = UserDefaults.standard.integer(forKey: userPropety.status.rawValue)
+    var encounterd:String?
+    var liked:String?
+    var matched:String?
+}
+
+class student:User{
+    var education:[String]?
+    var interesting:[String]?
+    var goodPoint:String?
+    var badPoint:String?
+    var introduction:String?
+    var messeage:String?
+    var skill:[String]?
+    var belonging:[String]?
 }

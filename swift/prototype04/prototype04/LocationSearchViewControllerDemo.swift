@@ -14,6 +14,8 @@ class LocationSearchViewControllerDemo: UIViewController,UIViewControllerTransit
     var myLocationManager:CLLocationManager!
     
     @IBOutlet weak var userImageView: UIImageView!
+    
+    var myStatus = 0
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,6 +23,11 @@ class LocationSearchViewControllerDemo: UIViewController,UIViewControllerTransit
         userImageView.layer.cornerRadius = userImageView.frame.width/2
         userImageView.layer.borderWidth = 3
         userImageView.layer.borderColor = UIColor.white.cgColor
+        
+        //status読み込み
+        if let status = User().status{
+            myStatus = status
+        }
         
 //        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 //        let vc = storyboard.instantiateViewController(withIdentifier: "trialVC") as! UIViewController
@@ -155,7 +162,7 @@ extension LocationSearchViewControllerDemo{
     
     func requestMatchingUserList(inuuid:String){
         
-        let postData:[String:Any] = ["uuid":inuuid]
+        let postData:[String:Any] = ["uuid":inuuid,"status":myStatus]
         var returnData:[Any]?
         
         guard let requestURL = URL(string: "http://localhost:8888/test/requestMessageUserList.php") else {return}
@@ -186,7 +193,7 @@ extension LocationSearchViewControllerDemo{
     
     //locationVCで使用
     func requestCard(uuid:String,lat:Double,lng:Double){
-        let postData:[String:Any] = ["uuid":uuid,"lat":lat,"lng":lng]
+        let postData:[String:Any] = ["uuid":uuid,"lat":lat,"lng":lng,"status":myStatus]
         print(postData)
         var returnData:[Any]?
         
@@ -207,8 +214,6 @@ extension LocationSearchViewControllerDemo{
                     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                     let vc = storyboard.instantiateViewController(withIdentifier: "demoMain") as! ContainerViewControllerTest
                     vc.transitioningDelegate = self
-                    
-                    
                     
                     //serverに近くのユーザー問い合わせが返ってこないとnilエラーになるのでわざと遅らせている
                     //location取得してるときにrequestCardが終わってから遷移するように

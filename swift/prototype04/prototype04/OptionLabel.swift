@@ -1,15 +1,14 @@
 //
-//  MustLabel.swift
+//  OptionLabel.swift
 //  prototype04
 //
-//  Created by shoichiyamazaki on 2017/08/12.
+//  Created by shoichiyamazaki on 2017/08/15.
 //  Copyright © 2017年 shoichiyamazaki. All rights reserved.
 //
 
 import UIKit
 
-@IBDesignable
-class MustLabel: UILabel {
+class OptionLabel: UILabel {
 
     @IBInspectable var cornerRadius:CGFloat = 0
     
@@ -33,7 +32,7 @@ class MustLabel: UILabel {
         self.layer.cornerRadius = cornerRadius
         self.textColor = UIColor.black
         self.font = UIFont.systemFont(ofSize: 13)
-        self.text = "必須"
+        self.text = "任意"
         self.layer.borderWidth = 1
         self.layer.borderColor = UIColor.black.cgColor
     }

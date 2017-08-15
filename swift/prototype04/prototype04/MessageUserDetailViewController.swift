@@ -11,7 +11,7 @@ import UIKit
 class MessageUserDetailViewController: UIViewController,UITableViewDataSource,UITableViewDelegate{
 
     
-    let propetyName = recruiterPropety2.self
+    let propetyName = recruiterPropety.self
     let sectionTitle = ["","何をやっているのか","経歴","学歴","会社情報","会社紹介","特徴","募集求人"]
     @IBOutlet weak var myTableView: UITableView!
     var userDic:[String:Any]!

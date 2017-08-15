@@ -50,43 +50,43 @@ class ProfileViewControllerTest: UIViewController {
         var valueCount = 0
         let b = studentPropety.self
         
-        let message:String? = app.myInfoDelegate?[b.message.getString()] as? String
+        let message:String? = app.myInfoDelegate?[b.message.rawValue] as? String
         if message != nil && message?.isEmpty == false{
             count += 1
         }
         valueCount += 1
         
-        let education:[Any]? = app.myInfoDelegate?[b.education.getString()] as? [Any]
+        let education:[Any]? = app.myInfoDelegate?[b.education.rawValue] as? [Any]
         if education != nil && education?.isEmpty == false{
             count += 1
         }
         valueCount += 1
         
-        let goodpoint:String? = app.myInfoDelegate?[b.goodpoint.getString()] as? String
+        let goodpoint:String? = app.myInfoDelegate?[b.goodpoint.rawValue] as? String
         if goodpoint != nil && goodpoint?.isEmpty == false{
             count += 1
         }
         valueCount += 1
         
-        let badpoint:String? = app.myInfoDelegate?[b.badpoint.getString()] as? String
+        let badpoint:String? = app.myInfoDelegate?[b.badpoint.rawValue] as? String
         if badpoint != nil && goodpoint?.isEmpty == false{
             count += 1
         }
         valueCount += 1
         
-        let introduction:String? = app.myInfoDelegate?[b.introduction.getString()] as? String
+        let introduction:String? = app.myInfoDelegate?[b.introduction.rawValue] as? String
         if introduction != nil && introduction?.isEmpty == false{
             count += 1
         }
         valueCount += 1
         
-        let belonging:[Any]? = app.myInfoDelegate?[b.belonging.getString()] as? [Any]
+        let belonging:[Any]? = app.myInfoDelegate?[b.belonging.rawValue] as? [Any]
         if belonging != nil && belonging?.isEmpty == false{
             count += 1
         }
         valueCount += 1
         
-        let interesting:[Any]? = app.myInfoDelegate?[b.interesting.getString()] as? [Any]
+        let interesting:[Any]? = app.myInfoDelegate?[b.interesting.rawValue] as? [Any]
         if interesting != nil && interesting?.isEmpty == false{
             count += 1
         }

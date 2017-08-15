@@ -38,16 +38,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        sleep(2)
         
         //すでにFirebaseでユーザーとしてログイン済みであれば、メイン画面へ。そうでなければログイン画面へ。
-        if Auth.auth().currentUser != nil{
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateInitialViewController()
-            self.window?.rootViewController = vc
-            
-        }else{
-            let storyboard = UIStoryboard(name: "First", bundle: nil)
-            let vc = storyboard.instantiateInitialViewController()
-            self.window?.rootViewController = vc
-        }
+//        if Auth.auth().currentUser != nil{
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = storyboard.instantiateInitialViewController()
+//            self.window?.rootViewController = vc
+//            
+//        }else{
+//            let storyboard = UIStoryboard(name: "First", bundle: nil)
+//            let vc = storyboard.instantiateInitialViewController()
+//            self.window?.rootViewController = vc
+//        }
         
         return true
     }

@@ -82,12 +82,11 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
                 print(error.localizedDescription)
             }
         }
-        
-        print("uuid:\(Auth.auth().currentUser!.uid)")
         //データベースの情報を更新
         ServerConnection().registerUser(postImage: postImage)
         
     }
+    
     @IBAction func returnToTop(segue: UIStoryboardSegue) {
         
         if segue.identifier  == "unwindCrop"{
