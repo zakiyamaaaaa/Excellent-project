@@ -11,12 +11,17 @@ import UIKit
 class SelfIntroEditViewController: UIViewController,UITextViewDelegate{
 
     @IBOutlet weak var selfIntroTextView: UITextView!
-    var selfIntroText:String = ""
-    
+    var selfIntroText:String?
+    var myStatus = 0
     override func viewDidLoad() {
         super.viewDidLoad()
 
         selfIntroTextView.delegate = self
+        
+        if let status = User().status{
+            myStatus = status
+        }
+        
         // Do any additional setup after loading the view.
     }
 
@@ -34,9 +39,17 @@ class SelfIntroEditViewController: UIViewController,UITextViewDelegate{
     
     @IBAction func finishButtonTapped(_ sender: UIBarButtonItem) {
         let navC = self.navigationController!
+        switch myStatus {
+        case 1:
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! RecruiterProfileViewController
+            vc.introText = selfIntroTextView.text
+        case 2:
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! EditProfileViewControllerTest
+            vc.selfIntroText = selfIntroTextView.text
+        default:
+            break
+        }
         
-        let vc = navC.viewControllers[navC.viewControllers.count-2] as! EditProfileViewControllerTest
-        vc.selfIntroText = selfIntroTextView.text
         self.navigationController?.popViewController(animated: true)
     }
     

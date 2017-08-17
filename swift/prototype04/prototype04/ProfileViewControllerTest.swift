@@ -14,10 +14,15 @@ class ProfileViewControllerTest: UIViewController {
     @IBOutlet weak var myNameLabel: UILabel!
     @IBOutlet weak var profileEditedRatio: UILabel!
     
+    var myStatus = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let status = User().status{
+            myStatus = status
+        }
+        
         // Do any additional setup after loading the view.
     }
     
@@ -103,6 +108,24 @@ class ProfileViewControllerTest: UIViewController {
     //5学歴
     //6自己紹介
     //7所属団体について
+    @IBAction func editButtonTapped(_ sender: Any) {
+        
+        let sb = UIStoryboard(name: "Profile", bundle: nil)
+        //statusによって遷移先のVCを切り替える
+        switch myStatus {
+        case 1:
+            let controller = sb.instantiateViewController(withIdentifier: "companyProfileNav") as! UINavigationController
+            show(controller, sender: nil)
+        case 2:
+            
+            let controller = sb.instantiateViewController(withIdentifier: "studentProfileNav") as! UINavigationController
+            show(controller, sender: nil)
+        default:
+            break
+        }
+        
+        
+    }
 
     /*
     // MARK: - Navigation

@@ -431,8 +431,11 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
         app.myInfoDelegate?[a.skill.rawValue] = skillList
         app.myInfoDelegate?[a.belonging.rawValue] = belonging
         
+        
+        
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let imgFileName = "userimg.png"
+        let postImage:UIImage? = myPhotoImageView.image
         
         if let image = myPhotoImageView.image {
             let pngData = UIImagePNGRepresentation(image)
@@ -443,8 +446,9 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
             }
         }
         
+        
         let sc = ServerConnection()
-        sc.updateMyData()
+        sc.updateMyData(postImage: postImage)
         self.dismiss(animated: true, completion: nil)
         
     }

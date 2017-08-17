@@ -27,6 +27,8 @@ class InterestingViewController: UIViewController,UITextFieldDelegate,UIScrollVi
     //業種リスト一覧
     let jobOccupationList:[String] = jobTagTitleList.init().occupation
     
+    var myStatus = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -78,6 +80,11 @@ class InterestingViewController: UIViewController,UITextFieldDelegate,UIScrollVi
         let last = jobInputView.subviews.last
         let scrollEdgeY = last!.frame.origin.y + last!.frame.height + inputViewTitleHeihgt
         jobInputView.contentSize.height = scrollEdgeY
+        
+        if let status = User().status{
+                myStatus = status
+        }
+        
         // Do any additional setup after loading the view.
     }
     
@@ -227,11 +234,24 @@ class InterestingViewController: UIViewController,UITextFieldDelegate,UIScrollVi
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         let navC = self.navigationController!
-        let vc = navC.viewControllers[navC.viewControllers.count-2] as! EditProfileViewControllerTest
         
-        if interestingTagList != nil{
+        switch myStatus {
+        case 1:
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! RecruiterProfileViewController
+            
+            if interestingTagList != nil{
+                vc.skillList = interestingTagList!
+            }
+        case 2:
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! EditProfileViewControllerTest
+            
+            if interestingTagList != nil{
                 vc.interestingTagList = interestingTagList!
+            }
+        default:
+            break
         }
+        
         
         self.navigationController?.popViewController(animated: true)
     }

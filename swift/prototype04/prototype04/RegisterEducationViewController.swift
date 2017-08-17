@@ -23,10 +23,15 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
     var selectYears:Int?
     let currentYear = NSCalendar.current.component(.year, from: Date())
     
-    
+    var myStatus = 0
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let status = User().status{
+            myStatus = status
+        }
+        
+        
         years = (1950...currentYear + 4).map{$0}.sorted(by:>)
         
         schooNameTextField.delegate = self
@@ -134,16 +139,50 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
     
     @IBAction func finishButtonTapped(_ sender: Any) {
         
-        if schooNameTextField.text?.isEmpty == false && facultyTextField.text?.isEmpty == false && graduationYearTextField.text?.isEmpty == false{
-            let navC = self.navigationController!
-            let vc = navC.viewControllers[navC.viewControllers.count-2] as! ProfileRegistrationViewController
-            vc.schoolNameText = schooNameTextField.text!
+        switch myStatus {
+        case 1:
             
-            self.navigationController?.popToViewController(vc, animated: true)
-            errorMessageLabel.isHidden = true
-        }else{
-            errorMessageLabel.isHidden = false
+            //textfieldに値がすべて入ってるもしくは、すべてはいっていない場合は状態変更可
+            if schooNameTextField.text?.isEmpty == false && facultyTextField.text?.isEmpty == false && graduationYearTextField.text?.isEmpty == false{
+                let navC = self.navigationController!
+                let vc = navC.viewControllers[navC.viewControllers.count-2] as! RecruiterProfileViewController
+                vc.educationList = [schooNameTextField.text!,facultyTextField.text!,selectYears!]
+                
+                self.navigationController?.popToViewController(vc, animated: true)
+                errorMessageLabel.isHidden = true
+                
+            }
+            
+            if schooNameTextField.text?.isEmpty == true && facultyTextField.text?.isEmpty == true && graduationYearTextField.text?.isEmpty == true{
+                
+                let navC = self.navigationController!
+                let vc = navC.viewControllers[navC.viewControllers.count-2] as! RecruiterProfileViewController
+                vc.educationList = []
+                
+                self.navigationController?.popToViewController(vc, animated: true)
+                
+                errorMessageLabel.isHidden = true
+            }
+            
+            
+                
+        case 2:
+            if schooNameTextField.text?.isEmpty == false && facultyTextField.text?.isEmpty == false && graduationYearTextField.text?.isEmpty == false{
+                let navC = self.navigationController!
+                let vc = navC.viewControllers[navC.viewControllers.count-2] as! ProfileRegistrationViewController
+                vc.schoolNameText = schooNameTextField.text!
+                
+                self.navigationController?.popToViewController(vc, animated: true)
+                errorMessageLabel.isHidden = true
+            }else{
+                errorMessageLabel.isHidden = false
+            }
+        default:
+            break
         }
+        
+        
+        
         
     }
     /*

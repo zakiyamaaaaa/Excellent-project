@@ -135,7 +135,7 @@ struct ServerConnection {
             do{
                 request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
                 let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
-                    print("register my data")
+                    print("update my data")
                     let str = String(data:data!,encoding:.utf8)
                     print(str!)
                 })
@@ -179,27 +179,99 @@ struct ServerConnection {
         }
     }
     
-    //editvcで保存したら、自分の情報が更新される
-    func updateMyData(){
+    func updateMyData(postImage:UIImage?)->Bool?{
+        let user = User()
+        guard let status = user.status else { return false}
         
-        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let postData:[String:Any] = app.myInfoDelegate!
-        let requestURL = URL(string: "http://localhost:8888/test/updateMyData.php")
-        var request = URLRequest(url: requestURL!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        do{
-            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
-            let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
-                print("update my data")
-                print(response)
-            })
-            task.resume()
-        }catch{
-            print("error:\(error.localizedDescription)")
+        switch status {
+        case 1:
             
+            var postData = Recruiter().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateMyData.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                var flag = false
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("update my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    if str! == "sucess" {
+                        flag = true
+                        
+                    }
+                })
+                task.resume()
+                
+                return flag
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        case 2:
+            
+            var postData = my().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateBeforeValid.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str!)
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        default:
+            break
         }
+        return false
     }
+    
+    //editvcで保存したら、自分の情報が更新される
+//    func updateMyData(){
+    
+        //非推奨
+//        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let postData:[String:Any] = app.myInfoDelegate!
+//        let requestURL = URL(string: "http://localhost:8888/test/updateMyData.php")
+//        var request = URLRequest(url: requestURL!)
+//        request.httpMethod = "POST"
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        do{
+//            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+//            let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+//                print("update my data")
+//                print(response)
+//            })
+//            task.resume()
+//        }catch{
+//            print("error:\(error.localizedDescription)")
+//            
+//        }
+//    }
     
     //自分の情報を取得
     //MainVCで使用

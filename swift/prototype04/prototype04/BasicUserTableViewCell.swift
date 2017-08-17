@@ -22,10 +22,11 @@ class BasicUserTableViewCell: UITableViewCell {
     @IBOutlet weak var tagViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var experienceTagView: RectView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        companyImageView.layer.borderWidth = 0.3
+//        companyImageView.layer.borderWidth = 0.3
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
