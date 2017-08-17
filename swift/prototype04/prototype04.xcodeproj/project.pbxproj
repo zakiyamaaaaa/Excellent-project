@@ -27,6 +27,14 @@
 		392DB5001F417FCF000A32C2 /* NoUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB4FF1F417FCF000A32C2 /* NoUserViewController.swift */; };
 		392DB5021F42B6C9000A32C2 /* OptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5011F42B6C9000A32C2 /* OptionLabel.swift */; };
 		392DB5041F42BC9A000A32C2 /* RegisterCompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5031F42BC9A000A32C2 /* RegisterCompanyViewController.swift */; };
+		392DB5421F43DCAF000A32C2 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 392DB5411F43DCAF000A32C2 /* Profile.storyboard */; };
+		392DB5441F43E164000A32C2 /* RecruiterProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5431F43E164000A32C2 /* RecruiterProfileViewController.swift */; };
+		392DB5461F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5451F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift */; };
+		392DB5481F446406000A32C2 /* OgoriViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5471F446406000A32C2 /* OgoriViewController.swift */; };
+		392DB54A1F446446000A32C2 /* ImageAndLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5491F446446000A32C2 /* ImageAndLabelTableViewCell.swift */; };
+		392DB54C1F45B084000A32C2 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB54B1F45B084000A32C2 /* DetailTableViewCell.swift */; };
+		392DB5501F45B405000A32C2 /* DetailStudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB54F1F45B405000A32C2 /* DetailStudentViewController.swift */; };
+		392DB5521F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5511F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift */; };
 		392ED6841EC0C669003EB555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392ED6831EC0C669003EB555 /* AppDelegate.swift */; };
 		392ED6861EC0C669003EB555 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392ED6851EC0C669003EB555 /* LocationSearchViewController.swift */; };
 		392ED6891EC0C669003EB555 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 392ED6871EC0C669003EB555 /* Main.storyboard */; };
@@ -67,7 +75,6 @@
 		394E31D21EEAE9C70005F362 /* ClickableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E31D11EEAE9C70005F362 /* ClickableTextView.swift */; };
 		39AA1F061F2A462000DDD086 /* AppealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F051F2A462000DDD086 /* AppealEditViewController.swift */; };
 		39AA1F081F2B06D600DDD086 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F071F2B06D600DDD086 /* ContentViewController.swift */; };
-		39AA1F0A1F2B081B00DDD086 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F091F2B081B00DDD086 /* UserDetailViewController.swift */; };
 		39AA1F0C1F2B16D000DDD086 /* BasicUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F0B1F2B16D000DDD086 /* BasicUserTableViewCell.swift */; };
 		39AA1F0E1F2B16E200DDD086 /* DetailUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F0D1F2B16E200DDD086 /* DetailUserTableViewCell.swift */; };
 		39B1052E1ED58AD500DF49A4 /* messageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */; };
@@ -93,11 +100,9 @@
 		39CD02781F3EA1DD00E1273E /* my.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD02771F3EA1DD00E1273E /* my.swift */; };
 		39CD027A1F3EBACF00E1273E /* ProfileRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */; };
 		39CD027C1F3FCEBA00E1273E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD027B1F3FCEBA00E1273E /* User.swift */; };
-		39D5F0AD1EFF8ADB00418FEA /* RecruiterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0AC1EFF8ADB00418FEA /* RecruiterViewController.swift */; };
 		39D5F0AF1EFF900B00418FEA /* TagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0AE1EFF900B00418FEA /* TagLabel.swift */; };
 		39D5F0B11EFF911A00418FEA /* dummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B01EFF911A00418FEA /* dummyData.swift */; };
 		39D5F0B31EFFB3DF00418FEA /* CompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */; };
-		39D5F0B51EFFB40B00418FEA /* RecruiterPersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B41EFFB40B00418FEA /* RecruiterPersonalViewController.swift */; };
 		39D5F0B71F008D0400418FEA /* ContainerViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */; };
 		39D5F0B91F00B27900418FEA /* MessageViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */; };
 		39DED7C11F291B08003083DC /* EditProfileViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DED7C01F291B08003083DC /* EditProfileViewControllerTest.swift */; };
@@ -156,6 +161,14 @@
 		392DB4FF1F417FCF000A32C2 /* NoUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoUserViewController.swift; sourceTree = "<group>"; };
 		392DB5011F42B6C9000A32C2 /* OptionLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionLabel.swift; sourceTree = "<group>"; };
 		392DB5031F42BC9A000A32C2 /* RegisterCompanyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterCompanyViewController.swift; path = ../RegisterCompanyViewController.swift; sourceTree = "<group>"; };
+		392DB5411F43DCAF000A32C2 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
+		392DB5431F43E164000A32C2 /* RecruiterProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruiterProfileViewController.swift; sourceTree = "<group>"; };
+		392DB5451F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TitleAndContentTableViewCell.swift; sourceTree = "<group>"; };
+		392DB5471F446406000A32C2 /* OgoriViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OgoriViewController.swift; sourceTree = "<group>"; };
+		392DB5491F446446000A32C2 /* ImageAndLabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAndLabelTableViewCell.swift; sourceTree = "<group>"; };
+		392DB54B1F45B084000A32C2 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		392DB54F1F45B405000A32C2 /* DetailStudentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStudentViewController.swift; sourceTree = "<group>"; };
+		392DB5511F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStudentViewControllerTest.swift; sourceTree = "<group>"; };
 		392ED6801EC0C669003EB555 /* prototype04.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prototype04.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		392ED6831EC0C669003EB555 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		392ED6851EC0C669003EB555 /* LocationSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchViewController.swift; sourceTree = "<group>"; };
@@ -202,7 +215,6 @@
 		394E31D11EEAE9C70005F362 /* ClickableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickableTextView.swift; sourceTree = "<group>"; };
 		39AA1F051F2A462000DDD086 /* AppealEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppealEditViewController.swift; sourceTree = "<group>"; };
 		39AA1F071F2B06D600DDD086 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
-		39AA1F091F2B081B00DDD086 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		39AA1F0B1F2B16D000DDD086 /* BasicUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicUserTableViewCell.swift; sourceTree = "<group>"; };
 		39AA1F0D1F2B16E200DDD086 /* DetailUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailUserTableViewCell.swift; sourceTree = "<group>"; };
 		39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = messageTableViewCell.swift; sourceTree = "<group>"; };
@@ -228,11 +240,9 @@
 		39CD02771F3EA1DD00E1273E /* my.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = my.swift; sourceTree = "<group>"; };
 		39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationViewController.swift; sourceTree = "<group>"; };
 		39CD027B1F3FCEBA00E1273E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		39D5F0AC1EFF8ADB00418FEA /* RecruiterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruiterViewController.swift; sourceTree = "<group>"; };
 		39D5F0AE1EFF900B00418FEA /* TagLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagLabel.swift; sourceTree = "<group>"; };
 		39D5F0B01EFF911A00418FEA /* dummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dummyData.swift; sourceTree = "<group>"; };
 		39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyViewController.swift; sourceTree = "<group>"; };
-		39D5F0B41EFFB40B00418FEA /* RecruiterPersonalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecruiterPersonalViewController.swift; sourceTree = "<group>"; };
 		39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewControllerTest.swift; sourceTree = "<group>"; };
 		39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewControllerTest.swift; sourceTree = "<group>"; };
 		39DED7C01F291B08003083DC /* EditProfileViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewControllerTest.swift; sourceTree = "<group>"; };
@@ -335,6 +345,14 @@
 				39CD02691F3D7AC400E1273E /* First.storyboard */,
 				39CD02201F3C7BB600E1273E /* Register.storyboard */,
 				392ED6871EC0C669003EB555 /* Main.storyboard */,
+				392DB5511F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift */,
+				392DB54F1F45B405000A32C2 /* DetailStudentViewController.swift */,
+				392DB54B1F45B084000A32C2 /* DetailTableViewCell.swift */,
+				392DB5411F43DCAF000A32C2 /* Profile.storyboard */,
+				392DB5491F446446000A32C2 /* ImageAndLabelTableViewCell.swift */,
+				392DB5471F446406000A32C2 /* OgoriViewController.swift */,
+				392DB5451F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift */,
+				392DB5431F43E164000A32C2 /* RecruiterProfileViewController.swift */,
 				392DB4F91F403228000A32C2 /* ReadyMainViewController.swift */,
 				39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */,
 				39CD02771F3EA1DD00E1273E /* my.swift */,
@@ -360,7 +378,6 @@
 				39381EA51F2D55EC00DF8BAD /* DateUtils.swift */,
 				39AA1F0B1F2B16D000DDD086 /* BasicUserTableViewCell.swift */,
 				39AA1F0D1F2B16E200DDD086 /* DetailUserTableViewCell.swift */,
-				39AA1F091F2B081B00DDD086 /* UserDetailViewController.swift */,
 				39DED7D61F2A3817003083DC /* TagButton.swift */,
 				39DED7D21F2A126E003083DC /* EditableTagButton.swift */,
 				394571261F038BCB009DD806 /* testViewController.swift */,
@@ -408,7 +425,6 @@
 			isa = PBXGroup;
 			children = (
 				39B3153D1F04D2CA0038F5BC /* Seeker */,
-				39B3153E1F04D2DB0038F5BC /* Company */,
 			);
 			name = Demo;
 			sourceTree = "<group>";
@@ -450,20 +466,11 @@
 				394571241F037F2B009DD806 /* MessageTableViewCellDemo.swift */,
 				39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */,
 				39AA1F071F2B06D600DDD086 /* ContentViewController.swift */,
-				39D5F0B41EFFB40B00418FEA /* RecruiterPersonalViewController.swift */,
 				394571211F028289009DD806 /* LocationSearchViewControllerDemo.swift */,
 				39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */,
-				39D5F0AC1EFF8ADB00418FEA /* RecruiterViewController.swift */,
 				39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */,
 			);
 			name = Seeker;
-			sourceTree = "<group>";
-		};
-		39B3153E1F04D2DB0038F5BC /* Company */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Company;
 			sourceTree = "<group>";
 		};
 		39CD021E1F387DCE00E1273E /* EditProfileViewController */ = {
@@ -652,6 +659,7 @@
 			files = (
 				392ED68E1EC0C669003EB555 /* LaunchScreen.storyboard in Resources */,
 				39B315381F0477EA0038F5BC /* Images.xcassets in Resources */,
+				392DB5421F43DCAF000A32C2 /* Profile.storyboard in Resources */,
 				3945712D1F03B53D009DD806 /* GoogleService-Info.plist in Resources */,
 				392ED6891EC0C669003EB555 /* Main.storyboard in Resources */,
 				39CD026A1F3D7AC400E1273E /* First.storyboard in Resources */,
@@ -829,7 +837,6 @@
 				39381EA81F2D62A500DF8BAD /* StackViewTestViewController.swift in Sources */,
 				39DED7D51F2A1C7B003083DC /* InterestingViewController.swift in Sources */,
 				39B105301ED5F94200DF49A4 /* MessageViewController.swift in Sources */,
-				39D5F0B51EFFB40B00418FEA /* RecruiterPersonalViewController.swift in Sources */,
 				392ED6B81EC2A49B003EB555 /* CustomTableViewCell.swift in Sources */,
 				392DB5001F417FCF000A32C2 /* NoUserViewController.swift in Sources */,
 				392DB5021F42B6C9000A32C2 /* OptionLabel.swift in Sources */,
@@ -846,11 +853,14 @@
 				39D5F0B91F00B27900418FEA /* MessageViewControllerTest.swift in Sources */,
 				39CD02721F3E831D00E1273E /* AssessmentViewController.swift in Sources */,
 				39067BB81EEA19E1004B1BEC /* RectView.swift in Sources */,
+				392DB5481F446406000A32C2 /* OgoriViewController.swift in Sources */,
 				39DED7CF1F2939E5003083DC /* BadPointEditViewController.swift in Sources */,
 				39381EA61F2D55EC00DF8BAD /* DateUtils.swift in Sources */,
 				394259DE1F204E8200413A30 /* ProfileEditViewController2.swift in Sources */,
+				392DB54C1F45B084000A32C2 /* DetailTableViewCell.swift in Sources */,
 				39067BA91EE7BF72004B1BEC /* RegisterViewController.swift in Sources */,
 				39CD02761F3E9A8D00E1273E /* RegisterImageViewController.swift in Sources */,
+				392DB5521F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift in Sources */,
 				39CD026E1F3DE28900E1273E /* RegisterMailViewController.swift in Sources */,
 				392ED6861EC0C669003EB555 /* LocationSearchViewController.swift in Sources */,
 				39CD021B1F374BE000E1273E /* ProfileViewControllerTest.swift in Sources */,
@@ -864,7 +874,6 @@
 				39CD02781F3EA1DD00E1273E /* my.swift in Sources */,
 				39381EAA1F2EC6DE00DF8BAD /* SimpleTableViewCell.swift in Sources */,
 				39CD02261F3D2B7A00E1273E /* RegisterBasicInfoViewController.swift in Sources */,
-				39AA1F0A1F2B081B00DDD086 /* UserDetailViewController.swift in Sources */,
 				39381EA01F2B3A5000DF8BAD /* MainViewControllerTest.swift in Sources */,
 				392ED6BE1EC3E529003EB555 /* SampleViewController.swift in Sources */,
 				39CD02741F3E8B6700E1273E /* MustLabel.swift in Sources */,
@@ -874,7 +883,6 @@
 				39067BAF1EE8C409004B1BEC /* PreviewViewController.swift in Sources */,
 				392ED7121ECA9D7F003EB555 /* TagTestViewController.swift in Sources */,
 				39D5F0B71F008D0400418FEA /* ContainerViewControllerTest.swift in Sources */,
-				39D5F0AD1EFF8ADB00418FEA /* RecruiterViewController.swift in Sources */,
 				391B0A7E1EE05EFC00E9884C /* MaskView.swift in Sources */,
 				39067BAD1EE7FF9C004B1BEC /* RegisterPhotoViewController.swift in Sources */,
 				39CD02191F370C7A00E1273E /* MatchingViewController.swift in Sources */,
@@ -890,6 +898,7 @@
 				39D5F0B11EFF911A00418FEA /* dummyData.swift in Sources */,
 				39034F211EE79C29009FD68E /* TransitionButton.swift in Sources */,
 				39CD026C1F3DE25D00E1273E /* LoginViewController.swift in Sources */,
+				392DB54A1F446446000A32C2 /* ImageAndLabelTableViewCell.swift in Sources */,
 				392ED70E1EC7FB0A003EB555 /* Animation.swift in Sources */,
 				39CD02621F3D54C400E1273E /* RegisterEducationViewController.swift in Sources */,
 				391B0A7C1EDFF8E800E9884C /* CropEditViewController.swift in Sources */,
@@ -897,6 +906,8 @@
 				39067BAB1EE7E6B2004B1BEC /* RegisterJobInfoViewController.swift in Sources */,
 				39067BB11EE8CC7F004B1BEC /* RectButton.swift in Sources */,
 				392ED71C1ECD8535003EB555 /* RadialGradientLayer.swift in Sources */,
+				392DB5461F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift in Sources */,
+				392DB5441F43E164000A32C2 /* RecruiterProfileViewController.swift in Sources */,
 				39067BB51EE8EAD2004B1BEC /* UserInfo.swift in Sources */,
 				392ED7261ECED0B0003EB555 /* UserDefaultSetting.swift in Sources */,
 				39CD02641F3D54DB00E1273E /* RegisterInterestViewController.swift in Sources */,
@@ -913,6 +924,7 @@
 				39067BB31EE8D4F3004B1BEC /* RectLabel.swift in Sources */,
 				3945712B1F039214009DD806 /* ChatViewController.swift in Sources */,
 				39DED7D11F293C15003083DC /* SkillEditViewController.swift in Sources */,
+				392DB5501F45B405000A32C2 /* DetailStudentViewController.swift in Sources */,
 				39381EAC1F2ECBB100DF8BAD /* ThreeContentTableViewCell.swift in Sources */,
 				392ED7201ECDFB9C003EB555 /* JobTagTitleList.swift in Sources */,
 			);

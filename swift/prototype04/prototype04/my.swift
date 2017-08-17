@@ -100,13 +100,14 @@ struct my {
                a.matched.rawValue:matched,
                a.message.rawValue:message,
                a.introduction.rawValue:introduction]
-        if all[a.name.rawValue] != nil{
-            name = name!
-        }
+//        if all[a.name.rawValue] != nil{
+//            name = name!
+//        }
         print("my:\(all)")
     }
     
-    mutating func register(key:studentPropety,value:Any){
+    mutating func register(key:studentPropety,value:Any?){
+        
         
         UserDefaults.standard.set(value, forKey: key.rawValue)
         print("localにkey:\(key)value:\(value)を保存しました")
@@ -205,7 +206,7 @@ struct Recruiter{
     var birth:String? = UserDefaults.standard.string(forKey: studentPropety.birth.rawValue)
     var education:[Any]? = UserDefaults.standard.array(forKey: studentPropety.education.rawValue)
     var interesting:[Any]? = UserDefaults.standard.stringArray(forKey: studentPropety.interesting.rawValue)
-    var skill:[Any]? = UserDefaults.standard.stringArray(forKey: studentPropety.skill.rawValue)
+    var skill:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.skill.rawValue)
     var encountered:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.encounterd.rawValue)
     var liked:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.liked.rawValue)
     var matched:[Any]? = UserDefaults.standard.array(forKey: studentPropety.matched.rawValue)
@@ -214,17 +215,17 @@ struct Recruiter{
     var introduction:String? = UserDefaults.standard.string(forKey: studentPropety.introduction.rawValue)
     
     var all:[String:Any?]
-    
+    var ogori:[Int]? = UserDefaults.standard.array(forKey: recruiterPropety.ogori.rawValue) as? [Int]
     var position:String? = UserDefaults.standard.string(forKey: recruiterPropety.position.rawValue)
     var career:[Any]? = UserDefaults.standard.array(forKey: recruiterPropety.career.rawValue)
-    var company_id:String?
-    var company_link:String?
+    var company_id:String? =  UserDefaults.standard.string(forKey: recruiterPropety.company_id.rawValue)
+    var company_link:String? =  UserDefaults.standard.string(forKey: recruiterPropety.company_link.rawValue)
     var company_name:String? = UserDefaults.standard.string(forKey: recruiterPropety.company_name.rawValue)
-    var company_population:Int?
-    var company_introduction:String?
-    var company_industry:String?
-    var company_feature:[String]?
-    var company_recruitment:[String]?
+    var company_population:Int? =  UserDefaults.standard.integer(forKey: recruiterPropety.company_population.rawValue)
+    var company_introduction:String? =  UserDefaults.standard.string(forKey: recruiterPropety.company_introduction.rawValue)
+    var company_industry:String? =  UserDefaults.standard.string(forKey: recruiterPropety.company_industry.rawValue)
+    var company_feature:[String]? =  UserDefaults.standard.stringArray(forKey: recruiterPropety.company_feature.rawValue)
+    var company_recruitment:[String]? =  UserDefaults.standard.stringArray(forKey: recruiterPropety.company_recruitment.rawValue)
     
     init() {
         
@@ -235,14 +236,18 @@ struct Recruiter{
                a.name.rawValue:name,
                a.birth.rawValue:birth,
                a.status.rawValue:status,
+               a.skill.rawValue:skill,
                a.education.rawValue:education,
                a.interesting.rawValue:interesting,
-               a.company_name.rawValue:company_name,
                a.position.rawValue:position,
+               a.ogori.rawValue:ogori,
                a.company_id.rawValue:company_id,
                a.company_feature.rawValue:company_feature,
+               a.company_name.rawValue:company_name,
+               a.company_link.rawValue:company_link,
                a.company_industry.rawValue:company_industry,
                a.company_recruitment.rawValue:company_recruitment,
+               a.company_population.rawValue:company_population,
                a.encounterd.rawValue:encountered,
                a.liked.rawValue:liked,
                a.matched.rawValue:matched,

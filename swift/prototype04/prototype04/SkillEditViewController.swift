@@ -14,20 +14,32 @@ class SkillEditViewController: UIViewController,UITextFieldDelegate{
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var targetView: UIView!
     
-    let ud = UserDefaults.standard
+    @IBOutlet weak var explainLabel: UILabel!
     
+    var explainText:String?
+    
+    let ud = UserDefaults.standard
+    var type:recruiterPropety?
     var tagList:[String]?
     let prefix = "✗ "
+    
+    var myStatus = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         myTextField.delegate = self
         myTextField.becomeFirstResponder()
+        
+        if let status = User().status{
+            myStatus = status
+        }
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        explainLabel.text = explainText
+        
         guard tagList != nil else { return }
         pasteTag(forView: targetView, forTagList: tagList!)
     }
@@ -41,11 +53,16 @@ class SkillEditViewController: UIViewController,UITextFieldDelegate{
     
     @IBAction func addButtonTapped(_ sender: UIButton) {
         
-        if myTextField.text == "" { return }
+        if myTextField.text?.isEmpty == true { return }
         
+        
+        if tagList?.isEmpty == true || tagList == nil{
+            tagList = []
+        }
         tagList?.append(myTextField.text!)
-        myTextField.text = ""
+        
         pasteTag(forView: targetView, forTagList: tagList!)
+        myTextField.text = ""
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -54,12 +71,35 @@ class SkillEditViewController: UIViewController,UITextFieldDelegate{
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        let navC = self.navigationController!
-        let vc = navC.viewControllers[navC.viewControllers.count-2] as! EditProfileViewControllerTest
         
-        if tagList != nil{
-            vc.skillList = tagList!
+        switch myStatus {
+        case 1:
+            let navC = self.navigationController!
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! RecruiterProfileViewController
+            
+            if type != nil{
+                switch type! {
+                case .company_recruitment:
+                    vc.recruitmentList = tagList
+                case .company_feature:
+                    vc.featureList = tagList
+                    
+                default:
+                    break
+                }
+            }
+            
+        case 2:
+            let navC = self.navigationController!
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! EditProfileViewControllerTest
+            
+            if tagList != nil{
+                vc.skillList = tagList!
+            }
+        default:
+            break
         }
+        
         
         self.navigationController?.popViewController(animated: true)
     }

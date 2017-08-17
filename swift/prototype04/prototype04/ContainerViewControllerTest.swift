@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ContainerViewControllerTest: UIViewController,RecruiterDelegate{
+class ContainerViewControllerTest: UIViewController{
     
-    var vc:RecruiterViewController=RecruiterViewController()
+//    var vc:RecruiterViewController=RecruiterViewController()
     
     @IBOutlet weak var mainButton: UIButton!
     @IBOutlet weak var messageButton: UIButton!
@@ -18,24 +18,20 @@ class ContainerViewControllerTest: UIViewController,RecruiterDelegate{
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var contentView: UIView!
     
-    var str = "aaa"
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(str)
-        
-        vc.recruiterVCDelegate = self
-        self.childViewControllers.forEach { (vc) in
-            print(vc)
-        }
+//        print(str)
+//        
+//        vc.recruiterVCDelegate = self
+//        self.childViewControllers.forEach { (vc) in
+//            print(vc)
+//        }
         // Do any additional setup after loading the view.
     }
     
-    func hiddenBar(){
-//        navigationView.isHidden = true
-        print("hidden---")
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

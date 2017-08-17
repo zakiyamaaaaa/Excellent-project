@@ -75,6 +75,12 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
         graduationYearLabel.text = graduationText
     }
     
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        
+        //tagを使うところは、そこの高さの変数を返す。
+        return UITableViewAutomaticDimension
+    }
     override func viewDidAppear(_ animated: Bool) {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { 

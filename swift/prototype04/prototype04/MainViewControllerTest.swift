@@ -50,7 +50,6 @@ class MainViewControllerTest: UIViewController {
     var locationBySnap:CGPoint!
     var userViewDefaultLocation:CGPoint!
     
-    var recruiterVCDelegate:RecruiterDelegate?
     
     @IBOutlet weak var throwButton: UIButton!
     @IBOutlet weak var interstingButton: UIButton!
@@ -113,7 +112,8 @@ class MainViewControllerTest: UIViewController {
         visualEffectView.frame = self.matcingView.bounds
         self.blurView.addSubview(visualEffectView)
         
-        let data:dummyData = dummyData()
+        //LocationViewで取得したcardList
+        //ここにいれたものが表示される
         let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         cardList2 = app.cardListDelegate!
         
@@ -152,9 +152,17 @@ class MainViewControllerTest: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         if countProfileRatio() < 30 {
             performSegue(withIdentifier: "popProfileSegue", sender: nil)
+        }
+        
+        if cardList2.isEmpty == true{
+            performSegue(withIdentifier: "noUserSegue", sender: nil)
         }
     }
     
@@ -266,6 +274,8 @@ class MainViewControllerTest: UIViewController {
         performSegue(withIdentifier: "showDetailSegue", sender: nil)
     }
     
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetailSegue"{
             let vc = segue.destination as! MainUserDetailViewController
@@ -299,9 +309,7 @@ class MainViewControllerTest: UIViewController {
         var lastHeight:CGFloat = 0
         
         for view in targetView.subviews{
-//            if view == targetView.subviews.first{
-//                continue
-//            }
+
             view.removeFromSuperview()
         }
         
@@ -484,8 +492,6 @@ class MainViewControllerTest: UIViewController {
 //        }
         
         
-        print("en:\(app.myInfoDelegate!["encounterd"])")
-        
     }
     
     
@@ -495,9 +501,6 @@ class MainViewControllerTest: UIViewController {
     var currentCard:UserCard!
     
     func moveCard(swipedView:UserCard){
-        print(cardList2[currentPage])
-        let a = cardList2[currentPage] as! [String:Any]
-        
         
         currentPage += 1
         print("number of page:\(swipedView.numberOfOage)")
@@ -572,6 +575,30 @@ class MainViewControllerTest: UIViewController {
                 card1LabelImageView.image = #imageLiteral(resourceName: "shinsotsu-label")
                 card1CompanyLink.isHidden = true
                 card1CompanyNameLabel.isHidden = true
+                
+                if let education:[Any] = userInfo[studentPropety.education.rawValue] as? [Any]{
+                    if let schoolName = education[0] as? String{
+                        card1UserJobLabel.text = schoolName + "\nあ\nあ"
+                        if let faculty = education[1] as? String{
+                            
+                            card1UserJobLabel.text = schoolName + "\n" + faculty
+                            
+                            if let graduation = education[2] as? Int{
+                                
+                                card1UserJobLabel.text = schoolName + "\n" + faculty + "\n" + String(describing: graduation) + "年卒"
+                                
+                            }
+                            
+                        }
+                    }
+                    
+                    
+                }
+                
+                if let interesting = userInfo[studentPropety.interesting.rawValue]{
+                pasteTag(forView: card1ExperienceTagView, forTagList: interesting as! [String], heightConstraint: card1experienceTagViewHeightConstraint)
+                }
+                
             case 2:
                 let age = DateUtils.age(byBirthDate: birthDate)
                 card1AgeLabel.text = "(" + String(age) + ")"
@@ -622,59 +649,68 @@ class MainViewControllerTest: UIViewController {
             
         case cardView02:
             card2UserNameLabel.text = userInfo[properthName.name.rawValue] as? String
-//            card2CompanyLink.text = userInfo[7] as! String
-            let birthDate = DateUtils.date(userInfo[properthName.birth.rawValue] as! String, format:"yyyy-MM-dd" )
-            let age = DateUtils.age(byBirthDate: birthDate)
-            card2AgeLabel.text = "(" + String(age) + ")"
-            switch age {
-            case 0..<30:
-                card2LabelImageView.image = #imageLiteral(resourceName: "wakate-label")
-            case 30..<45:
-                card2LabelImageView.image = #imageLiteral(resourceName: "middle-label")
-            default:
-                card2LabelImageView.image = #imageLiteral(resourceName: "beteran-label")
-            }
-            card2MessageLabel.text = userInfo[properthName.message.rawValue] as? String
-            card2CompanyLink.text = userInfo[properthName.company_link.rawValue] as? String
-            card2CompanyNameLabel.text = userInfo[properthName.company_name.rawValue] as? String
-            card2UserJobLabel.text = userInfo[properthName.position.rawValue] as? String
-//            card2FormerJobLabel.text = userInfo[9] as? String
-//            card2UserYeartoWorkLabel.text = userInfo[4] as? String
             card2UserImageView.image = getImage(uuid: userInfo[properthName.uuid.rawValue] as! String)
-//            card2LabelImageView.image = userInfo[2] as? UIImage
-//            card2CompanyLogoImageView.image = userInfo[11] as? UIImage
-//            pasteTag(forView: card2ExperienceTagView, forTagList: userInfo[properthName.skill.rawValue] as! [String], heightConstraint: card2experienceTagViewHeightConstraint)
-//            
-//            removeFromAllChildView(parentView: card2OgoriView)
-//            
-//            var count:CGFloat = 0
-//            
-//            if userInfo[properthName.ogori.rawValue] != nil{
-//                for ogori in userInfo[properthName.ogori.rawValue] as! [Int]{
-//                    let ogoriImageView = UIImageView(frame: ogoriRect)
-//                    card2OgoriView.addSubview(ogoriImageView)
-//                    switch ogori {
-//                    case 0:
-//                        ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
-//                    case 1:
-//                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
-//                    case 2:
-//                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
-//                    case 3:
-//                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
-//                    default:
-//                        break
-//                    }
-//                    
-//                    if count == 0{
-//                        ogoriImageView.layer.position.x = ogoriRect.height/2
-//                    }else{
-//                        ogoriImageView.layer.position.x = count*ogoriRect.height + ogoriRect.height/2 + ogoriPadding
-//                    }
-//                    
-//                    count += 1
-//                }
-//            }
+            let birthDate = DateUtils.date(userInfo[properthName.birth.rawValue] as! String, format:"yyyy-MM-dd" )
+            card2MessageLabel.text = userInfo[properthName.message.rawValue] as? String
+            removeFromAllChildView(parentView: card2OgoriView)
+            
+            switch myStatus {
+            case 1:
+                card2LabelImageView.image = #imageLiteral(resourceName: "shinsotsu-label")
+                card2CompanyLink.isHidden = true
+                card2CompanyNameLabel.isHidden = true
+                
+                if let interesting = userInfo[studentPropety.interesting.rawValue]{
+                    pasteTag(forView: card2ExperienceTagView, forTagList: interesting as! [String], heightConstraint: card2experienceTagViewHeightConstraint)
+                }
+                
+            case 2:
+                let age = DateUtils.age(byBirthDate: birthDate)
+                card1AgeLabel.text = "(" + String(age) + ")"
+                switch age {
+                case 0..<30:
+                    card1LabelImageView.image = #imageLiteral(resourceName: "wakate-label")
+                case 30..<45:
+                    card1LabelImageView.image = #imageLiteral(resourceName: "middle-label")
+                default:
+                    card1LabelImageView.image = #imageLiteral(resourceName: "beteran-label")
+                }
+                card2CompanyNameLabel.text = userInfo[recruiterPropety.company_name.rawValue] as? String
+                card2UserJobLabel.text = userInfo[recruiterPropety.position.rawValue] as? String
+                card2CompanyLink.text = userInfo[recruiterPropety.company_link.rawValue] as? String
+                
+                pasteTag(forView: card2ExperienceTagView, forTagList: userInfo[recruiterPropety.skill.rawValue] as! [String], heightConstraint: card2experienceTagViewHeightConstraint)
+                var count:CGFloat = 0
+                
+                if userInfo[recruiterPropety.ogori.rawValue] != nil{
+                    for ogori in userInfo[recruiterPropety.ogori.rawValue] as! [Int]{
+                        let ogoriImageView = UIImageView(frame: ogoriRect)
+                        card2OgoriView.addSubview(ogoriImageView)
+                        switch ogori {
+                        case 0:
+                            ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
+                        case 1:
+                            ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
+                        case 2:
+                            ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
+                        case 3:
+                            ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
+                        default:
+                            break
+                        }
+                        
+                        if count == 0{
+                            ogoriImageView.layer.position.x = ogoriRect.height/2
+                        }else{
+                            ogoriImageView.layer.position.x = count*ogoriRect.height + ogoriRect.height/2 + ogoriPadding
+                        }
+                        
+                        count += 1
+                    }
+                }
+            default:
+                break
+            }
         default:
             break
         }
