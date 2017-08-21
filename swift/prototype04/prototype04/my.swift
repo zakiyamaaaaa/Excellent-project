@@ -39,6 +39,7 @@ enum recruiterPropety:String{
     case education
     case interesting
     case skill
+    case anonymous
     case ogori
     case message
     case position
@@ -60,6 +61,9 @@ enum userPropety:String{
     case name
     case birth
     case status
+    case encounterd
+    case liked
+    case matched
 }
 
 struct my {
@@ -67,8 +71,8 @@ struct my {
     var name:String? = UserDefaults.standard.string(forKey: studentPropety.name.rawValue)
     var birth:String? = UserDefaults.standard.string(forKey: studentPropety.birth.rawValue)
     var education:[Any]? = UserDefaults.standard.array(forKey: studentPropety.education.rawValue)
-    var interesting:[Any]? = UserDefaults.standard.stringArray(forKey: studentPropety.interesting.rawValue)
-    var skill:[Any]? = UserDefaults.standard.stringArray(forKey: studentPropety.skill.rawValue)
+    var interesting:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.interesting.rawValue)
+    var skill:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.skill.rawValue)
     var belonging:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.belonging.rawValue)
     var goodpoint:String? = UserDefaults.standard.string(forKey: studentPropety.goodpoint.rawValue)
     var badpoint:String? = UserDefaults.standard.string(forKey: studentPropety.badpoint.rawValue)
@@ -84,7 +88,6 @@ struct my {
     
     init() {
         
-        
         let a = studentPropety.self
         
         all = [a.uuid.rawValue:uuid,
@@ -99,7 +102,9 @@ struct my {
                a.status.rawValue:status,
                a.matched.rawValue:matched,
                a.message.rawValue:message,
-               a.introduction.rawValue:introduction]
+               a.introduction.rawValue:introduction,
+               a.goodpoint.rawValue:goodpoint,
+               a.badpoint.rawValue:badpoint]
 //        if all[a.name.rawValue] != nil{
 //            name = name!
 //        }
@@ -205,7 +210,8 @@ struct Recruiter{
     var name:String? = UserDefaults.standard.string(forKey: studentPropety.name.rawValue)
     var birth:String? = UserDefaults.standard.string(forKey: studentPropety.birth.rawValue)
     var education:[Any]? = UserDefaults.standard.array(forKey: studentPropety.education.rawValue)
-    var interesting:[Any]? = UserDefaults.standard.stringArray(forKey: studentPropety.interesting.rawValue)
+    var anonymous:Bool? = UserDefaults.standard.bool(forKey: recruiterPropety.anonymous.rawValue)
+    var interesting:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.interesting.rawValue)
     var skill:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.skill.rawValue)
     var encountered:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.encounterd.rawValue)
     var liked:[String]? = UserDefaults.standard.stringArray(forKey: studentPropety.liked.rawValue)
@@ -238,6 +244,7 @@ struct Recruiter{
                a.status.rawValue:status,
                a.skill.rawValue:skill,
                a.education.rawValue:education,
+               a.anonymous.rawValue:anonymous,
                a.interesting.rawValue:interesting,
                a.position.rawValue:position,
                a.ogori.rawValue:ogori,

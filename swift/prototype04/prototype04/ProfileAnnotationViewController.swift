@@ -10,12 +10,20 @@ import UIKit
 
 class ProfileAnnotationViewController: UIViewController {
 
+    @IBOutlet weak var numberLabel: UILabel!
+    var num:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        
+        numberLabel.text = String(describing: num)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

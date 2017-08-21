@@ -40,8 +40,13 @@ class SkillEditViewController: UIViewController,UITextFieldDelegate{
     override func viewWillAppear(_ animated: Bool) {
         explainLabel.text = explainText
         
-        guard tagList != nil else { return }
-        pasteTag(forView: targetView, forTagList: tagList!)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        guard let list = tagList  else { return }
+        
+        pasteTag(forView: targetView, forTagList: list)
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,7 +71,15 @@ class SkillEditViewController: UIViewController,UITextFieldDelegate{
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        
+        //talistに追加
+        if tagList?.isEmpty == true || tagList == nil{
+            tagList = []
+        }
+        tagList?.append(myTextField.text!)
+        pasteTag(forView: targetView, forTagList: tagList!)
+        textField.text = ""
+        
         return true
     }
     
@@ -124,16 +137,16 @@ extension SkillEditViewController{
         
         var pointX:CGFloat = 10
         var pointY:CGFloat = 10
-        var lastHeight:CGFloat = 0
+        //ここでは、高さをいじっていない
+        //var lastHeight:CGFloat = 0
         
         for view in targetView.subviews{
-            if view == targetView.subviews.first{
-                continue
+            
+            if view is EditableTagButton{
+                view.removeFromSuperview()
             }
-            view.removeFromSuperview()
+            
         }
-        
-        
         
         for tagText in TagList{
             let tag:EditableTagButton = EditableTagButton(frame: .zero, inText: tagText)
@@ -149,7 +162,7 @@ extension SkillEditViewController{
             tag.frame.origin = CGPoint(x: pointX, y: pointY)
             
             pointX += 5 + tag.frame.width
-            lastHeight = pointY + tag.frame.height
+//            lastHeight = pointY + tag.frame.height
         }
     }
     

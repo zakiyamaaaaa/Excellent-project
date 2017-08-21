@@ -37,6 +37,7 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
     var messegae = Recruiter().message
     var selectedImage:UIImage?
     var postImage:UIImage?
+    var pickerText:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +50,13 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
         nameLabel.text = User().name
         birthLabel.text = User().birth
         
-        
+        if let dateString = User().birth{
+            let date = DateUtils.date(dateString, format: "YYYY-MM-dd")
+            let year = NSCalendar.current.component(.year, from: date)
+            let month = NSCalendar.current.component(.month, from: date)
+            let day = NSCalendar.current.component(.day, from: date)
+            birthLabel.text = "生年月日 " + String(year) + "年" + String(month) + "月" + String(day) + "日"
+        }
         
         
         
@@ -60,6 +67,19 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
 //        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
 //        
 //        myData = app.myInfoDelegate
+        
+        let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let imgFileName = "userimg.png"
+        var tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
+        if tmp == nil{
+            tmp = #imageLiteral(resourceName: "anonymous_43")
+        }
+        myImageView.image = tmp
+        
+//        if let populocation = Recruiter().company_population{
+//            pickerText = pickerValue[populocation]
+//        }
+        
         
         myTableView.reloadData()
         
@@ -85,11 +105,7 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
     }
     
     //セルの高さ
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 && indexPath.row == 2{
-            return cellHeihgt
-        }
-        
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {        
         return UITableViewAutomaticDimension
     }
 
@@ -98,24 +114,6 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
         cell.contentLabel.text = "未入力"
         cell.editButton.addTarget(self, action: #selector(self.editButtonTapped(sender:)), for: .touchUpInside)
         
-//        if indexPath.section == 0 && indexPath.row == 1{
-//            let cell2 = myTableView.dequeueReusableCell(withIdentifier: "titleAndContentCell") as! TitleAndContentTableViewCell
-//            cell2.editButton.tag = 1
-//            cell2.editButton.addTarget(self, action:#selector(self.editButtonTapped(sender:)), for: .touchUpInside)
-//            //                cell.contentLabel.text =
-//            
-////            let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-////            view.backgroundColor = UIColor.blue
-////            cell2.addSubview(view)
-//            
-//            if skillList != nil && indexPath.section == 0{
-//                print("paste")
-//                
-//                cell.contentLabel.text = ""
-//                return cell2
-//            }
-//            return cell2
-//        }
         switch indexPath.section {
         case 0:
             //自己紹介
@@ -135,7 +133,7 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
                 }
             case 1:
                 cell.editButton.tag = 10
-                if position != nil{
+                if position != nil && position?.isEmpty == false{
                     cell.contentLabel.text = position
                 }else{
                     cell.contentLabel.text = "未入力"
@@ -148,12 +146,21 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
                 cell.editButton.tag = 1
                 
                 if skillList != nil{
+                    var str = ""
+                    for text in skillList!{
+                        if text == skillList?.last{
+                            str += text
+                            continue
+                        }
+                        str += text + "／"
+                    }
+                    cell.contentLabel.text = str
                     
-                    self.pasteTag(forView: cell, forTagList: skillList!)
-                    cell.contentLabel.text = ""
-                    return cell
+//                    self.pasteTag(forView: cell, forTagList: skillList!, originY: cell.contentLabel.layer.position.y)
+//                    cell.contentLabel.alpha = 0
+//                    return cell
                 }else{
-                    cell.contentLabel.isHidden = false
+                    cell.contentLabel.alpha = 1
                 }
                 
                 
@@ -162,11 +169,36 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
                 //OGORI
                 cell.editButton.tag = 2
                 if ogoriList != nil && indexPath.section == 0{
-                    self.pasteOgori(targetView: cell, list: ogoriList!)
-                    cell.contentLabel.text = ""
-                    return cell
+                    var str = ""
+                    for num in ogoriList!{
+                        var text = ""
+                        switch num {
+                        case 0:
+                            text = "カフェ"
+                        case 1:
+                            text = "朝食"
+                        case 2:
+                            text = "昼食"
+                        case 3:
+                            text = "夕食"
+                            
+                        default:
+                            break
+                        }
+                        
+                        if num == ogoriList?.last{
+                            str += text
+                            continue
+                        }
+                        str += text + "／"
+                    }
+                    cell.contentLabel.text = str
+                    
+//                    self.pasteOgori(targetView: cell, list: ogoriList!, height: cell.contentLabel.layer.position.y)
+//                    cell.contentLabel.alpha = 0
+//                    return cell
                 }else{
-                    cell.contentLabel.isHidden = false
+                    cell.contentLabel.alpha = 1
                 }
 
             case 4:
@@ -200,11 +232,11 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
             //会社紹介
             
             cell.titleLabel.text = titleOfSection2[indexPath.row]
-            for view in cell.subviews{
-                if view is TagLabel || view is UIImageView{
-                    view.removeFromSuperview()
-                }
-            }
+//            for view in cell.subviews{
+//                if view is TagLabel || view is UIImageView{
+//                    view.removeFromSuperview()
+//                }
+//            }
             switch indexPath.row {
             case 0:
                 //会社名
@@ -228,6 +260,8 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
                     cell.contentLabel.text = "未入力"
                 }
             
+                
+                
             case 2:
                 //業界
                 
@@ -520,7 +554,7 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
         return pickerValue.count
     }
     
-    func pasteOgori(targetView:UIView, list:[Int]?){
+    func pasteOgori(targetView:UIView, list:[Int]?,height:CGFloat){
         guard let ogoriList = list else { return }
         
         let originX:CGFloat = 20
@@ -540,13 +574,13 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
             let imageView = UIImageView(frame: CGRect(x: originX + length*i, y: originY, width: length, height: length))
             switch item {
             case 0:
-                imageView.image = #imageLiteral(resourceName: "cafe_char_icon")
+                imageView.image = #imageLiteral(resourceName: "cafe_rect")
             case 1:
-                imageView.image = #imageLiteral(resourceName: "morning_char_icon")
+                imageView.image = #imageLiteral(resourceName: "morning_rect")
             case 2:
-                imageView.image = #imageLiteral(resourceName: "lunch_char_icon")
+                imageView.image = #imageLiteral(resourceName: "lunch_rect")
             case 3:
-                imageView.image = #imageLiteral(resourceName: "dinner_char_icon")
+                imageView.image = #imageLiteral(resourceName: "dinner_rect")
             default:
                 break
             }
@@ -556,10 +590,10 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
     }
     
     
-    func pasteTag(forView targetView:UITableViewCell,forTagList TagList:[String]){
+    func pasteTag(forView targetView:UITableViewCell,forTagList TagList:[String],originY:CGFloat){
         
         var pointX:CGFloat = 20
-        var pointY:CGFloat = 50
+        var pointY:CGFloat = originY
         var lastHeight:CGFloat = 0
         
         for view in targetView.subviews{
@@ -641,11 +675,7 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
             recruiter.register(key: .ogori, value: value)
         }
         
-        if ServerConnection().updateMyData(postImage: postImage) == true{
-            print("成功!!")
-        }else{
-            print("失敗")
-        }
+        updateMyData(postImage: postImage)
         
     }
     
@@ -705,6 +735,90 @@ class RecruiterProfileViewController: UIViewController,UITableViewDelegate,UIPic
             myImageView.image = vc.maskedImage
             postImage = vc.maskedImage
         }
+    }
+    
+    func updateMyData(postImage:UIImage?){
+        let user = User()
+        guard let status = user.status else { return }
+        
+        switch status {
+        case 1:
+            
+            var postData = Recruiter().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateMyData.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("update my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str)
+                    if str! == "hoge" {
+                        
+                        let alert = UIAlertController(title: "プロフィールが更新されました", message: nil, preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute:
+                            {
+                                alert.dismiss(animated: true, completion: { 
+                                    self.dismiss(animated: true, completion: nil)
+                                })
+                        }
+                            
+                            )
+                        })
+                    }
+                    
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        case 2:
+            
+            var postData = my().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateBeforeValid.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str!)
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        default:
+            break
+        }
+        
     }
     /*
     // MARK: - Navigation

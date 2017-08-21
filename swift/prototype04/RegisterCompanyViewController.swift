@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterCompanyViewController: UIViewController {
+class RegisterCompanyViewController: UIViewController,UITextFieldDelegate{
 
     
     @IBOutlet weak var errorMessageLabel: UILabel!
@@ -25,6 +25,9 @@ class RegisterCompanyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        companyTextField.delegate = self
+        positionTextField.delegate = self
+        
         // Do any additional setup after loading the view.
         let user = Recruiter()
         companyName = user.company_name
@@ -35,7 +38,17 @@ class RegisterCompanyViewController: UIViewController {
         companyTextField.text = companyName
         positionTextField.text = position
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
+    }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -50,10 +63,16 @@ class RegisterCompanyViewController: UIViewController {
             
             var a = Recruiter()
             a.register(key: .company_name, value: companyTextField.text!)
-            if let position = positionTextField.text{
-                a.register(key: .position, value: position)
+            
+            if positionTextField.text != nil && positionTextField.text?.isEmpty == false{
+                a.register(key: .position, value: positionTextField.text!)
             }
             
+            if anonymousSwitch.isOn == true{
+                a.register(key: .anonymous, value: true)
+            }else{
+                a.register(key: .anonymous, value: false)
+            }
             
             errorMessageLabel.isHidden = true
             performSegue(withIdentifier: "photoSegue", sender: nil)
@@ -89,6 +108,27 @@ class RegisterCompanyViewController: UIViewController {
             vc.schoolNameText = self.companyTextField.text
             vc.facultyText = self.positionTextField.text
             
+            
+            errorMessageLabel.isHidden = true
+        }else{
+            errorMessageLabel.isHidden = false
+        }
+        
+    }
+    @IBAction func changeButtonTapped(_ sender: Any) {
+        
+        if companyTextField.text?.isEmpty == false{
+            let navC = self.navigationController!
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! ProfileRegistrationViewController
+            vc.schoolNameText = companyTextField.text
+            vc.facultyText = self.positionTextField.text
+            var recruiter = Recruiter()
+            if anonymousSwitch.isOn == true{
+                recruiter.register(key: .anonymous, value: true)
+            }else{
+                recruiter.register(key: .anonymous, value: false)
+            }
+            
             self.navigationController?.popViewController(animated: true)
             errorMessageLabel.isHidden = true
         }else{
@@ -96,6 +136,7 @@ class RegisterCompanyViewController: UIViewController {
         }
         
     }
+    
     /*
     // MARK: - Navigation
 

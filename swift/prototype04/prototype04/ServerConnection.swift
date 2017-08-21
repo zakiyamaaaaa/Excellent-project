@@ -11,41 +11,6 @@ import UIKit
 
 struct ServerConnection {
     
-    
-    //未利用
-    //自分の座標を投げて、近くのユーザーを取得する
-    //locationVCで使用していたが、リクエストデータ返ってきた所で遷移するように、locatioinVCの中で関数を実行するように変更した
-    func requestCard(uuid:String,lat:Double,lng:Double){
-        let postData:[String:Any] = ["uuid":uuid,"lat":lat,"lng":lng]
-
-        var returnData:[Any]?
-        
-        guard let requestURL = URL(string: "http://localhost:8888/test/updateLocation.php") else {return}
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        do{
-            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
-            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
-                do{
-                    returnData = try JSONSerialization.jsonObject(with: data!, options: []) as? [Any]
-                    //app deleagetに取得したデータを格納
-                    let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-                    app.cardListDelegate = returnData
-                    
-                }catch{
-                    print("json decode error:\(error.localizedDescription)")
-                }
-                
-            })
-            
-            task.resume()
-        }catch{
-            print("error:\(error.localizedDescription)")
-        }
-    }
-    
-    
     //ユーザー情報登録するときに実行
     func registerUser(postImage:UIImage?){
         let user = User()
@@ -179,9 +144,33 @@ struct ServerConnection {
         }
     }
     
-    func updateMyData(postImage:UIImage?)->Bool?{
+    func inquiry(content:String){
+        let postData:[String:Any] = ["uuid":"hoge","content":content]
+        let requestURL = URL(string: "http://localhost:8888/test/inquiry.php")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do{
+            
+            request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                print("update my data")
+                let str = String(data:data!,encoding:.utf8)
+                print(str)
+                
+            })
+            task.resume()
+            
+            
+        }catch{
+            print("error:\(error.localizedDescription)")
+            
+        }
+    }
+    
+    func updateMyData(postImage:UIImage?){
         let user = User()
-        guard let status = user.status else { return false}
+        guard let status = user.status else { return }
         
         switch status {
         case 1:
@@ -199,19 +188,17 @@ struct ServerConnection {
             request.httpMethod = "POST"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             do{
-                var flag = false
+                
                 request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
                 let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
                     print("update my data")
                     let str = String(data:data!,encoding:.utf8)
-                    if str! == "sucess" {
-                        flag = true
-                        
-                    }
+                    print(str)
+                    
                 })
                 task.resume()
                 
-                return flag
+                
             }catch{
                 print("error:\(error.localizedDescription)")
                 
@@ -247,7 +234,7 @@ struct ServerConnection {
         default:
             break
         }
-        return false
+        
     }
     
     //editvcで保存したら、自分の情報が更新される
@@ -303,8 +290,7 @@ struct ServerConnection {
 //    }
     
     func updateWhenAppInActive(){
-//        let a = my()
-//        var postData = a.all
+
         let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let postData:[String:Any] = app.myInfoDelegate!
         let requestURL = URL(string: "http://localhost:8888/test/updateWhenAppInactive.php")

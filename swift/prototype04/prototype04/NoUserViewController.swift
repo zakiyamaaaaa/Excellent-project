@@ -23,7 +23,7 @@ class NoUserViewController: UIViewController {
         let imgFileName = "userimg.png"
         var tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         if tmp == nil{
-            tmp = #imageLiteral(resourceName: "anonymous")
+            tmp = #imageLiteral(resourceName: "anonymous_43")
         }
         
         myImageView.image = tmp

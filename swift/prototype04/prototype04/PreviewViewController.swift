@@ -62,10 +62,10 @@ class PreviewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         //ラベルの設定
-        userNameLabel.text = udSetting.read(key: .username)
-        ageLabel.text = "(" + udSetting.read(key: .age) + ")"
-        belongingLabel.text = udSetting.read(key: .belonging)
-        appealLabel.text = udSetting.read(key: .appeal)
+//        userNameLabel.text = udSetting.read(key: .username)
+//        ageLabel.text = "(" + udSetting.read(key: .age) + ")"
+//        belongingLabel.text = udSetting.read(key: .belonging)
+//        appealLabel.text = udSetting.read(key: .appeal)
         
         //タグを貼り付け
         addTag()
@@ -82,7 +82,7 @@ class PreviewViewController: UIViewController {
         var pointY:CGFloat = 10
         var lastHeight:CGFloat = 0
         let width = jobTagTextField.frame.width
-        jobTagList = udSetting.read(key: .job)
+//        jobTagList = udSetting.read(key: .job)
         let jobIndustyList = jobTagTitleList.init().industry
         let jobOccupationList = jobTagTitleList.init().occupation
         

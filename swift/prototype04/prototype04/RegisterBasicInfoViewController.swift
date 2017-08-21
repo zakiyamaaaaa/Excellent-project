@@ -30,7 +30,13 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
     
     override func viewWillAppear(_ animated: Bool) {
         namaText = User().name
-        birthText = User().birth
+        if let dateString = User().birth{
+            let date = DateUtils.date(dateString, format: "YYYY-MM-dd")
+            let year = NSCalendar.current.component(.year, from: date)
+            let month = NSCalendar.current.component(.month, from: date)
+            let day = NSCalendar.current.component(.day, from: date)
+            birthText = String(year) + "年" + String(month) + "月" + String(day) + "日"
+        }
         
         nameTextField.text = namaText
         birthTextField.text = birthText
@@ -42,7 +48,7 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
         if textField == birthTextField{
             let screenWidth = self.view.frame.width
             let vc = UIViewController()
-            vc.preferredContentSize = CGSize(width: screenWidth,height: 200)
+            vc.preferredContentSize = CGSize(width: screenWidth,height: 300)
             
             
             myDatePicker.datePickerMode = .date
@@ -76,9 +82,11 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
     func doneButtonTapped(){
         
         let mydateFormatter = DateFormatter()
-        mydateFormatter.dateFormat = "yyyy/M/d"
+        mydateFormatter.dateFormat = "yyyy年M月d日"
         let myselectedDate = mydateFormatter.string(from: myDatePicker.date)
+//        birthTextField.resignFirstResponder()
         
+        self.view.endEditing(true)
         birthTextField.text = myselectedDate
     }
     
@@ -129,14 +137,20 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
 
     @IBAction func finishButtonTapped(_ sender: Any) {
         
+        if nameTextField.text?.isEmpty == false && birthTextField.text?.isEmpty == false{
+            let navC = self.navigationController!
+            let vc = navC.viewControllers[navC.viewControllers.count-2] as! ProfileRegistrationViewController
+            let str = DateUtils.string(myDatePicker.date, format: "yyyy-MM-dd")
+            //vc.selfIntroText = selfIntroTextView.text
+            vc.nameText = nameTextField.text
+            vc.birthText = birthTextField.text
+            vc.birthDate = str
+            self.navigationController?.popViewController(animated: true)
+            errorMessageLabel.isHidden = true
+        }else{
+            errorMessageLabel.isHidden = false
+        }
         
-        let navC = self.navigationController!
-        let vc = navC.viewControllers[navC.viewControllers.count-2] as! ProfileRegistrationViewController
-        //vc.selfIntroText = selfIntroTextView.text
-        vc.nameText = self.nameTextField.text
-        vc.birthText = self.birthTextField.text
-        
-        self.navigationController?.popViewController(animated: true)
         
     }
     

@@ -14,9 +14,9 @@ class User {
     var birth:String? = UserDefaults.standard.string(forKey: userPropety.birth.rawValue)
     var uuid:String? = UserDefaults.standard.string(forKey: userPropety.uuid.rawValue)
     var status:Int? = UserDefaults.standard.integer(forKey: userPropety.status.rawValue)
-    var encounterd:String?
-    var liked:String?
-    var matched:String?
+    var encounterd:[String]?
+    var liked:[String]?
+    var matched:[Any]?
 }
 
 class student:User{

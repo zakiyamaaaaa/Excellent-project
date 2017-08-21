@@ -18,7 +18,8 @@ class AssessmentViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        var a = my()
+        a.register(key: .birth, value: "1990-10-10")
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -14,6 +14,7 @@ class BelongingEditViewController: UIViewController,UITextFieldDelegate,UITextVi
     
     @IBOutlet weak var enrollmentTextView: UITextView!
     
+    @IBOutlet weak var errorMessageLabel: UILabel!
     
     var belongingNameText:String?
     var enrollmentText:String?
@@ -48,10 +49,16 @@ class BelongingEditViewController: UIViewController,UITextFieldDelegate,UITextVi
     @IBAction func finishButtonTapped(_ sender: UIBarButtonItem) {
         let navC = self.navigationController!
         let vc = navC.viewControllers[navC.viewControllers.count-2] as! EditProfileViewControllerTest
-        vc.belonging?[0] = belongingNameLabel.text!
-        vc.belonging?[1] = enrollmentTextView.text!
+
+        if let name = belongingNameLabel.text,let enroll = enrollmentTextView.text{
+            vc.belonging = [name,enroll]
+            errorMessageLabel.isHidden = true
+            self.navigationController?.popViewController(animated: true)
+        }else{
+            errorMessageLabel.isHidden = false
+        }
         
-        self.navigationController?.popViewController(animated: true)
+        
     }
 
     /*

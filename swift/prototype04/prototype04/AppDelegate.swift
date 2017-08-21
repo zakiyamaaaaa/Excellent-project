@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 //        sleep(2)
         
-        //すでにFirebaseでユーザーとしてログイン済みであれば、メイン画面へ。そうでなければログイン画面へ。
+//        すでにFirebaseでユーザーとしてログイン済みであれば、メイン画面へ。そうでなければログイン画面へ。
 //        if Auth.auth().currentUser != nil{
 //            let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //            let vc = storyboard.instantiateInitialViewController()

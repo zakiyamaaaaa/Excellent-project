@@ -95,7 +95,14 @@ class MessageUserDetailViewController: UIViewController,UITableViewDataSource,UI
             
             guard let id:String = userDic[propetyName.uuid.rawValue] as? String else { return nilCell }
             
-            cell.userImageView.image = getImage(uuid: id)
+            if let userimage = getImage(uuid: id){
+                cell.userImageView.image = userimage
+            }else{
+                cell.userImageView.image = #imageLiteral(resourceName: "anonymous_43")
+            }
+            
+            
+            
 //            cell.labelImageView.image = userData3[1] as? UIImage
 //            cell.companyImageView.image = userData3[2] as? UIImage
             cell.nameLabel.text = userDic[propetyName.name.rawValue] as? String
@@ -132,13 +139,13 @@ class MessageUserDetailViewController: UIViewController,UITableViewDataSource,UI
                     cell.ogoriView.addSubview(ogoriImageView)
                     switch ogori {
                     case 0:
-                        ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "morning_rect")
                     case 1:
-                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_rect")
                     case 2:
-                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_rect")
                     case 3:
-                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_rect")
                     default:
                         break
                     }
