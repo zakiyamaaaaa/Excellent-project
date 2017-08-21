@@ -24,23 +24,6 @@ enum direction {
     case left
 }
 
-//前のユーザのキーリスト
-//enum userDefautlsKeyList:String{
-//    case username =  "username"
-//    case job = "job"
-//    case background = "background"
-//    case qualification = "qualification"
-//    case uuid = "uuid"
-//    
-//    static func countCase()->Int{
-//        return self.uuid.hashValue + 1
-//    }
-//    
-//    static func maxHashValue()->Int{
-//        return self.uuid.hashValue
-//    }
-//}
-
 //いまのユーザのキーリスト
 enum userDefautlsKeyList:String{
     case username =  "username"

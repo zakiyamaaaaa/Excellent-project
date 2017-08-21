@@ -23,8 +23,12 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
     var schoolNameText:String?
     var facultyText:String?
     var graduationText:String?
+    var myStatus = 0
     
+    @IBOutlet weak var sectionImageView: UIImageView!
+    @IBOutlet weak var anonymousLabel: UILabel!
     @IBOutlet weak var sectionTitleLabel: UILabel!
+    @IBOutlet weak var anonymousSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,22 +44,38 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
         let tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         myImageView.image = tmp
         
-        guard let status = my().status else { return }
+        if let status = User().status{
+            myStatus = status
+        }
         
-        switch status {
+        switch myStatus {
         case 1:
-            title = "会社"
+            title = "所属企業について"
 //            var careerArray:[Any] = a.getValue(key: .ca) as! [Any]
             schoolNameText = Recruiter().company_name
             facultyText = Recruiter().position
-            graduationYearLabel.isHidden = true
+            
+
+            sectionImageView.image = #imageLiteral(resourceName: "register_recruiter")
+            if Recruiter().anonymous == true{
+                graduationYearLabel.isHidden = false
+                graduationYearLabel.text = "企業情報を非公開に設定しています。"
+            }else{
+                graduationYearLabel.isHidden = true
+            }
             
         case 2:
             title = "学校"
+            graduationYearLabel.isHidden = false
             var educationArray:[Any] = a.getValue(key: .education) as! [Any]
             schoolNameText = educationArray[0] as? String
             facultyText = educationArray[1] as? String
-            graduationText = educationArray[2] as? String
+            if let year = educationArray[2] as? Int{
+                graduationYearLabel.text = String(describing: year)
+                graduationText = String(describing: year)
+            }
+            
+            
         default:
             break
         }
@@ -63,16 +83,26 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
         
         
     }
-    
+    var birthDate:String? = User().birth
     override func viewWillAppear(_ animated: Bool) {
         myNameLabel.text =  nameText
-        myBirthLabel.text = birthText
         
+        if let dateString = User().birth{
+            let date = DateUtils.date(dateString, format: "YYYY-MM-dd")
+            let year = NSCalendar.current.component(.year, from: date)
+            let month = NSCalendar.current.component(.month, from: date)
+            let day = NSCalendar.current.component(.day, from: date)
+            birthText = "生年月日 " + String(year) + "年" + String(month) + "月" + String(day) + "日"
+        }
+        myBirthLabel.text = birthText
         
         //ステータスによって、ラベルに表示する情報を変える
         schoolNameLabel.text = schoolNameText
         facultyLabel.text = facultyText
-        graduationYearLabel.text = graduationText
+        if graduationText?.isEmpty == false{
+            graduationYearLabel.text = graduationText! + "年卒業"
+        }
+        
     }
     
     
@@ -190,7 +220,163 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
     
     @IBAction func updateUser(_ sender: Any) {
         //userdefault更新して、サーバーのDBもデータ更新
-        ServerConnection().updateBeforeValid(postImage: selectedImage)
+//        ServerConnection().updateBeforeValid(postImage: selectedImage)
+        var user = my()
+        
+        
+        user.register(key: .name, value: nameText)
+//        user.register(key: .birth, value: birthText)
+        
+        switch myStatus {
+        case 1:
+            var recruiter = Recruiter()
+            if let position = facultyText{
+                recruiter.register(key: .position, value: position)
+            }
+            
+            if let companyName = schoolNameText{
+                recruiter.register(key: .company_name, value: companyName)
+            }
+            
+        case 2:
+            if let schoolname = schoolNameText,let faculty = facultyText,let year = graduationText{
+                
+                let numYear = Int(year)
+                user.register(key: .education, value: [schoolname,faculty,numYear])
+            }
+        default:
+            break
+        }
+        
+        self.updateBeforeValid(postImage: selectedImage)
+        
+    }
+    
+    func updateBeforeValid(postImage:UIImage?){
+        let user = User()
+        guard let status = user.status else { return }
+        
+        switch status {
+        case 1:
+            
+            var postData = Recruiter().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateBeforeValid.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str)
+                    if str! == "hoge" {
+//                        self.performSegue(withIdentifier: "goSegue", sender: nil)
+                        let alert = UIAlertController(title: "プロフィールを更新しました", message: nil, preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }else{
+                        let alert = UIAlertController(title: "プロフィール更新失敗", message: "更新が失敗しました。時間をとって再度行ってください", preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }
+                    
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        case 2:
+            
+            var postData = my().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateBeforeValid.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str)
+                    if str! == "hoge" {
+                        //                        self.performSegue(withIdentifier: "goSegue", sender: nil)
+                        let alert = UIAlertController(title: "プロフィールを更新しました", message: nil, preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }else{
+                        let alert = UIAlertController(title: "プロフィール更新失敗", message: "更新が失敗しました。時間をとって再度行ってください", preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }
+                    
+                })
+                task.resume()
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        default:
+            break
+        }
+        
     }
 
     /*

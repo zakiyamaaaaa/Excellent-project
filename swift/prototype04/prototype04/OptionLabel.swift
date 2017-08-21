@@ -8,9 +8,11 @@
 
 import UIKit
 
+
+@IBDesignable
 class OptionLabel: UILabel {
 
-    @IBInspectable var cornerRadius:CGFloat = 0
+    @IBInspectable var cornerRadius:CGFloat = 5
     
     
     @IBInspectable var padding: UIEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 8)
@@ -31,10 +33,10 @@ class OptionLabel: UILabel {
         super.draw(rect)
         self.layer.cornerRadius = cornerRadius
         self.textColor = UIColor.black
-        self.font = UIFont.systemFont(ofSize: 13)
+        self.font = UIFont.boldSystemFont(ofSize: 13)
         self.text = "任意"
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderColor = UIColor.gray.cgColor
     }
     
     /*

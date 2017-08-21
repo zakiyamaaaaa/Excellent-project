@@ -18,7 +18,7 @@ class ChatViewController: JSQMessagesViewController {
     var messages:[JSQMessage] = []
     var senderImage:UIImage?
     var recieverId:String!
-    var recieverImage:UIImage?
+    var recieverImage:UIImage? = #imageLiteral(resourceName: "anonymous_43")
     var recieverInfo:[String:Any] = [:]
     var senderInfo:UserInfo = UserInfo()
     var navigationView:UIView!
@@ -45,10 +45,10 @@ class ChatViewController: JSQMessagesViewController {
 
         self.collectionView.backgroundColor = UIColor.init(white: 0.9, alpha: 1)
         let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let imgFileName = "sample.png"
+        let imgFileName = "userimg.png"
         var tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         if tmp == nil{
-            tmp = #imageLiteral(resourceName: "anonymous")
+            tmp = #imageLiteral(resourceName: "anonymous_43")
         }
         senderImage =  tmp
         recieverImage = getImage(uuid: recieverId)
@@ -184,7 +184,7 @@ class ChatViewController: JSQMessagesViewController {
             guard let dic = snapshot.value as? Dictionary<String,AnyObject> else {
                 return
             }
-            print("snapshot:\(snapshot)")
+            
             guard let posts = dic["message"] as? Dictionary<String,Dictionary<String,AnyObject>>else{
                 return
             }

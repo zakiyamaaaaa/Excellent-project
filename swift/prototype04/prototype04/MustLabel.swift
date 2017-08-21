@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 class MustLabel: UILabel {
 
-    @IBInspectable var cornerRadius:CGFloat = 0
+    @IBInspectable var cornerRadius:CGFloat = 5
     
     
     @IBInspectable var padding: UIEdgeInsets = UIEdgeInsets(top: 2, left: 8, bottom: 2, right: 8)
@@ -19,6 +19,8 @@ class MustLabel: UILabel {
     override func drawText(in rect: CGRect) {
         let newRect = UIEdgeInsetsInsetRect(rect, padding)
         super.drawText(in: newRect)
+        
+        
     }
     
     override var intrinsicContentSize: CGSize {
@@ -32,10 +34,10 @@ class MustLabel: UILabel {
         super.draw(rect)
         self.layer.cornerRadius = cornerRadius
         self.textColor = UIColor.black
-        self.font = UIFont.systemFont(ofSize: 13)
         self.text = "必須"
+        self.font = UIFont.boldSystemFont(ofSize: 13)
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderColor = UIColor.gray.cgColor
     }
     
     /*

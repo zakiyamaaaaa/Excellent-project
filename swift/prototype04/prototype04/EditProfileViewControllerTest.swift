@@ -16,16 +16,21 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
     @IBOutlet weak var myPhotoImageView: UIImageView!
     
     let sectionTitleList = ["自己紹介","興味がある職種・業種","学歴","ひとことアピール","自分の長所","自分の短所","資格・スキル","所属団体・サークル"]
-    var interestingTagList:[String]?
-    var skillList:[String]?
-    var appealText:String?
-    var goodPointString:String?
-    var badPointString:String?
-    var selfIntroText:String?
+    
+    let sectionTitleList2 = ["自己紹介","所属団体・サークル"]
+    let titleOfSection1Title = ["何をやっているか","学歴","長所","短所","資格・スキル","興味・関心","メッセージ"]
+    let titleOfSection2Title = ["団体名","自分の役割"]
+    
+    var interestingTagList = my().interesting
+    var skillList = my().skill
+    var appealText = my().message
+    var goodPointString = my().goodpoint
+    var badPointString = my().badpoint
+    var selfIntroText = my().introduction
     var interestingCellHeihgt:CGFloat = 50
-    var educationArray:[Any]?
+    var educationArray = my().education
     var selectedImage:UIImage?
-    var belonging:[String]?
+    var belonging = my().belonging
     
     let ud = UserDefaults.standard
     
@@ -39,22 +44,22 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
         let imgFileName = "userimg.png"
         var tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         if tmp == nil{
-            tmp = #imageLiteral(resourceName: "anonymous")
+            tmp = #imageLiteral(resourceName: "anonymous_43")
         }
         myPhotoImageView.image = tmp
         let a = studentPropety.self
-        selfIntroText = app.myInfoDelegate?[a.introduction.rawValue] as? String
-        interestingTagList = app.myInfoDelegate?[a.interesting.rawValue] as? [String]
-        educationArray = app.myInfoDelegate?[a.education.rawValue] as? [Any]
-        appealText = app.myInfoDelegate?[a.message.rawValue] as? String
-        goodPointString = app.myInfoDelegate?[a.goodpoint.rawValue] as? String
-        badPointString = app.myInfoDelegate?[a.badpoint.rawValue] as? String
-        skillList = app.myInfoDelegate?[a.skill.rawValue] as? [String]
-        belonging = app.myInfoDelegate?[a.belonging.rawValue] as? [String]
+//        selfIntroText = app.myInfoDelegate?[a.introduction.rawValue] as? String
+//        interestingTagList = app.myInfoDelegate?[a.interesting.rawValue] as? [String]
+//        educationArray = app.myInfoDelegate?[a.education.rawValue] as? [Any]
+//        appealText = app.myInfoDelegate?[a.message.rawValue] as? String
+//        goodPointString = app.myInfoDelegate?[a.goodpoint.rawValue] as? String
+//        badPointString = app.myInfoDelegate?[a.badpoint.rawValue] as? String
+//        skillList = app.myInfoDelegate?[a.skill.rawValue] as? [String]
+//        belonging = app.myInfoDelegate?[a.belonging.rawValue] as? [String]
         
-        nameLabel.text = app.myInfoDelegate?[a.name.rawValue] as? String
+        nameLabel.text = my().name
         
-        if let dateString:String = app.myInfoDelegate?[a.birth.rawValue] as? String{
+        if let dateString:String = User().birth{
             let date = DateUtils.date(dateString, format: "YYYY-MM-dd")
             let year = NSCalendar.current.component(.year, from: date)
             let month = NSCalendar.current.component(.month, from: date)
@@ -75,161 +80,312 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if section == sectionTitleList.count - 1{
+        switch section {
+        case 0:
+            return titleOfSection1Title.count
+        case 1:
+            if belonging == nil || belonging!.isEmpty{
+                return 1
+            }
             
-            return 2
+            return titleOfSection2Title.count
+        default:
+            return 0
         }
-        
-        return 1
     }
     
+    
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitleList[section]
+        return sectionTitleList2[section]
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitleList.count
+        return sectionTitleList2.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
-        let nilCell = UITableViewCell()
-        nilCell.textLabel?.text = "編集する"
-        nilCell.textLabel?.textColor = UIColor.gray
-        nilCell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
-        let basicCell = UITableViewCell()
-        basicCell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
-        basicCell.textLabel?.numberOfLines = 0
+        let cell = myTableView.dequeueReusableCell(withIdentifier: "detailCell") as! DetailTableViewCell
+        
+        
         
         switch indexPath.section {
         case 0:
-            
-            if selfIntroText == nil || selfIntroText!.isEmpty{
-                return nilCell
-            }
-            
-            basicCell.textLabel?.text = selfIntroText
-            
-            return basicCell
-        case 1:
-            
-            
-            if interestingTagList != nil{
-                pasteTag(forView: basicCell, forTagList: interestingTagList!)
-                
-                return basicCell
-            }else{
-                return nilCell
-            }
-            
-        case 2:
-            
-            if educationArray == nil{
-                return nilCell
-            }
-            
-            let cell = myTableView.dequeueReusableCell(withIdentifier: "educationCell") as! EducationTableViewCell
-            cell.schooNameLabel.text = educationArray?[0] as? String
-            cell.facultyLabel.text = educationArray?[1] as? String
-            cell.graduationYearLabel.text = String(describing: educationArray![2]) + "年卒業"
-            return cell
-        case 3:
-            
-            if appealText == nil || appealText!.isEmpty{
-                return nilCell
-            }
-            
-            basicCell.textLabel?.text = appealText
-            
-            return basicCell
-        case 4:
-            
-            if goodPointString == nil || goodPointString!.isEmpty{
-                
-                return nilCell
-            }
-            
-            basicCell.textLabel?.text = goodPointString
-            
-            return basicCell
-        case 5:
-            
-            if badPointString == nil || badPointString!.isEmpty{
-                
-                return nilCell
-            }
-            
-            basicCell.textLabel?.text = badPointString
-            
-            return basicCell
-        case 6:
-            
-            if skillList == nil {
-                return nilCell
-            }
-            
-            var str = ""
-            
-            for item in skillList! {
-                if item != skillList!.last{
-                
-                str.append(item)
-                str.append("/")
-                continue
-                    
-                }
-                
-                str.append(item)
-            }
-
-            basicCell.textLabel?.text = str
-            
-            return basicCell
-            
-        case 7:
-            
-//            let belonging = app.myInfoDelegate?["belonging_group"] as? [String]
-            if belonging == nil{
-                return nilCell
-            }
-            
-            myTableView.separatorStyle = .none
+            cell.titleLabel.text = titleOfSection1Title[indexPath.row]
+            cell.conetntLabel.text = "aaa"
             
             
             switch indexPath.row {
             case 0:
-                basicCell.textLabel?.text = belonging?[0]
+                if selfIntroText == nil || selfIntroText!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    cell.conetntLabel.text = selfIntroText
+                }
+                
+            
             case 1:
-                basicCell.textLabel?.text = belonging?[1]
+                if educationArray == nil || educationArray!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    let schoolName = educationArray?[0] as! String
+                    let faculty = educationArray?[1] as! String
+                    let year = educationArray?[2] as! Int
+                    cell.conetntLabel.text = schoolName + " " + faculty + " " + String(describing: year) + "年卒業"
+                }
+                
+            
+            case 2:
+                if goodPointString == nil || goodPointString!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    cell.conetntLabel.text = goodPointString
+                }
+                
+            case 3:
+                if badPointString == nil || badPointString!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    cell.conetntLabel.text = badPointString
+                }
+                
+            case 4:
+                if skillList == nil || skillList!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    var str = ""
+                    for text in skillList!{
+                        if text == skillList?.last{
+                            str += text
+                            continue
+                        }
+                        str += text + "／"
+                    }
+                    
+                    cell.conetntLabel.text = str
+                }
+                
+            case 5:
+                if interestingTagList == nil || interestingTagList!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    var str = ""
+                    for text in interestingTagList!{
+                        if text == interestingTagList?.last{
+                            str += text
+                            continue
+                        }
+                        str += text + "／"
+                    }
+                    
+                    cell.conetntLabel.text = str
+                    
+                }
+                
+            case 6:
+                if appealText == nil || appealText!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    cell.conetntLabel.text = appealText
+                }
+                
+                
             default:
                 break
             }
-            
-            return basicCell
-            
+        case 1:
+            cell.titleLabel.text = titleOfSection2Title[indexPath.row]
+            cell.separatorInset = .zero
+            switch indexPath.row {
+            case 0:
+                if belonging == nil || belonging!.isEmpty{
+                    cell.conetntLabel.text = "未入力"
+                }else{
+                    cell.conetntLabel.text = belonging?.first
+                }
+                
+            case 1:
+                cell.conetntLabel.text = belonging?.last
+            default:
+                break
+            }
         default:
-            return UITableViewCell()
+            break
         }
+        
+        
+        return cell
+        
+//        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+//        let nilCell = UITableViewCell()
+//        nilCell.textLabel?.text = "編集する"
+//        nilCell.textLabel?.textColor = UIColor.gray
+//        nilCell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+//        
+//        let basicCell = UITableViewCell()
+//        basicCell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+//        basicCell.textLabel?.numberOfLines = 0
+//        
+//        switch indexPath.section {
+//        case 0:
+//            
+//            if selfIntroText == nil || selfIntroText!.isEmpty{
+//                return nilCell
+//            }
+//            
+//            basicCell.textLabel?.text = selfIntroText
+//            
+//            return basicCell
+//        case 1:
+//            
+//            
+//            if interestingTagList != nil{
+//                pasteTag(forView: basicCell, forTagList: interestingTagList!)
+//                
+//                return basicCell
+//            }else{
+//                return nilCell
+//            }
+//            
+//        case 2:
+//            
+//            if educationArray == nil{
+//                return nilCell
+//            }
+//            
+//            let cell = myTableView.dequeueReusableCell(withIdentifier: "educationCell") as! EducationTableViewCell
+//            cell.schooNameLabel.text = educationArray?[0] as? String
+//            cell.facultyLabel.text = educationArray?[1] as? String
+//            cell.graduationYearLabel.text = String(describing: educationArray![2]) + "年卒業"
+//            return cell
+//        case 3:
+//            
+//            if appealText == nil || appealText!.isEmpty{
+//                return nilCell
+//            }
+//            
+//            basicCell.textLabel?.text = appealText
+//            
+//            return basicCell
+//        case 4:
+//            
+//            if goodPointString == nil || goodPointString!.isEmpty{
+//                
+//                return nilCell
+//            }
+//            
+//            basicCell.textLabel?.text = goodPointString
+//            
+//            return basicCell
+//        case 5:
+//            
+//            if badPointString == nil || badPointString!.isEmpty{
+//                
+//                return nilCell
+//            }
+//            
+//            basicCell.textLabel?.text = badPointString
+//            
+//            return basicCell
+//        case 6:
+//            
+//            if skillList == nil {
+//                return nilCell
+//            }
+//            
+//            var str = ""
+//            
+//            for item in skillList! {
+//                if item != skillList!.last{
+//                
+//                str.append(item)
+//                str.append("/")
+//                continue
+//                    
+//                }
+//                
+//                str.append(item)
+//            }
+//
+//            basicCell.textLabel?.text = str
+//            
+//            return basicCell
+//            
+//        case 7:
+//            
+////            let belonging = app.myInfoDelegate?["belonging_group"] as? [String]
+//            if belonging == nil{
+//                return nilCell
+//            }
+//            
+//            myTableView.separatorStyle = .none
+//            
+//            
+//            switch indexPath.row {
+//            case 0:
+//                basicCell.textLabel?.text = belonging?[0]
+//            case 1:
+//                basicCell.textLabel?.text = belonging?[1]
+//            default:
+//                break
+//            }
+//            
+//            return basicCell
+//            
+//        default:
+//            return UITableViewCell()
+//        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            performSegue(withIdentifier: "selfIntroSegue", sender: nil)
+            switch indexPath.row {
+            case 0:
+                performSegue(withIdentifier: "selfIntroSegue", sender: nil)
+            case 1:
+                performSegue(withIdentifier: "educationSegue", sender: nil)
+            case 2:
+                performSegue(withIdentifier: "goodPointSegue", sender: nil)
+            case 3:
+                performSegue(withIdentifier: "badPointSegue", sender: nil)
+            case 4:
+                performSegue(withIdentifier: "skillSegue", sender: nil)
+            case 5:
+                performSegue(withIdentifier: "interestingSegue", sender: nil)
+            case 6:
+//                performSegue(withIdentifier: "appealSegue", sender: nil)
+                let alert = UIAlertController(title: "メッセージ", message: "相手に表示する一言メッセージを入力してください", preferredStyle: .alert)
+                alert.addTextField(configurationHandler: { (UITextField) in
+                    UITextField.placeholder = "相手側へのメッセージを入力してください"
+                    if self.appealText != nil && self.appealText?.isEmpty == false{
+                        UITextField.text = self.appealText
+                    }
+                    
+                })
+                
+                let okAction:UIAlertAction = UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
+                    let textField = alert.textFields![0] as UITextField
+                    if textField.text != nil{
+                        self.appealText = textField.text
+                        self.myTableView.reloadData()
+                    }else{
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
+                })
+                let cancelAction:UIAlertAction = UIAlertAction(title: "キャンセル", style: .cancel, handler: { (UIAlertAction) in
+                    
+                })
+                alert.addAction(okAction)
+                alert.addAction(cancelAction)
+                present(alert, animated: true, completion: nil)
+                
+            default:
+                break
+            }
         case 1:
-            performSegue(withIdentifier: "interestingSegue", sender: nil)
-        case 2:
-            performSegue(withIdentifier: "educationSegue", sender: nil)
-        case 3:
-            performSegue(withIdentifier: "appealSegue", sender: nil)
-        case 4:
-            performSegue(withIdentifier: "goodPointSegue", sender: nil)
-        case 5:
-            performSegue(withIdentifier: "badPointSegue", sender: nil)
-        case 6:
-            performSegue(withIdentifier: "skillSegue", sender: nil)
-        case 7:
             performSegue(withIdentifier: "belongingSegue", sender: nil)
         default:
             break
@@ -241,14 +397,9 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0:
-            return UITableViewAutomaticDimension
-        case 1:
-            return interestingCellHeihgt
-        default:
-            return UITableViewAutomaticDimension
-        }
+        
+        return UITableViewAutomaticDimension
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -263,10 +414,13 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
         }
         
         if segue.identifier == "educationSegue"{
-            let vc = segue.destination as! EducationEditViewController
-            vc.schoolNameTextEdited = educationArray?[0] as! String
-            vc.facultyTextEdited = educationArray?[1] as! String
-            vc.graduationNameNumEdited = educationArray?[2] as! Int
+            let vc = segue.destination as! RegisterEducationViewController
+
+            if let education = educationArray {
+                vc.schoolNameText = education[0] as? String
+                vc.facultyText = education[1] as? String
+                vc.graduationYearText = String(describing:education[2] as! Int)
+            }
             
         }
         
@@ -311,6 +465,7 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
         if segue.identifier == "skillSegue"{
             let vc = segue.destination as! SkillEditViewController
             vc.tagList = skillList
+            vc.explainText = "得意なこと・資格を入力してください"
         }
         
         if segue.identifier == "belongingSegue"{
@@ -423,13 +578,13 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         //各項目をlocalstorage保存かつサーバーにデータ更新
         let a = studentPropety.self
-        app.myInfoDelegate?[a.introduction.rawValue] = selfIntroText
-        app.myInfoDelegate?[a.interesting.rawValue] = interestingTagList
-        app.myInfoDelegate?[a.education.rawValue] = educationArray
-        app.myInfoDelegate?[a.goodpoint.rawValue] = goodPointString
-        app.myInfoDelegate?[a.badpoint.rawValue] = badPointString
-        app.myInfoDelegate?[a.skill.rawValue] = skillList
-        app.myInfoDelegate?[a.belonging.rawValue] = belonging
+//        app.myInfoDelegate?[a.introduction.rawValue] = selfIntroText
+//        app.myInfoDelegate?[a.interesting.rawValue] = interestingTagList
+//        app.myInfoDelegate?[a.education.rawValue] = educationArray
+//        app.myInfoDelegate?[a.goodpoint.rawValue] = goodPointString
+//        app.myInfoDelegate?[a.badpoint.rawValue] = badPointString
+//        app.myInfoDelegate?[a.skill.rawValue] = skillList
+//        app.myInfoDelegate?[a.belonging.rawValue] = belonging
         
         
         
@@ -447,10 +602,38 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
         }
         
         
-        let sc = ServerConnection()
-        sc.updateMyData(postImage: postImage)
-        self.dismiss(animated: true, completion: nil)
+//        let sc = ServerConnection()
+//        sc.updateMyData(postImage: postImage)
+//        self.dismiss(animated: true, completion: nil)
+        var student = my()
         
+        if let value = selfIntroText{
+            student.register(key: .introduction, value: value)
+        }
+        if let value = educationArray{
+            student.register(key: .education, value: value)
+        }
+        if let value = interestingTagList{
+            student.register(key: .interesting, value: value)
+        }
+        if let value = goodPointString{
+            student.register(key: .goodpoint, value: value)
+        }
+        if let value = badPointString{
+            student.register(key: .badpoint, value: value)
+        }
+        if let value = belonging{
+            student.register(key: .belonging, value: value)
+        }
+        if let value = appealText{
+            student.register(key: .message, value: value)
+        }
+        if let value = skillList{
+            student.register(key: .skill, value: value)
+        }
+        
+        
+        updateMyData(postImage: postImage)
     }
     
     
@@ -460,6 +643,107 @@ class EditProfileViewControllerTest: UIViewController,UITableViewDelegate,UITabl
     }
     
 
+    func updateMyData(postImage:UIImage?){
+        let user = User()
+        guard let status = user.status else { return }
+        
+        switch status {
+        case 1:
+            
+            var postData = Recruiter().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateMyData.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("update my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str)
+                    if str! == "hoge" {
+                        
+                        let alert = UIAlertController(title: "プロフィールが更新されました", message: nil, preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }
+                    
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        case 2:
+            
+            var postData = my().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/updateMyData.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("update my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str)
+                    if str! == "hoge" {
+                        
+                        let alert = UIAlertController(title: "プロフィールが更新されました", message: nil, preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }
+                    
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        default:
+            break
+        }
+        
+    }
+    
     /*
     // MARK: - Navigation
 

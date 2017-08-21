@@ -60,6 +60,9 @@ class EducationEditViewController: UIViewController,UITableViewDelegate,UITableV
         switch textField.tag {
         case 0:
             editingTextField = textField
+            
+        case 2: break
+            
         default:
             break
         }

@@ -12,65 +12,32 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
     @IBOutlet weak var noMatchingUserImageView: UIImageView!
 
     let ud = UserDefaults.standard
-    let kuri:[Any] = [
-        "栗林　緒",
-        35,
-        #imageLiteral(resourceName: "middle-label"),
-        "エンジニア",
-        "中途２年目",
-        ["ギタリスト","Javascript","Node.js","React"],
-        "G's Academy",
-        "http://gsacademy.tokyo/",
-        #imageLiteral(resourceName: "kuri"),
-        "Jazzギタリスト",
-        #imageLiteral(resourceName: "dinnerIconColored"),
-        #imageLiteral(resourceName: "gsacademy"),
-        "2017/7/8"]
     
-    let tamura:[Any] = [
-        "田村　悠里", //0
-        31,//1
-        #imageLiteral(resourceName: "middle-label"),//2
-        "人事部",//3
-        "中途７年目",//4
-        ["ディレクター","人事","動画メディア"],//5
-        "スモーアカデミー",//6
-        "http://sumoacademy.com",//7
-        #imageLiteral(resourceName: "tamura-2"),//8
-        "アナログハリウッド",//9
-        #imageLiteral(resourceName: "caffeIconColored"),//10
-        #imageLiteral(resourceName: "sumoacademy-icon"),
-        "2017/7/10"]//11
     
     var cardList:[[Any]] = []
     @IBOutlet weak var myTableView: UITableView!
-    var strList:[String] = ["vsda","vasddasd","vfvsava","zfvdfvd"]
     var messageList:[Any] = []
     var selectedTag:Int = 0
     var cardList2:[Any]?
-    let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+    var app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
     var myMatchingList:[[String]]?
     let propetyName = recruiterPropety.self
+    var myStatus = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        cardList.append(tamura)
-        cardList.append(kuri)
         
-        myMatchingList = app.myInfoDelegate?["matched"] as? [[String]]
-        
+        if let status = User().status{
+            myStatus = status
+        }
         
         // Do any additional setup after loading the view.
     }
-    
-    func hoge(){
-        print("hoge")
-    }
 
     override func viewWillAppear(_ animated: Bool) {
-        print("message table appear")
-        let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        myMatchingList = app.myInfoDelegate?[userPropety.matched.rawValue] as? [[String]]
+        
         cardList2 = app.messageList
         
         if cardList2 != nil{
@@ -80,8 +47,11 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
         let parentVC = self.navigationController?.parent as! ContainerViewControllerTest
         parentVC.navigationView.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        
+        
         myTableView.reloadData()
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -94,17 +64,52 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
 //    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! MessageTableViewCellDemo
-//        let userInfo:[Any] = cardList[indexPath.row]
+        let cell = UITableViewCell()
+        
+        switch myStatus {
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "messageStudentCell", for: indexPath) as! MessageStudentTableViewCell
+            if let userInfo2:[String:Any] = cardList2?[indexPath.row] as? [String:Any]{
+                cell.titleLabel.text = userInfo2[userPropety.name.rawValue] as? String
+                
+                cell.imageButton.setImage(getImage(uuid: userInfo2[propetyName.uuid.rawValue] as! String), for: .normal)
+                cell.imageButton.addTarget(self, action: #selector(self.goToDetailView(sender:)), for: .touchUpInside)
+                cell.imageButton.tag = indexPath.row
+                
+                
+                
+                
+                if let value = userInfo2[studentPropety.birth.rawValue] as? String{
+                    let birthDate = DateUtils.date(value, format:"yyyy-MM-dd" )
+                    let age = DateUtils.age(byBirthDate: birthDate)
+                    
+                    if let name = userInfo2[userPropety.name.rawValue] as? String{
+                        cell.titleLabel.text = name + "(" + String(describing:age) + ")"
+                    }
+                }
+                
+                if let education = userInfo2[studentPropety.education.rawValue] as? [Any]{
+                    if let schoolName = education[0] as? String,let faculty = education[1] as? String,let year = education[2] as? Int{
+                        cell.label1.text = schoolName
+                        cell.label2.text = faculty
+                        cell.label3.text = String(describing: year) + "年卒"
+                    }
+                }
+            }
+            
+            
+        case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as! MessageTableViewCellDemo
+        //        let userInfo:[Any] = cardList[indexPath.row]
         
         
-//        cell.userNameLabel.text = userInfo[0] as? String
-//        cell.AgeLabel.text = "(" + String(describing: userInfo[1]) + ")"
-//        cell.YeartoWorkLabel.text = userInfo[4] as? String
-//        cell.companyNameLabel.text = userInfo[6] as? String
-//        cell.labelImageView.image = userInfo[2] as? UIImage
-//        cell.companyImageView.image = userInfo[11] as? UIImage
-//        cell.userJobLabel.text = userInfo[3] as? String
+        //        cell.userNameLabel.text = userInfo[0] as? String
+        //        cell.AgeLabel.text = "(" + String(describing: userInfo[1]) + ")"
+        //        cell.YeartoWorkLabel.text = userInfo[4] as? String
+        //        cell.companyNameLabel.text = userInfo[6] as? String
+        //        cell.labelImageView.image = userInfo[2] as? UIImage
+        //        cell.companyImageView.image = userInfo[11] as? UIImage
+        //        cell.userJobLabel.text = userInfo[3] as? String
         
         
         
@@ -126,13 +131,13 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
                     cell.ogoriView.addSubview(ogoriImageView)
                     switch ogori {
                     case 0:
-                        ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "morning_rect")
                     case 1:
-                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_rect")
                     case 2:
-                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_rect")
                     case 3:
-                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_rect")
                     default:
                         break
                     }
@@ -147,18 +152,35 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
                 }
             }
         }
+        default:
+            break
+        }
+        
         
         return cell
     }
     
     func goToDetailView(sender:UIButton){
         selectedTag = sender.tag
-        performSegue(withIdentifier: "userDetailSegue", sender: nil)
+        
+        switch myStatus {
+        case 1:
+            performSegue(withIdentifier: "studentDetailSegue", sender: nil)
+        case 2:
+            performSegue(withIdentifier: "userDetailSegue", sender: nil)
+        default:
+            break
+        }
+        
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         return .none
     }
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableViewAutomaticDimension
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -188,6 +210,8 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
             vc.recieverId = user[propetyName.uuid.rawValue] as? String
             vc.senderDisplayName = user[propetyName.name.rawValue] as! String
             
+            
+            
             for matchingUser in myMatchingList!{
                 if matchingUser[0].contains(user[propetyName.uuid.rawValue] as! String){
                     vc.roomKey = matchingUser[1]
@@ -200,6 +224,11 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
             
             let vc = segue.destination as! MessageUserDetailViewController
             vc.userDic = cardList2![selectedTag] as! [String : Any]
+        }
+        
+        if segue.identifier == "studentDetailSegue"{
+            let vc = segue.destination as! DetailStudentViewControllerTest
+            vc.dummyUser = cardList2![selectedTag] as! [String : Any]
         }
     }
     
@@ -238,7 +267,9 @@ class MessageViewControllerTest: UIViewController,UITableViewDataSource,UITableV
         heightConstraint.constant = lastHeight + 10
     }
     
-
+    
+    
+    
     //uuidを指定して、画像を取得
     func getImage(uuid:String)->UIImage?{
         

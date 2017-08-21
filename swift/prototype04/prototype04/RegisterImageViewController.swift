@@ -83,7 +83,8 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
             }
         }
         //データベースの情報を更新
-        ServerConnection().registerUser(postImage: postImage)
+        self.registerUser(postImage: postImage)
+//        ServerConnection().registerUser(postImage: postImage)
         
     }
     
@@ -105,6 +106,112 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
     }
 
 
+    func registerUser(postImage:UIImage?){
+        let user = User()
+        guard let status = user.status else { return }
+        
+        switch status {
+        case 1:
+            
+            var postData = Recruiter().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/registerUser.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str)
+                    if str! == "hoge" {
+                        self.performSegue(withIdentifier: "goSegue", sender: nil)
+                        
+                    }else{
+                        let alert = UIAlertController(title: "プロフィール更新失敗", message: "更新が失敗しました。時間をとって再度行ってください", preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }
+                    
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        case 2:
+            
+            var postData = my().all
+            if let image = postImage{
+                let pngImageData = UIImagePNGRepresentation(image)! as NSData
+                let encodedImageData = pngImageData.base64EncodedString(options: [])
+                postData["profileImage"] = encodedImageData
+                
+            }
+            
+            let requestURL = URL(string: "http://localhost:8888/test/registerUser.php")
+            var request = URLRequest(url: requestURL!)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do{
+                request.httpBody = try JSONSerialization.data(withJSONObject: postData, options: .prettyPrinted)
+                let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
+                    print("register my data")
+                    let str = String(data:data!,encoding:.utf8)
+                    print(str)
+                    if str! == "hoge" {
+                        self.performSegue(withIdentifier: "goSegue", sender: nil)
+                        
+                    }else{
+                        let alert = UIAlertController(title: "プロフィール更新失敗", message: "更新が失敗しました。時間をとって再度行ってください", preferredStyle: .alert)
+                        
+                        
+                        self.present(alert, animated: true, completion: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute:
+                                {
+                                    alert.dismiss(animated: true, completion: {
+                                        self.dismiss(animated: true, completion: nil)
+                                    })
+                            }
+                                
+                            )
+                        })
+                    }
+                    
+                })
+                task.resume()
+                
+                
+            }catch{
+                print("error:\(error.localizedDescription)")
+                
+            }
+        default:
+            break
+        }
+        
+    }
+    
+    
     
     /*
     // MARK: - Navigation

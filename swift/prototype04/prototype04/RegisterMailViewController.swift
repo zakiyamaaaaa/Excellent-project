@@ -58,9 +58,18 @@ class RegisterMailViewController: UIViewController,UITextFieldDelegate{
             }else{
                 //ユーザー入力内容エラー
                 //アラート表示
-                print(Error!.localizedDescription + "2")
-//                self.errorMessageLabel?.isHidden = false
-//                self.errorMessageLabel?.text = Error?.localizedDescription
+                
+                self.errorMessageLabel?.isHidden = false
+                if Error.debugDescription == "The email address is already in use by another account."{
+                    self.errorMessageLabel.text = "このアドレスはすでに登録されています"
+                }
+                if Error.debugDescription == "The password must be 6 characters long or more"{
+                    self.errorMessageLabel.text = "パスワードは６文字以上で入力してください"
+                }
+                
+                if Error.debugDescription == "The email address is badly formatted."{
+                    self.errorMessageLabel.text = "無効なメールアドレスです"
+                }
                 //The email address is badly formatted.
                 //The password must be 6 characters long or more
                 //The email address is already in use by another account.

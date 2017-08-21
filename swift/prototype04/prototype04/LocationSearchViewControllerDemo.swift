@@ -29,6 +29,9 @@ class LocationSearchViewControllerDemo: UIViewController,UIViewControllerTransit
             myStatus = status
         }
         
+        var user = Recruiter()
+        
+        user.register(key: .status, value: 2)
 //        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
 //        let vc = storyboard.instantiateViewController(withIdentifier: "trialVC") as! UIViewController
 //        vc.modalTransitionStyle = .crossDissolve
@@ -61,7 +64,7 @@ class LocationSearchViewControllerDemo: UIViewController,UIViewControllerTransit
         let imgFileName = "userimg.png"
         var tmp = UIImage(contentsOfFile: "\(documentDir)/\(imgFileName)")
         if tmp == nil{
-            tmp = #imageLiteral(resourceName: "anonymous")
+            tmp = #imageLiteral(resourceName: "anonymous_43")
         }
         userImageView.image = tmp
         
@@ -83,6 +86,8 @@ class LocationSearchViewControllerDemo: UIViewController,UIViewControllerTransit
         switch CLLocationManager.authorizationStatus() {
         //制限されたとき
         case .restricted:
+            
+            //アラート表示
             print("no user")
         //否定されたとき
         case .denied:

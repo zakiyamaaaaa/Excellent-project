@@ -12,9 +12,11 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
 
     @IBOutlet weak var myTableView: UITableView!
     
-    let sectionTitle = ["","何をやっているのか","経歴","学歴","会社情報","会社紹介","特徴","募集求人"]
-    
-    var userData3:[Any] = [#imageLiteral(resourceName: "kimura"),#imageLiteral(resourceName: "middle-label"),#imageLiteral(resourceName: "sumoacademy-icon"),"木村","プロデューサー","こここｖｆぢｖびあｂｖぁｆｈｂｖぁｓｋｊｖｌばｆｋｓｂｖぁｋｊｂｓｆｋｈふぁｂｓｌｋ","Sumo Academy","強めの横綱を育てます","優しい",["Rails","SRE"]]
+//    let sectionTitle = ["","何をやっているのか","経歴","学歴","会社情報","会社紹介","特徴","募集求人"]
+    let sectionTitle = ["","自己紹介","会社情報"]
+    let titleOfSection1 = ["何をやっているか","学歴"]
+    let titleOfSection2 = ["会社名","規模","業界","特徴","採用"]
+    let pickerValue = ["スタートアップ","中小企業","大企業","官公庁","その他"]
     
     var userData2:userData!
     var userDic:[String:Any]!
@@ -61,25 +63,36 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch section {
-        case 3:
-            let career = userDic[recruiterPropety.career.rawValue] as? [String]
-            
-            if career != nil{
-                return career!.count
-            }
-            
+        case 0:
             return 1
-        case 4:
-            let education = userDic[recruiterPropety.education.rawValue]
-            
-            if education != nil{
-                return 3
-            }
-            
-            return 1
+        case 1:
+            return titleOfSection1.count
+        case 2:
+            return titleOfSection2.count
         default:
-            return 1
+            return 0
         }
+        
+//        switch section {
+//        case 3:
+//            let career = userDic[recruiterPropety.career.rawValue] as? [String]
+//            
+//            if career != nil{
+//                return career!.count
+//            }
+//            
+//            return 1
+//        case 4:
+//            let education = userDic[recruiterPropety.education.rawValue]
+//            
+//            if education != nil{
+//                return 3
+//            }
+//            
+//            return 1
+//        default:
+//            return 1
+//        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -88,7 +101,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = myTableView.dequeueReusableCell(withIdentifier: "detailUserCell") as! DetailUserTableViewCell
+        let cell = myTableView.dequeueReusableCell(withIdentifier: "detailCell") as! DetailTableViewCell
         
         let nilCell = UITableViewCell()
         nilCell.textLabel?.text = "-"
@@ -101,14 +114,25 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             
             guard let id:String = userDic[recruiterPropety.uuid.rawValue] as? String else { return nilCell }
             
-            cell.userImageView.image = getImage(uuid: id)
-            cell.labelImageView.image = userData3[1] as? UIImage
-            cell.companyImageView.image = userData3[2] as? UIImage
+            if let userimage = getImage(uuid: id){
+                cell.userImageView.image = userimage
+            }else{
+                cell.userImageView.image = #imageLiteral(resourceName: "anonymous_43")
+            }
+            
+//            cell.labelImageView.image = userData3[1] as? UIImage
+//            cell.companyImageView.image = userData3[2] as? UIImage
             cell.nameLabel.text = userDic[recruiterPropety.name.rawValue] as? String
             cell.positionLabel.text = userDic[recruiterPropety.position.rawValue] as? String
             cell.companyNameLabel.text = userDic[recruiterPropety.company_name.rawValue] as? String
             cell.messageLabel.text = userDic[recruiterPropety.message.rawValue] as? String
             
+            if let flag = userDic[recruiterPropety.anonymous.rawValue] as? Bool{
+                if flag == true{
+                    cell.companyNameLabel.text = "非公開"
+//                    card1CompanyLink.text = "非公開"
+                }
+            }
             let birthDate = DateUtils.date(userDic[recruiterPropety.birth.rawValue] as! String, format:"yyyy-MM-dd" )
             let age = DateUtils.age(byBirthDate: birthDate)
             cell.ageLabel.text = "(" + String(age) + ")"
@@ -138,13 +162,13 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
                     cell.ogoriView.addSubview(ogoriImageView)
                     switch ogori {
                     case 0:
-                        ogoriImageView.image = #imageLiteral(resourceName: "morning_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "morning_rect")
                     case 1:
-                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "lunch_rect")
                     case 2:
-                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "dinner_rect")
                     case 3:
-                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_char_icon")
+                        ogoriImageView.image = #imageLiteral(resourceName: "cafe_rect")
                     default:
                         break
                     }
@@ -164,182 +188,249 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
         case 1:
             //ダウンキャストしないとnil判定できない。
             //ダウンキャストしない場合、nsnullが入っており、判定が難しい
-            
-            let intro = userDic[recruiterPropety.introduction.rawValue] as? String
-            
-            if intro == nil{
-                return nilCell
+            let cell = myTableView.dequeueReusableCell(withIdentifier: "detailCell") as! DetailTableViewCell
+            cell.titleLabel.text = titleOfSection1[indexPath.row]
+            switch indexPath.row {
+            case 0:
+                if let intro = userDic[recruiterPropety.introduction.rawValue] as? String{
+                    cell.conetntLabel.text = intro
+                }else{
+                    cell.conetntLabel.text = "-"
+                }
+                
+            case 1:
+                //学歴
+                if let education = userDic[recruiterPropetry.education.rawValue] as? [Any]{
+                    if let schoolname = education[0] as? String,let faculty = education[1] as? String,let year = education[2] as? Int{
+                        cell.conetntLabel.text = schoolname + faculty + String(describing: year) + "年卒"
+                    }
+                }
+                
+            default:
+                break
             }
-            
-//            cell.contentLabel.text = userDic["self_introduction"] as? String
-            
-            let cell = UITableViewCell()
-            cell.textLabel?.text = intro
-            cell.textLabel?.numberOfLines = 0
-            
             return cell
         //経歴
         //case2
         case 2:
-            let career = userDic[recruiterPropety.career.rawValue] as? [[String]]
+            //会社名
+            //会社規模
+            //業界
+            //特徴
+            //採用
             
-            if career == nil{
-                return nilCell
-            }
             
-            let cell = myTableView.dequeueReusableCell(withIdentifier: "threeContentCell") as! ThreeContentTableViewCell
-//            for item in career!{
-//                cell.titleLabel1.text = item[indexPath.row]
-//            }
-            cell.titleLabel1.text = career![indexPath.row][0]
-            cell.titleLabel2.text = career![indexPath.row][1]
             
-            let fromDate = DateUtils.date(career![indexPath.row][2], format: "YYYY-MM-dd")
-            let fromYear = NSCalendar.current.component(.year, from: fromDate)
-            let fromMonth = NSCalendar.current.component(.month, from: fromDate)
-            
-            let toDate = DateUtils.date(career![indexPath.row][3], format: "YYYY-MM-dd")
-            let toYear = NSCalendar.current.component(.year, from: toDate)
-            let toMonth = NSCalendar.current.component(.month, from: toDate)
-
-            cell.titleLabel3.text = String(fromYear) + "年" + String(fromMonth) + "月 〜 " + String(toYear) + "年" + String(toMonth) + "月"
-            
-            return cell
-            
-        //学歴
-        //case3
-        case 3:
-            
-            let educationField = userDic[recruiterPropety.education.rawValue] as? [Any]
-            
-            if educationField == nil{
-                return nilCell
-            }
-            
-//            cell.contentLabel.text = userDic["message"] as? String
-            
-            let cell = myTableView.dequeueReusableCell(withIdentifier: "threeContentCell") as! ThreeContentTableViewCell
-            cell.titleLabel1.text = educationField![0] as? String
-            cell.titleLabel2.text = educationField![1] as! String + "学部"
-            cell.titleLabel3.text = String(describing: educationField![2] as! Int) + "年卒"
-            
-            return cell
-        //会社名
-        case 4:
-            if userDic[recruiterPropety.company_name.rawValue] == nil{
-                return nilCell
-            }
+            let cell = myTableView.dequeueReusableCell(withIdentifier: "detailCell") as! DetailTableViewCell
+            cell.titleLabel.text = titleOfSection2[indexPath.row]
             
             switch indexPath.row {
             case 0:
-                let cell = UITableViewCell()
+                if let companyName = userDic[recruiterPropetry.company_name.rawValue] as? String{
+                    cell.conetntLabel.text = companyName
+                }else{
+                    cell.conetntLabel.text = "-"
+                }
                 
-                cell.textLabel?.text = userDic[recruiterPropety.company_name.rawValue] as? String
-//                
-//                let link = ClickableTextView(frame: CGRect(x: cell.textLabel!.layer.position.x, y: cell.textLabel!.layer.position.y + 10, width: cell.textLabel!.frame.width, height: cell.textLabel!.frame.height))
-                let link = ClickableTextView(frame: cell.textLabel!.frame)
-                link.frame.size = CGSize(width: 200, height: 30)
-                link.transform = CGAffineTransform(translationX: 0, y: cell.textLabel!.layer.position.y + 30)
-                link.dataDetectorTypes = .link
-                link.isEditable = false
-                link.text = userDic[recruiterPropety.company_link.rawValue] as? String
-                cell.addSubview(link)
+                if let anonymousFlag = userDic[recruiterPropety.anonymous.rawValue] as? Bool{
+                    if anonymousFlag == true{
+                        cell.conetntLabel.text = "会社名非公開"
+                    }
+                }
                 
-                let acell = myTableView.dequeueReusableCell(withIdentifier: "labelAndLinkCell") as! labelAndLinkTextViewTableViewCell
-                acell.myLabel.text = userDic[recruiterPropety.company_name.rawValue] as? String
-                acell.linkTextView.text = userDic[recruiterPropety.company_link.rawValue] as? String
-                
-                return acell
             case 1:
-
-                let cell = myTableView.dequeueReusableCell(withIdentifier: "simpleCell") as! SimpleTableViewCell
-                cell.titleLabel.text = "社員数"
-                cell.contentLabel.text = String(describing:userDic[recruiterPropety.company_population.rawValue] as? Int)
-
-                
-                return cell
+                if let companyPopulation = userDic[recruiterPropetry.company_population.rawValue] as? Int{
+                    cell.conetntLabel.text = pickerValue[companyPopulation]
+                }else{
+                    cell.conetntLabel.text = "-"
+                }
             case 2:
-//                let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-//                
-//                
-//                cell.textLabel?.text = "業界"
-//                cell.detailTextLabel?.text = userDic["company_industry"] as? String ?? "-"
+                if let industry = userDic[recruiterPropetry.company_industry.rawValue] as? String{
+                    cell.conetntLabel.text = industry
+                }else{
+                    cell.conetntLabel.text = "-"
+                }
+            case 3:
+                if let feature = userDic[recruiterPropetry.company_feature.rawValue] as? [String]{
+                    cell.conetntLabel.text = feature.first
+                }else{
+                    cell.conetntLabel.text = "-"
+                }
+            case 4:
+                if let recruitment = userDic[recruiterPropetry.company_recruitment.rawValue] as? [String]{
+                    cell.conetntLabel.text = recruitment.first
+                }else{
+                    cell.conetntLabel.text = "-"
+                }
                 
-                let cell = myTableView.dequeueReusableCell(withIdentifier: "simpleCell") as! SimpleTableViewCell
-                cell.titleLabel.text = "業界"
-                cell.contentLabel.text = userDic[recruiterPropety.company_industry.rawValue] as? String ?? "-"
-                
-                return cell
             default:
-                return UITableViewCell()
+                break
             }
-            
-            
-            
-        //会社紹介
-        case 5:
-            if userDic[recruiterPropety.company_introduction.rawValue] == nil{
-                return nilCell
-            }
-            
-//            cell.contentLabel.text = userDic["company_introduction"] as? String
-            
-            let cell = UITableViewCell()
-            cell.textLabel?.text = userDic[recruiterPropety.company_introduction.rawValue] as? String
-            cell.textLabel?.numberOfLines = 0
             return cell
-            
-        //会社特徴
-        case 6:
-            if userDic[recruiterPropety.company_feature.rawValue] == nil{
-                return nilCell
-            }
-            
-            let cell = UITableViewCell()
-            var str:String = ""
-            
-            let recruitmentArray:[String] = userDic[recruiterPropety.company_feature.rawValue] as! [String]
-            
-            for text in recruitmentArray{
-                if text == recruitmentArray.first{
-                    str = text
-                    continue
-                }
-                
-                str += "/" + text
-            }
-            
-            cell.textLabel?.text = str
-            
-            return cell
-            
-        //募集求人
-        case 7:
-            if userDic[recruiterPropety.company_recruitment.rawValue] == nil{
-                return nilCell
-            }
-            
-            let cell = UITableViewCell()
-            var str:String = ""
-            
-            let recruitmentArray:[String] = userDic[recruiterPropety.company_recruitment.rawValue] as! [String]
-            
-            for text in recruitmentArray{
-                if text == recruitmentArray.first{
-                    str = text
-                    continue
-                }
-                
-                str += "/" + text
-            }
-            
-            cell.textLabel?.text = str
-            
-            return cell
-        default:
-            
-            return UITableViewCell()
+//            let career = userDic[recruiterPropety.career.rawValue] as? [[String]]
+//            
+//            if career == nil{
+//                return nilCell
+//            }
+            default:
+            break
         }
+        
+        return cell
+//            let cell = myTableView.dequeueReusableCell(withIdentifier: "threeContentCell") as! ThreeContentTableViewCell
+////            for item in career!{
+////                cell.titleLabel1.text = item[indexPath.row]
+////            }
+//            cell.titleLabel1.text = career![indexPath.row][0]
+//            cell.titleLabel2.text = career![indexPath.row][1]
+//            
+//            let fromDate = DateUtils.date(career![indexPath.row][2], format: "YYYY-MM-dd")
+//            let fromYear = NSCalendar.current.component(.year, from: fromDate)
+//            let fromMonth = NSCalendar.current.component(.month, from: fromDate)
+//            
+//            let toDate = DateUtils.date(career![indexPath.row][3], format: "YYYY-MM-dd")
+//            let toYear = NSCalendar.current.component(.year, from: toDate)
+//            let toMonth = NSCalendar.current.component(.month, from: toDate)
+//
+//            cell.titleLabel3.text = String(fromYear) + "年" + String(fromMonth) + "月 〜 " + String(toYear) + "年" + String(toMonth) + "月"
+//            
+//            return cell
+            
+        //学歴
+        //case3
+//        case 3:
+//            
+//            let educationField = userDic[recruiterPropety.education.rawValue] as? [Any]
+//            
+//            if educationField == nil{
+//                return nilCell
+//            }
+//            
+////            cell.contentLabel.text = userDic["message"] as? String
+//            
+//            let cell = myTableView.dequeueReusableCell(withIdentifier: "threeContentCell") as! ThreeContentTableViewCell
+//            cell.titleLabel1.text = educationField![0] as? String
+//            cell.titleLabel2.text = educationField![1] as! String + "学部"
+//            cell.titleLabel3.text = String(describing: educationField![2] as! Int) + "年卒"
+//            
+//            return cell
+//        //会社名
+//        case 4:
+//            if userDic[recruiterPropety.company_name.rawValue] == nil{
+//                return nilCell
+//            }
+//            
+//            switch indexPath.row {
+//            case 0:
+//                let cell = UITableViewCell()
+//                
+//                cell.textLabel?.text = userDic[recruiterPropety.company_name.rawValue] as? String
+////                
+////                let link = ClickableTextView(frame: CGRect(x: cell.textLabel!.layer.position.x, y: cell.textLabel!.layer.position.y + 10, width: cell.textLabel!.frame.width, height: cell.textLabel!.frame.height))
+//                let link = ClickableTextView(frame: cell.textLabel!.frame)
+//                link.frame.size = CGSize(width: 200, height: 30)
+//                link.transform = CGAffineTransform(translationX: 0, y: cell.textLabel!.layer.position.y + 30)
+//                link.dataDetectorTypes = .link
+//                link.isEditable = false
+//                link.text = userDic[recruiterPropety.company_link.rawValue] as? String
+//                cell.addSubview(link)
+//                
+//                let acell = myTableView.dequeueReusableCell(withIdentifier: "labelAndLinkCell") as! labelAndLinkTextViewTableViewCell
+//                acell.myLabel.text = userDic[recruiterPropety.company_name.rawValue] as? String
+//                acell.linkTextView.text = userDic[recruiterPropety.company_link.rawValue] as? String
+//                
+//                return acell
+//            case 1:
+//
+//                let cell = myTableView.dequeueReusableCell(withIdentifier: "simpleCell") as! SimpleTableViewCell
+//                cell.titleLabel.text = "社員数"
+//                cell.contentLabel.text = String(describing:userDic[recruiterPropety.company_population.rawValue] as? Int)
+//
+//                
+//                return cell
+//            case 2:
+////                let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+////                
+////                
+////                cell.textLabel?.text = "業界"
+////                cell.detailTextLabel?.text = userDic["company_industry"] as? String ?? "-"
+//                
+//                let cell = myTableView.dequeueReusableCell(withIdentifier: "simpleCell") as! SimpleTableViewCell
+//                cell.titleLabel.text = "業界"
+//                cell.contentLabel.text = userDic[recruiterPropety.company_industry.rawValue] as? String ?? "-"
+//                
+//                return cell
+//            default:
+//                return UITableViewCell()
+//            }
+//            
+//            
+//            
+//        //会社紹介
+//        case 5:
+//            if userDic[recruiterPropety.company_introduction.rawValue] == nil{
+//                return nilCell
+//            }
+//            
+////            cell.contentLabel.text = userDic["company_introduction"] as? String
+//            
+//            let cell = UITableViewCell()
+//            cell.textLabel?.text = userDic[recruiterPropety.company_introduction.rawValue] as? String
+//            cell.textLabel?.numberOfLines = 0
+//            return cell
+//            
+//        //会社特徴
+//        case 6:
+//            if userDic[recruiterPropety.company_feature.rawValue] == nil{
+//                return nilCell
+//            }
+//            
+//            let cell = UITableViewCell()
+//            var str:String = ""
+//            
+//            let recruitmentArray:[String] = userDic[recruiterPropety.company_feature.rawValue] as! [String]
+//            
+//            for text in recruitmentArray{
+//                if text == recruitmentArray.first{
+//                    str = text
+//                    continue
+//                }
+//                
+//                str += "/" + text
+//            }
+//            
+//            cell.textLabel?.text = str
+//            
+//            return cell
+//            
+//        //募集求人
+//        case 7:
+//            if userDic[recruiterPropety.company_recruitment.rawValue] == nil{
+//                return nilCell
+//            }
+//            
+//            let cell = UITableViewCell()
+//            var str:String = ""
+//            
+//            let recruitmentArray:[String] = userDic[recruiterPropety.company_recruitment.rawValue] as! [String]
+//            
+//            for text in recruitmentArray{
+//                if text == recruitmentArray.first{
+//                    str = text
+//                    continue
+//                }
+//                
+//                str += "/" + text
+//            }
+//            
+//            cell.textLabel?.text = str
+//            
+//            return cell
+//        default:
+//            
+//            return UITableViewCell()
+//        }
+        
     }
     
     func removeAllChildView(parent:UIView){
@@ -376,7 +467,7 @@ class MainUserDetailViewController: UIViewController,UITableViewDelegate,UITable
             
             
             
-            if pointX + tagLabel.frame.width + 10 > targetView.frame.width{
+            if pointX + tagLabel.frame.width + 5 > targetView.frame.width{
                 pointX = 10
                 pointY += 5 + tagLabel.frame.height
             }

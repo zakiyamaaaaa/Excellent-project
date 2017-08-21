@@ -17,8 +17,10 @@ class DetailStudentViewControllerTest: UIViewController,UITableViewDelegate,UITa
     let imageOfSection1 = [#imageLiteral(resourceName: "cafe_mono"),#imageLiteral(resourceName: "morning_mono"),#imageLiteral(resourceName: "lunchIconColored"),#imageLiteral(resourceName: "dinnerIconColored")]
     let titleOfSection2 = ["団体名","役割"]
     let imageOfSection2 = [#imageLiteral(resourceName: "camera"),#imageLiteral(resourceName: "education")]
+    let sectionImage = [nil,#imageLiteral(resourceName: "user-icon"),#imageLiteral(resourceName: "belonging-icon2")]
     
-    let dummyUser:[String:Any?] = [
+    
+    var dummyUser:[String:Any?] = [
         studentPropety.uuid.rawValue:"hoge",
         studentPropety.name.rawValue:"山田たかし",
         studentPropety.birth.rawValue:"1990-01-11",
@@ -104,6 +106,34 @@ class DetailStudentViewControllerTest: UIViewController,UITableViewDelegate,UITa
         return sectionTitle.count
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0{
+            return 0
+        }
+        
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = UIColor.init(white: 0.95, alpha: 1)
+        let titleLabel = UILabel(frame: CGRect(x: 60, y: 20, width: 0, height: 0))
+        let titleImageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 40, height: 40))
+        titleImageView.image = sectionImage[section]
+        titleLabel.text = sectionTitle[section]
+        titleLabel.textColor = UIColor.darkGray
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        titleLabel.sizeToFit()
+        headerView.addSubview(titleImageView)
+        headerView.addSubview(titleLabel)
+        
+        if section == 0{
+            return nil
+        }
+        
+        return headerView
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -132,7 +162,7 @@ class DetailStudentViewControllerTest: UIViewController,UITableViewDelegate,UITa
             }
             
             if cell.userImageView.image == nil{
-                cell.userImageView.image = #imageLiteral(resourceName: "anonymous")
+                cell.userImageView.image = #imageLiteral(resourceName: "anonymous_43")
             }
 
             if let value = dummyUser[studentPropety.name.rawValue] as? String{
@@ -211,7 +241,7 @@ class DetailStudentViewControllerTest: UIViewController,UITableViewDelegate,UITa
                             str += value
                             continue
                         }
-                        str += value + "/"
+                        str += value + "／"
                     }
                     cell.conetntLabel.text = str
                 }else{
@@ -229,11 +259,15 @@ class DetailStudentViewControllerTest: UIViewController,UITableViewDelegate,UITa
             case 0:
                 if let belonging = dummyUser[studentPropety.belonging.rawValue] as? [String]{
                     cell.conetntLabel.text = belonging[0]
+                }else{
+                    cell.conetntLabel.text = "-"
                 }
             case 1:
                 if let belonging = dummyUser[studentPropety.belonging.rawValue] as? [String]{
                     
                     cell.conetntLabel.text = belonging[1]
+                }else{
+                    cell.conetntLabel.text = "-"
                 }
                 
             default:
@@ -245,6 +279,9 @@ class DetailStudentViewControllerTest: UIViewController,UITableViewDelegate,UITa
         return cell
     }
     
+    @IBAction func closeButtonTapped(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation

@@ -29,7 +29,6 @@
 		392DB5481F446406000A32C2 /* OgoriViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5471F446406000A32C2 /* OgoriViewController.swift */; };
 		392DB54A1F446446000A32C2 /* ImageAndLabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5491F446446000A32C2 /* ImageAndLabelTableViewCell.swift */; };
 		392DB54C1F45B084000A32C2 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB54B1F45B084000A32C2 /* DetailTableViewCell.swift */; };
-		392DB5501F45B405000A32C2 /* DetailStudentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB54F1F45B405000A32C2 /* DetailStudentViewController.swift */; };
 		392DB5521F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392DB5511F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift */; };
 		392ED6841EC0C669003EB555 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392ED6831EC0C669003EB555 /* AppDelegate.swift */; };
 		392ED6861EC0C669003EB555 /* LocationSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 392ED6851EC0C669003EB555 /* LocationSearchViewController.swift */; };
@@ -68,12 +67,17 @@
 		3945712B1F039214009DD806 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3945712A1F039214009DD806 /* ChatViewController.swift */; };
 		3945712D1F03B53D009DD806 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3945712C1F03B53D009DD806 /* GoogleService-Info.plist */; };
 		394E31D21EEAE9C70005F362 /* ClickableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394E31D11EEAE9C70005F362 /* ClickableTextView.swift */; };
+		3998300B1F46975800E5159B /* MessageStudentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998300A1F46975800E5159B /* MessageStudentTableViewCell.swift */; };
 		39AA1F061F2A462000DDD086 /* AppealEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F051F2A462000DDD086 /* AppealEditViewController.swift */; };
-		39AA1F081F2B06D600DDD086 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F071F2B06D600DDD086 /* ContentViewController.swift */; };
 		39AA1F0C1F2B16D000DDD086 /* BasicUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F0B1F2B16D000DDD086 /* BasicUserTableViewCell.swift */; };
 		39AA1F0E1F2B16E200DDD086 /* DetailUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39AA1F0D1F2B16E200DDD086 /* DetailUserTableViewCell.swift */; };
 		39B1052E1ED58AD500DF49A4 /* messageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */; };
 		39B315381F0477EA0038F5BC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39B315371F0477EA0038F5BC /* Images.xcassets */; };
+		39CB9AD11F47252A00C991FE /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB9AD01F47252A00C991FE /* InquiryViewController.swift */; };
+		39CB9B241F493FE900C991FE /* Demo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39CB9B231F493FE900C991FE /* Demo.storyboard */; };
+		39CB9B771F49627300C991FE /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB9B761F49627300C991FE /* DemoViewController.swift */; };
+		39CB9B7E1F49660200C991FE /* demo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 39CB9B7D1F49660200C991FE /* demo.mp4 */; };
+		39CB9B851F49F90800C991FE /* LounchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB9B841F49F90800C991FE /* LounchViewController.swift */; };
 		39CD02191F370C7A00E1273E /* MatchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD02181F370C7A00E1273E /* MatchingViewController.swift */; };
 		39CD021B1F374BE000E1273E /* ProfileViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD021A1F374BE000E1273E /* ProfileViewControllerTest.swift */; };
 		39CD021D1F38129B00E1273E /* BelongingEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD021C1F38129B00E1273E /* BelongingEditViewController.swift */; };
@@ -95,8 +99,6 @@
 		39CD027A1F3EBACF00E1273E /* ProfileRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */; };
 		39CD027C1F3FCEBA00E1273E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD027B1F3FCEBA00E1273E /* User.swift */; };
 		39D5F0AF1EFF900B00418FEA /* TagLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0AE1EFF900B00418FEA /* TagLabel.swift */; };
-		39D5F0B11EFF911A00418FEA /* dummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B01EFF911A00418FEA /* dummyData.swift */; };
-		39D5F0B31EFFB3DF00418FEA /* CompanyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */; };
 		39D5F0B71F008D0400418FEA /* ContainerViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */; };
 		39D5F0B91F00B27900418FEA /* MessageViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */; };
 		39DED7C11F291B08003083DC /* EditProfileViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DED7C01F291B08003083DC /* EditProfileViewControllerTest.swift */; };
@@ -157,7 +159,6 @@
 		392DB5471F446406000A32C2 /* OgoriViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OgoriViewController.swift; sourceTree = "<group>"; };
 		392DB5491F446446000A32C2 /* ImageAndLabelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageAndLabelTableViewCell.swift; sourceTree = "<group>"; };
 		392DB54B1F45B084000A32C2 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
-		392DB54F1F45B405000A32C2 /* DetailStudentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStudentViewController.swift; sourceTree = "<group>"; };
 		392DB5511F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailStudentViewControllerTest.swift; sourceTree = "<group>"; };
 		392ED6801EC0C669003EB555 /* prototype04.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prototype04.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		392ED6831EC0C669003EB555 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -202,12 +203,17 @@
 		3945712A1F039214009DD806 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		3945712C1F03B53D009DD806 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		394E31D11EEAE9C70005F362 /* ClickableTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClickableTextView.swift; sourceTree = "<group>"; };
+		3998300A1F46975800E5159B /* MessageStudentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageStudentTableViewCell.swift; sourceTree = "<group>"; };
 		39AA1F051F2A462000DDD086 /* AppealEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppealEditViewController.swift; sourceTree = "<group>"; };
-		39AA1F071F2B06D600DDD086 /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		39AA1F0B1F2B16D000DDD086 /* BasicUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicUserTableViewCell.swift; sourceTree = "<group>"; };
 		39AA1F0D1F2B16E200DDD086 /* DetailUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailUserTableViewCell.swift; sourceTree = "<group>"; };
 		39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = messageTableViewCell.swift; sourceTree = "<group>"; };
 		39B315371F0477EA0038F5BC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		39CB9AD01F47252A00C991FE /* InquiryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
+		39CB9B231F493FE900C991FE /* Demo.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Demo.storyboard; sourceTree = "<group>"; };
+		39CB9B761F49627300C991FE /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		39CB9B7D1F49660200C991FE /* demo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = demo.mp4; path = ../demo.mp4; sourceTree = "<group>"; };
+		39CB9B841F49F90800C991FE /* LounchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LounchViewController.swift; sourceTree = "<group>"; };
 		39CD02181F370C7A00E1273E /* MatchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchingViewController.swift; sourceTree = "<group>"; };
 		39CD021A1F374BE000E1273E /* ProfileViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewControllerTest.swift; sourceTree = "<group>"; };
 		39CD021C1F38129B00E1273E /* BelongingEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BelongingEditViewController.swift; sourceTree = "<group>"; };
@@ -229,8 +235,6 @@
 		39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRegistrationViewController.swift; sourceTree = "<group>"; };
 		39CD027B1F3FCEBA00E1273E /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		39D5F0AE1EFF900B00418FEA /* TagLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagLabel.swift; sourceTree = "<group>"; };
-		39D5F0B01EFF911A00418FEA /* dummyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dummyData.swift; sourceTree = "<group>"; };
-		39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyViewController.swift; sourceTree = "<group>"; };
 		39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewControllerTest.swift; sourceTree = "<group>"; };
 		39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewControllerTest.swift; sourceTree = "<group>"; };
 		39DED7C01F291B08003083DC /* EditProfileViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewControllerTest.swift; sourceTree = "<group>"; };
@@ -286,20 +290,13 @@
 		39067BB61EE8EB34004B1BEC /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */,
+				39CB9B7F1F49E78500C991FE /* TableViewCell */,
+				39CB9B801F49E89100C991FE /* Label */,
+				39CB9B811F49E8DA00C991FE /* Button */,
+				39CB9B821F49E8F300C991FE /* UIView */,
 				394E31D11EEAE9C70005F362 /* ClickableTextView.swift */,
-				39067BB21EE8D4F3004B1BEC /* RectLabel.swift */,
-				39CD02731F3E8B6700E1273E /* MustLabel.swift */,
-				392DB5011F42B6C9000A32C2 /* OptionLabel.swift */,
-				39067BB71EEA19E1004B1BEC /* RectView.swift */,
-				39067BB01EE8CC7F004B1BEC /* RectButton.swift */,
-				392ED6B71EC2A49B003EB555 /* CustomTableViewCell.swift */,
 				392ED7151ECC5A1C003EB555 /* NonCaretTextField.swift */,
-				39034F201EE79C29009FD68E /* TransitionButton.swift */,
-				391B0A7D1EE05EFC00E9884C /* MaskView.swift */,
 				392ED6C11EC43C1B003EB555 /* UIColor.swift */,
-				392ED7131ECAB417003EB555 /* flagButton.swift */,
-				392ED6CD1EC6216E003EB555 /* UILabelBtmBorder.swift */,
 				392ED6B31EC0E7BE003EB555 /* UserCard.swift */,
 			);
 			name = UI;
@@ -330,61 +327,29 @@
 		392ED6821EC0C669003EB555 /* prototype04 */ = {
 			isa = PBXGroup;
 			children = (
+				392ED68C1EC0C669003EB555 /* LaunchScreen.storyboard */,
+				392ED6831EC0C669003EB555 /* AppDelegate.swift */,
 				39CD02691F3D7AC400E1273E /* First.storyboard */,
 				39CD02201F3C7BB600E1273E /* Register.storyboard */,
 				392ED6871EC0C669003EB555 /* Main.storyboard */,
-				392DB5511F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift */,
-				392DB54F1F45B405000A32C2 /* DetailStudentViewController.swift */,
-				392DB54B1F45B084000A32C2 /* DetailTableViewCell.swift */,
 				392DB5411F43DCAF000A32C2 /* Profile.storyboard */,
-				392DB5491F446446000A32C2 /* ImageAndLabelTableViewCell.swift */,
-				392DB5471F446406000A32C2 /* OgoriViewController.swift */,
-				392DB5451F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift */,
-				392DB5431F43E164000A32C2 /* RecruiterProfileViewController.swift */,
-				392DB4F91F403228000A32C2 /* ReadyMainViewController.swift */,
-				39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */,
-				39CD02771F3EA1DD00E1273E /* my.swift */,
-				39CD027B1F3FCEBA00E1273E /* User.swift */,
-				392DB4FF1F417FCF000A32C2 /* NoUserViewController.swift */,
-				392DB4FD1F41348D000A32C2 /* ProfileAnnotationViewController.swift */,
-				39CD026F1F3DF70300E1273E /* MailModalViewController.swift */,
-				39CD026D1F3DE28900E1273E /* RegisterMailViewController.swift */,
-				39CD026B1F3DE25D00E1273E /* LoginViewController.swift */,
-				39CD021A1F374BE000E1273E /* ProfileViewControllerTest.swift */,
-				39381EAF1F300EB400DF8BAD /* MessageUserDetailViewController.swift */,
-				39381EAB1F2ECBB100DF8BAD /* ThreeContentTableViewCell.swift */,
-				39381EA91F2EC6DE00DF8BAD /* SimpleTableViewCell.swift */,
+				39CB9B231F493FE900C991FE /* Demo.storyboard */,
+				39CB9B7D1F49660200C991FE /* demo.mp4 */,
+				39CB9B251F49401800C991FE /* Demo */,
+				399830051F45F3E700E5159B /* Main Section */,
+				399830071F45F42A00E5159B /* Profile Section */,
+				399830091F4690B400E5159B /* Message Section */,
+				39CB9B831F49E96800C991FE /* Utils */,
 				39CD02241F3D23D400E1273E /* RegisterSection */,
-				39381EA71F2D62A500DF8BAD /* StackViewTestViewController.swift */,
-				39381EA11F2B3DFF00DF8BAD /* MainUserDetailViewController.swift */,
-				39381EAD1F2F710B00DF8BAD /* labelAndLinkTextViewTableViewCell.swift */,
-				39381EA31F2B44FE00DF8BAD /* userData.swift */,
-				39381E9F1F2B3A5000DF8BAD /* MainViewControllerTest.swift */,
 				39CD021E1F387DCE00E1273E /* EditProfileViewController */,
-				39CD02181F370C7A00E1273E /* MatchingViewController.swift */,
-				39CD021F1F387E0300E1273E /* EditTableViewCell */,
-				39381EA51F2D55EC00DF8BAD /* DateUtils.swift */,
-				39AA1F0B1F2B16D000DDD086 /* BasicUserTableViewCell.swift */,
-				39AA1F0D1F2B16E200DDD086 /* DetailUserTableViewCell.swift */,
-				39DED7D61F2A3817003083DC /* TagButton.swift */,
-				39DED7D21F2A126E003083DC /* EditableTagButton.swift */,
-				394571261F038BCB009DD806 /* testViewController.swift */,
-				394571231F028292009DD806 /* Demo */,
-				39D5F0B01EFF911A00418FEA /* dummyData.swift */,
-				3945712C1F03B53D009DD806 /* GoogleService-Info.plist */,
-				39D5F0AE1EFF900B00418FEA /* TagLabel.swift */,
-				392ED6831EC0C669003EB555 /* AppDelegate.swift */,
 				394E31D51EEB08570005F362 /* ViewController */,
-				39B105311ED6F7E400DF49A4 /* Trash */,
 				39067BB61EE8EB34004B1BEC /* UI */,
 				391649AF1ED2510F003175D1 /* ServerConnection.swift */,
-				392ED7251ECED0B0003EB555 /* UserDefaultSetting.swift */,
-				392ED7231ECE044C003EB555 /* Enum.swift */,
-				39067BB41EE8EAD2004B1BEC /* UserInfo.swift */,
 				392ED71F1ECDFB9C003EB555 /* JobTagTitleList.swift */,
 				392ED70D1EC7FB0A003EB555 /* Animation.swift */,
-				392ED68C1EC0C669003EB555 /* LaunchScreen.storyboard */,
+				39B105311ED6F7E400DF49A4 /* Trash */,
 				392ED68F1EC0C669003EB555 /* Info.plist */,
+				3945712C1F03B53D009DD806 /* GoogleService-Info.plist */,
 				39CD02221F3C976600E1273E /* Assets.xcassets */,
 				39B315371F0477EA0038F5BC /* Images.xcassets */,
 			);
@@ -409,27 +374,87 @@
 			path = prototype04UITests;
 			sourceTree = "<group>";
 		};
-		394571231F028292009DD806 /* Demo */ = {
-			isa = PBXGroup;
-			children = (
-				39B3153D1F04D2CA0038F5BC /* Seeker */,
-			);
-			name = Demo;
-			sourceTree = "<group>";
-		};
 		394E31D51EEB08570005F362 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				391B0A7B1EDFF8E800E9884C /* CropEditViewController.swift */,
-				39067BAE1EE8C409004B1BEC /* PreviewViewController.swift */,
-				392ED6851EC0C669003EB555 /* LocationSearchViewController.swift */,
 			);
 			name = ViewController;
+			sourceTree = "<group>";
+		};
+		399830051F45F3E700E5159B /* Main Section */ = {
+			isa = PBXGroup;
+			children = (
+				39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */,
+				399830061F45F3F500E5159B /* ViewController */,
+			);
+			name = "Main Section";
+			sourceTree = "<group>";
+		};
+		399830061F45F3F500E5159B /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				39CD02181F370C7A00E1273E /* MatchingViewController.swift */,
+				39CB9AD01F47252A00C991FE /* InquiryViewController.swift */,
+				392DB4F91F403228000A32C2 /* ReadyMainViewController.swift */,
+				392DB5511F45BA8E000A32C2 /* DetailStudentViewControllerTest.swift */,
+				39381E9F1F2B3A5000DF8BAD /* MainViewControllerTest.swift */,
+				394571211F028289009DD806 /* LocationSearchViewControllerDemo.swift */,
+				392DB4FF1F417FCF000A32C2 /* NoUserViewController.swift */,
+				392DB4FD1F41348D000A32C2 /* ProfileAnnotationViewController.swift */,
+				39381EA11F2B3DFF00DF8BAD /* MainUserDetailViewController.swift */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		399830071F45F42A00E5159B /* Profile Section */ = {
+			isa = PBXGroup;
+			children = (
+				39CD021A1F374BE000E1273E /* ProfileViewControllerTest.swift */,
+				399830081F45F43600E5159B /* View Contoller */,
+			);
+			name = "Profile Section";
+			sourceTree = "<group>";
+		};
+		399830081F45F43600E5159B /* View Contoller */ = {
+			isa = PBXGroup;
+			children = (
+				39DED7C01F291B08003083DC /* EditProfileViewControllerTest.swift */,
+				392DB5471F446406000A32C2 /* OgoriViewController.swift */,
+				392DB5431F43E164000A32C2 /* RecruiterProfileViewController.swift */,
+				39DED7D41F2A1C7B003083DC /* InterestingViewController.swift */,
+				39DED7D01F293C15003083DC /* SkillEditViewController.swift */,
+			);
+			name = "View Contoller";
+			sourceTree = "<group>";
+		};
+		399830091F4690B400E5159B /* Message Section */ = {
+			isa = PBXGroup;
+			children = (
+				3998300A1F46975800E5159B /* MessageStudentTableViewCell.swift */,
+				3945712A1F039214009DD806 /* ChatViewController.swift */,
+				39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */,
+				39381EAF1F300EB400DF8BAD /* MessageUserDetailViewController.swift */,
+			);
+			name = "Message Section";
 			sourceTree = "<group>";
 		};
 		39B105311ED6F7E400DF49A4 /* Trash */ = {
 			isa = PBXGroup;
 			children = (
+				392ED6851EC0C669003EB555 /* LocationSearchViewController.swift */,
+				394571241F037F2B009DD806 /* MessageTableViewCellDemo.swift */,
+				394259DF1F20544800413A30 /* ProfileEditTableViewCell.swift */,
+				394259DD1F204E8200413A30 /* ProfileEditViewController2.swift */,
+				39381EA71F2D62A500DF8BAD /* StackViewTestViewController.swift */,
+				39381EA31F2B44FE00DF8BAD /* userData.swift */,
+				392ED6CD1EC6216E003EB555 /* UILabelBtmBorder.swift */,
+				39034F201EE79C29009FD68E /* TransitionButton.swift */,
+				392ED6B71EC2A49B003EB555 /* CustomTableViewCell.swift */,
+				392ED7251ECED0B0003EB555 /* UserDefaultSetting.swift */,
+				39067BB41EE8EAD2004B1BEC /* UserInfo.swift */,
+				39067BAE1EE8C409004B1BEC /* PreviewViewController.swift */,
+				394571261F038BCB009DD806 /* testViewController.swift */,
 				391B0A7F1EE071F400E9884C /* SnapshotViewController.swift */,
 				392ED6B91EC31CDF003EB555 /* ProfileViewController.swift */,
 				392ED7111ECA9D7F003EB555 /* TagTestViewController.swift */,
@@ -439,34 +464,82 @@
 			name = Trash;
 			sourceTree = "<group>";
 		};
-		39B3153D1F04D2CA0038F5BC /* Seeker */ = {
+		39CB9B251F49401800C991FE /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				394259DD1F204E8200413A30 /* ProfileEditViewController2.swift */,
-				394259DF1F20544800413A30 /* ProfileEditTableViewCell.swift */,
-				3945712A1F039214009DD806 /* ChatViewController.swift */,
-				394571241F037F2B009DD806 /* MessageTableViewCellDemo.swift */,
-				39D5F0B81F00B27900418FEA /* MessageViewControllerTest.swift */,
-				39AA1F071F2B06D600DDD086 /* ContentViewController.swift */,
-				394571211F028289009DD806 /* LocationSearchViewControllerDemo.swift */,
-				39D5F0B61F008D0400418FEA /* ContainerViewControllerTest.swift */,
-				39D5F0B21EFFB3DF00418FEA /* CompanyViewController.swift */,
+				39CB9B761F49627300C991FE /* DemoViewController.swift */,
 			);
-			name = Seeker;
+			name = Demo;
+			sourceTree = "<group>";
+		};
+		39CB9B7F1F49E78500C991FE /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				392DB5451F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift */,
+				392DB5491F446446000A32C2 /* ImageAndLabelTableViewCell.swift */,
+				39AA1F0D1F2B16E200DDD086 /* DetailUserTableViewCell.swift */,
+				39CD021F1F387E0300E1273E /* EditTableViewCell */,
+				39381EAD1F2F710B00DF8BAD /* labelAndLinkTextViewTableViewCell.swift */,
+				39AA1F0B1F2B16D000DDD086 /* BasicUserTableViewCell.swift */,
+				39381EAB1F2ECBB100DF8BAD /* ThreeContentTableViewCell.swift */,
+				392DB54B1F45B084000A32C2 /* DetailTableViewCell.swift */,
+				39B1052D1ED58AD500DF49A4 /* messageTableViewCell.swift */,
+				39381EA91F2EC6DE00DF8BAD /* SimpleTableViewCell.swift */,
+			);
+			name = TableViewCell;
+			sourceTree = "<group>";
+		};
+		39CB9B801F49E89100C991FE /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				39D5F0AE1EFF900B00418FEA /* TagLabel.swift */,
+				39067BB21EE8D4F3004B1BEC /* RectLabel.swift */,
+				39CD02731F3E8B6700E1273E /* MustLabel.swift */,
+				392DB5011F42B6C9000A32C2 /* OptionLabel.swift */,
+			);
+			name = Label;
+			sourceTree = "<group>";
+		};
+		39CB9B811F49E8DA00C991FE /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				39DED7D61F2A3817003083DC /* TagButton.swift */,
+				392ED7131ECAB417003EB555 /* flagButton.swift */,
+				39067BB01EE8CC7F004B1BEC /* RectButton.swift */,
+				39DED7D21F2A126E003083DC /* EditableTagButton.swift */,
+			);
+			name = Button;
+			sourceTree = "<group>";
+		};
+		39CB9B821F49E8F300C991FE /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				39067BB71EEA19E1004B1BEC /* RectView.swift */,
+				391B0A7D1EE05EFC00E9884C /* MaskView.swift */,
+			);
+			name = UIView;
+			sourceTree = "<group>";
+		};
+		39CB9B831F49E96800C991FE /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				39CD02771F3EA1DD00E1273E /* my.swift */,
+				392ED7231ECE044C003EB555 /* Enum.swift */,
+				39381EA51F2D55EC00DF8BAD /* DateUtils.swift */,
+				39CD027B1F3FCEBA00E1273E /* User.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 		39CD021E1F387DCE00E1273E /* EditProfileViewController */ = {
 			isa = PBXGroup;
 			children = (
-				39DED7C01F291B08003083DC /* EditProfileViewControllerTest.swift */,
 				39DED7CA1F292B20003083DC /* EducationEditViewController.swift */,
 				39CD021C1F38129B00E1273E /* BelongingEditViewController.swift */,
 				39AA1F051F2A462000DDD086 /* AppealEditViewController.swift */,
 				39DED7CC1F2939D6003083DC /* GoodPointEditViewController.swift */,
 				39DED7CE1F2939E5003083DC /* BadPointEditViewController.swift */,
 				39DED7C21F291B75003083DC /* SelfIntroEditViewController.swift */,
-				39DED7D41F2A1C7B003083DC /* InterestingViewController.swift */,
-				39DED7D01F293C15003083DC /* SkillEditViewController.swift */,
 			);
 			name = EditProfileViewController;
 			sourceTree = "<group>";
@@ -484,6 +557,11 @@
 		39CD02241F3D23D400E1273E /* RegisterSection */ = {
 			isa = PBXGroup;
 			children = (
+				39CB9B841F49F90800C991FE /* LounchViewController.swift */,
+				39CD026B1F3DE25D00E1273E /* LoginViewController.swift */,
+				39CD026D1F3DE28900E1273E /* RegisterMailViewController.swift */,
+				39CD026F1F3DF70300E1273E /* MailModalViewController.swift */,
+				39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */,
 				392DB5031F42BC9A000A32C2 /* RegisterCompanyViewController.swift */,
 				392DB4FB1F40354F000A32C2 /* ChoiceStatusViewController.swift */,
 				39CD02711F3E831D00E1273E /* AssessmentViewController.swift */,
@@ -641,8 +719,10 @@
 			files = (
 				392ED68E1EC0C669003EB555 /* LaunchScreen.storyboard in Resources */,
 				39B315381F0477EA0038F5BC /* Images.xcassets in Resources */,
+				39CB9B241F493FE900C991FE /* Demo.storyboard in Resources */,
 				392DB5421F43DCAF000A32C2 /* Profile.storyboard in Resources */,
 				3945712D1F03B53D009DD806 /* GoogleService-Info.plist in Resources */,
+				39CB9B7E1F49660200C991FE /* demo.mp4 in Resources */,
 				392ED6891EC0C669003EB555 /* Main.storyboard in Resources */,
 				39CD026A1F3D7AC400E1273E /* First.storyboard in Resources */,
 				39CD02231F3C976600E1273E /* Assets.xcassets in Resources */,
@@ -820,6 +900,7 @@
 				39DED7D51F2A1C7B003083DC /* InterestingViewController.swift in Sources */,
 				392ED6B81EC2A49B003EB555 /* CustomTableViewCell.swift in Sources */,
 				392DB5001F417FCF000A32C2 /* NoUserViewController.swift in Sources */,
+				3998300B1F46975800E5159B /* MessageStudentTableViewCell.swift in Sources */,
 				392DB5021F42B6C9000A32C2 /* OptionLabel.swift in Sources */,
 				392ED7241ECE044C003EB555 /* Enum.swift in Sources */,
 				394259E01F20544800413A30 /* ProfileEditTableViewCell.swift in Sources */,
@@ -832,9 +913,11 @@
 				392ED7161ECC5A1C003EB555 /* NonCaretTextField.swift in Sources */,
 				39D5F0B91F00B27900418FEA /* MessageViewControllerTest.swift in Sources */,
 				39CD02721F3E831D00E1273E /* AssessmentViewController.swift in Sources */,
+				39CB9B771F49627300C991FE /* DemoViewController.swift in Sources */,
 				39067BB81EEA19E1004B1BEC /* RectView.swift in Sources */,
 				392DB5481F446406000A32C2 /* OgoriViewController.swift in Sources */,
 				39DED7CF1F2939E5003083DC /* BadPointEditViewController.swift in Sources */,
+				39CB9AD11F47252A00C991FE /* InquiryViewController.swift in Sources */,
 				39381EA61F2D55EC00DF8BAD /* DateUtils.swift in Sources */,
 				394259DE1F204E8200413A30 /* ProfileEditViewController2.swift in Sources */,
 				392DB54C1F45B084000A32C2 /* DetailTableViewCell.swift in Sources */,
@@ -871,8 +954,6 @@
 				392DB4FE1F41348D000A32C2 /* ProfileAnnotationViewController.swift in Sources */,
 				39CD021D1F38129B00E1273E /* BelongingEditViewController.swift in Sources */,
 				391649B01ED2510F003175D1 /* ServerConnection.swift in Sources */,
-				39AA1F081F2B06D600DDD086 /* ContentViewController.swift in Sources */,
-				39D5F0B11EFF911A00418FEA /* dummyData.swift in Sources */,
 				39034F211EE79C29009FD68E /* TransitionButton.swift in Sources */,
 				39CD026C1F3DE25D00E1273E /* LoginViewController.swift in Sources */,
 				392DB54A1F446446000A32C2 /* ImageAndLabelTableViewCell.swift in Sources */,
@@ -883,6 +964,7 @@
 				39067BB11EE8CC7F004B1BEC /* RectButton.swift in Sources */,
 				392ED71C1ECD8535003EB555 /* RadialGradientLayer.swift in Sources */,
 				392DB5461F43E9D2000A32C2 /* TitleAndContentTableViewCell.swift in Sources */,
+				39CB9B851F49F90800C991FE /* LounchViewController.swift in Sources */,
 				392DB5441F43E164000A32C2 /* RecruiterProfileViewController.swift in Sources */,
 				39067BB51EE8EAD2004B1BEC /* UserInfo.swift in Sources */,
 				392ED7261ECED0B0003EB555 /* UserDefaultSetting.swift in Sources */,
@@ -894,13 +976,11 @@
 				39381EB01F300EB400DF8BAD /* MessageUserDetailViewController.swift in Sources */,
 				392ED7141ECAB417003EB555 /* flagButton.swift in Sources */,
 				39CD02701F3DF70300E1273E /* MailModalViewController.swift in Sources */,
-				39D5F0B31EFFB3DF00418FEA /* CompanyViewController.swift in Sources */,
 				39D5F0AF1EFF900B00418FEA /* TagLabel.swift in Sources */,
 				39381EAE1F2F710B00DF8BAD /* labelAndLinkTextViewTableViewCell.swift in Sources */,
 				39067BB31EE8D4F3004B1BEC /* RectLabel.swift in Sources */,
 				3945712B1F039214009DD806 /* ChatViewController.swift in Sources */,
 				39DED7D11F293C15003083DC /* SkillEditViewController.swift in Sources */,
-				392DB5501F45B405000A32C2 /* DetailStudentViewController.swift in Sources */,
 				39381EAC1F2ECBB100DF8BAD /* ThreeContentTableViewCell.swift in Sources */,
 				392ED7201ECDFB9C003EB555 /* JobTagTitleList.swift in Sources */,
 			);

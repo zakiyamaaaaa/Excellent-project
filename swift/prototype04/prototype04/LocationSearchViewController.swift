@@ -102,9 +102,11 @@ class LocationSearchViewController: UIViewController, UIViewControllerTransition
     
     //サーバーに自分の近い人をリクエスト
     func requestToServer(lat:Double,lng:Double){
-        let udsetting = UserDefaultSetting()
-        udsetting.write(key: .uuid, value: "hoge")
-        let uuid = udsetting.read(key: .uuid) as String
+//        let udsetting = UserDefaultSetting()
+//        udsetting.write(key: .uuid, value: "hoge")
+//        let uuid = udsetting.read(key: .uuid) as String
+        
+        guard let uuid = User().uuid else { return }
         let serverConnect = ServerConnection()
 
         serverConnect.requestMyData(inuuid: uuid)
@@ -179,7 +181,7 @@ extension LocationSearchViewController{
                     //app deleagetに取得したデータを格納
                     let app:AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     app.cardListDelegate = returnData
-                    print("setted")
+                    
                     
                     let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                     let vc = storyboard.instantiateViewController(withIdentifier: "mainVC") as! UINavigationController
