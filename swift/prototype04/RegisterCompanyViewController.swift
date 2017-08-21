@@ -8,8 +8,8 @@
 
 import UIKit
 
+//ステータスが１（リクルーター）の場合、会社の情報を登録する。
 class RegisterCompanyViewController: UIViewController,UITextFieldDelegate{
-
     
     @IBOutlet weak var errorMessageLabel: UILabel!
     @IBOutlet weak var companyTextField: UITextField!
@@ -45,6 +45,7 @@ class RegisterCompanyViewController: UIViewController,UITextFieldDelegate{
         return true
     }
 
+    //textfield以外のところをタッチするとキーボードが閉じる
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -58,7 +59,7 @@ class RegisterCompanyViewController: UIViewController,UITextFieldDelegate{
     
     @IBAction func nextButtonTapped(_ sender: Any) {
         
-        
+        //会社情報が入ってなかったら遷移しない
         if companyTextField.text?.isEmpty == false{
             
             var a = Recruiter()
@@ -82,11 +83,11 @@ class RegisterCompanyViewController: UIViewController,UITextFieldDelegate{
         
     }
 
-    
+    //匿名スイッチがオンになるとアラートが表示
     @IBAction func changedValue(_ sender: UISwitch) {
         switch sender.isOn {
         case true:
-            let alert = UIAlertController(title: "説明", message: "会社情報を相手に匿名として表示します", preferredStyle: .alert)
+            let alert = UIAlertController(title: nil, message: "会社情報を相手に匿名として表示します", preferredStyle: .alert)
             let defaultAction:UIAlertAction = UIAlertAction(title: "OK",style: UIAlertActionStyle.default,handler:{
                                                                 (action:UIAlertAction!) -> Void in
                 

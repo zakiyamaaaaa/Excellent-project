@@ -18,14 +18,15 @@ class AssessmentViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        var a = my()
-        a.register(key: .birth, value: "1990-10-10")
+
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //相手が一定数以上いれば、次の画面へ遷移する
         
         let ref = Database.database().reference()
+        //firebaseのvalidキーがtrueになっていれば画面遷移をする
         if let uuid = Auth.auth().currentUser?.uid{
             print(ref.child("users").child(uuid).description())
             ref.child("users").child(uuid).observe(.value, with: { (snapshot) in
@@ -37,7 +38,7 @@ class AssessmentViewController: UIViewController {
                     let vc = storyboard.instantiateViewController(withIdentifier: "readyToMain") as! ReadyMainViewController
                     vc.modalTransitionStyle = .crossDissolve
                     vc.modalPresentationStyle = .overFullScreen
-//                    self.show(vc, sender: nil)
+                    self.show(vc, sender: nil)
                 }
             })
         }
@@ -48,7 +49,9 @@ class AssessmentViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //自分の情報を確認するボタンを押したときの挙動。
     @IBAction func confirmProfile(_ sender: Any) {
+        
     }
 
     /*

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//アプリ起動して、起動画面後の画面。最初のユーザーはここからはじまる
 class LounchViewController: UIViewController,UIScrollViewDelegate{
 
     @IBOutlet weak var myPageController: UIPageControl!

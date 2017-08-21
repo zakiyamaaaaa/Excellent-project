@@ -8,12 +8,13 @@
 
 import UIKit
 
+//名前と生年月日を登録する。どちらのステータスにも共通
 class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPickerViewDelegate{
 
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var birthTextField: UITextField!
     @IBOutlet weak var errorMessageLabel: UILabel!
-    var editingTextField:UITextField!
+//    var editingTextField:UITextField!
     var namaText:String?
     var birthText:String?
     
@@ -23,9 +24,6 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
         nameTextField.delegate = self
         birthTextField.delegate = self
         
-        
-        
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,17 +72,12 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
         return true
     }
     
-    func onDidChangeDate(sender:UIDatePicker){
-        
-    }
-    
     
     func doneButtonTapped(){
         
         let mydateFormatter = DateFormatter()
         mydateFormatter.dateFormat = "yyyy年M月d日"
         let myselectedDate = mydateFormatter.string(from: myDatePicker.date)
-//        birthTextField.resignFirstResponder()
         
         self.view.endEditing(true)
         birthTextField.text = myselectedDate
@@ -105,6 +98,7 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
     }
     
     @IBAction func nextButton(_ sender: Any) {
+        //名前と生年月日のフィールドに値が入ってなかったら、遷移しない
         if nameTextField.text?.isEmpty == false && birthTextField.text?.isEmpty == false{
 
             errorMessageLabel.isHidden = true
@@ -130,13 +124,13 @@ class RegisterBasicInfoViewController: UIViewController,UITextFieldDelegate,UIPi
         }
     }
     
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        editingTextField = textField
-        return true
-    }
+//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+//        editingTextField = textField
+//        return true
+//    }
 
     @IBAction func finishButtonTapped(_ sender: Any) {
-        
+        //名前と生年月日のフィールドに値が入ってなかったら、遷移しない
         if nameTextField.text?.isEmpty == false && birthTextField.text?.isEmpty == false{
             let navC = self.navigationController!
             let vc = navC.viewControllers[navC.viewControllers.count-2] as! ProfileRegistrationViewController

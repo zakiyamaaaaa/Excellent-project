@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//登録が成功したらモーダル表示の画面
 class MailModalViewController: UIViewController {
 
     @IBOutlet weak var myLabel: UILabel!

@@ -8,6 +8,7 @@
 
 import UIKit
 
+//ステータスが２（学生）の場合、学校の情報を登録する
 class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource{
 
     @IBOutlet weak var errorMessageLabel: UILabel!
@@ -55,10 +56,11 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
     let myDatePicker = UIDatePicker()
     let myPickerView = UIPickerView()
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        //卒業年度を登録するときは、アラートの中に選択するビューをいれて表示する
         if textField == graduationYearTextField{
             let screenWidth = self.view.frame.width
             let vc = UIViewController()
-            vc.preferredContentSize = CGSize(width: screenWidth,height: 180)
+            vc.preferredContentSize = CGSize(width: screenWidth,height: 240)
             
             myPickerView.delegate = self
             myPickerView.dataSource = self
@@ -81,7 +83,7 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
             }))
             self.present(editRadiusAlert, animated: true)
             
-            
+            //falseにするとキーボードが出てこない
             return false
         }
         return true
@@ -107,6 +109,7 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
     }
     
     @IBAction func nextButtonTapped(_ sender: Any) {
+        //学校名、学部、卒業年度すべてはいってないと遷移しない
         if schooNameTextField.text?.isEmpty == false && facultyTextField.text?.isEmpty == false && graduationYearTextField.text?.isEmpty == false{
             
             let array = [schooNameTextField.text!,facultyTextField.text!,selectYears!] as [Any]
@@ -121,18 +124,22 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
         
     }
 
+    //コンポーネントの列数を返す
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return years.count
     }
     
+    //コンポーネントの列のタイトルを返す
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return "\(years[row])年"
     }
     
+    //コンポーネントの列が選択されたときの動作
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         selectYears = years[row]
     }
     
+    //コンポーネントの数を返す
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -140,7 +147,7 @@ class RegisterEducationViewController: UIViewController,UITextFieldDelegate,UIPi
     @IBAction func finishButtonTapped(_ sender: Any) {
         
         switch myStatus {
-        case 1:
+        case 1://いらないかもしれない。。。
             
             //textfieldに値がすべて入ってるもしくは、すべてはいっていない場合は状態変更可
             if schooNameTextField.text?.isEmpty == false && facultyTextField.text?.isEmpty == false && graduationYearTextField.text?.isEmpty == false{

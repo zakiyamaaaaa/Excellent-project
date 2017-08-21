@@ -8,6 +8,7 @@
 import Firebase
 import UIKit
 
+//自分の写真を登録する
 class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate{
 
     @IBOutlet weak var myImageView: UIImageView!
@@ -27,13 +28,11 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
     }
     
     @IBAction func uploadButtonTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Confirmation", message: "Choose", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "メディアの選択", message: nil, preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera){
-            print("Available to camera")
             
-            
-            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {(action:UIAlertAction) in
+            let cameraAction = UIAlertAction(title: "カメラ", style: .default, handler: {(action:UIAlertAction) in
                 let ipc = UIImagePickerController()
                 ipc.sourceType = .camera
                 ipc.delegate = self
@@ -44,7 +43,7 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
         }
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: {(actioin:UIAlertAction) in
+            let photoLibraryAction = UIAlertAction(title: "フォトライブラリ", style: .default, handler: {(actioin:UIAlertAction) in
                 
                 let ipc :UIImagePickerController = UIImagePickerController()
                 ipc.sourceType = .photoLibrary
@@ -56,7 +55,7 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
             alertController.addAction(photoLibraryAction)
             
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .default, handler: nil)
         alertController.addAction(cancelAction)
         present(alertController,animated: true,completion: nil)
     }
@@ -130,7 +129,8 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
                 let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
                     print("register my data")
                     let str = String(data:data!,encoding:.utf8)
-                    print(str)
+                    print("data:\(str!)")
+                    
                     if str! == "hoge" {
                         self.performSegue(withIdentifier: "goSegue", sender: nil)
                         
@@ -177,7 +177,7 @@ class RegisterImageViewController: UIViewController,UIPickerViewDelegate,UINavig
                 let task = URLSession.shared.dataTask(with: request, completionHandler: {(data, response, error) in
                     print("register my data")
                     let str = String(data:data!,encoding:.utf8)
-                    print(str)
+                    print("data:\(str!)")
                     if str! == "hoge" {
                         self.performSegue(withIdentifier: "goSegue", sender: nil)
                         

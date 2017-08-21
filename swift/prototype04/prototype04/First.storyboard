@@ -330,8 +330,8 @@
                                     <action selector="registerButtonTapped:" destination="TeJ-Wz-snN" eventType="touchUpInside" id="r1t-yz-D9g"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Message" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QCc-ax-kBR">
-                                <rect key="frame" x="104.5" y="256" width="111" height="21"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QCc-ax-kBR">
+                                <rect key="frame" x="20" y="256" width="280" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -339,12 +339,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="QCc-ax-kBR" secondAttribute="trailing" constant="20" id="0kL-dY-uAQ"/>
                             <constraint firstItem="hcA-I7-hWr" firstAttribute="leading" secondItem="SZg-yZ-igg" secondAttribute="leading" id="64p-aI-jfQ"/>
+                            <constraint firstItem="QCc-ax-kBR" firstAttribute="leading" secondItem="dF3-FT-blH" secondAttribute="leading" constant="20" id="8lF-tf-UbH"/>
                             <constraint firstItem="C5L-Qk-XV7" firstAttribute="top" secondItem="QCc-ax-kBR" secondAttribute="bottom" constant="8" id="CPU-EA-L2z"/>
                             <constraint firstItem="6Us-Hc-ege" firstAttribute="leading" secondItem="dF3-FT-blH" secondAttribute="leading" constant="50" id="CW1-mG-PLa"/>
                             <constraint firstItem="C5L-Qk-XV7" firstAttribute="top" secondItem="hcA-I7-hWr" secondAttribute="bottom" constant="50" id="DXc-P0-a3N"/>
                             <constraint firstItem="iRI-PR-9pY" firstAttribute="top" secondItem="dF3-FT-blH" secondAttribute="top" id="H5c-VP-7iw"/>
-                            <constraint firstItem="QCc-ax-kBR" firstAttribute="centerX" secondItem="dF3-FT-blH" secondAttribute="centerX" id="LID-cZ-qMR"/>
                             <constraint firstItem="6Us-Hc-ege" firstAttribute="top" secondItem="iRI-PR-9pY" secondAttribute="bottom" constant="50" id="Lqu-X6-2dM"/>
                             <constraint firstItem="iRI-PR-9pY" firstAttribute="leading" secondItem="dF3-FT-blH" secondAttribute="leading" id="MfR-DU-9jR"/>
                             <constraint firstItem="C5L-Qk-XV7" firstAttribute="centerX" secondItem="dF3-FT-blH" secondAttribute="centerX" id="Noo-lm-nlY"/>

@@ -8,6 +8,7 @@
 
 import UIKit
 
+//カードメインの部分
 class MainViewControllerTest: UIViewController {
     @IBOutlet weak var cardView01: UserCard!
     
@@ -74,24 +75,8 @@ class MainViewControllerTest: UIViewController {
     var pushBehavior:UIPushBehavior!
     var snapBehavior:UISnapBehavior!
     
-    var cardList:[[Any]] = []
+//    var cardList:[[Any]] = []
     let properthName = recruiterPropety.self
-//    Id/String
-//    名前/String
-//    生年月日/Date
-//    会社名/String
-//    役職/String
-//    スキル/[String]
-//    おごり/[Int]
-//    メッセージ/String
-//    自己紹介文/String
-//    会社人数/Int
-//    会社業界/String
-//    経歴/[[String,String,Date,Date]]
-//    会社紹介/String
-//    会社の特徴/[String]
-//    募集求人/[String]
-//    会社ID/String
     
     @IBOutlet weak var interestingButton: RectButton!
     @IBOutlet weak var cancelButton: RectButton!
@@ -454,7 +439,7 @@ class MainViewControllerTest: UIViewController {
                 snapAnimator.addBehavior(snapBehavior!)
             }
         default:
-            print("default")
+            break
         }
         
     }
@@ -563,7 +548,7 @@ class MainViewControllerTest: UIViewController {
         case cardView02:
             toFrontView = cardView01
         default:
-            print("default")
+            break
         }
         
         currentCard = toFrontView
@@ -858,6 +843,7 @@ class MainViewControllerTest: UIViewController {
         return img
     }
     
+    //左スワイプと同じ処理
     @IBAction func cancelButtonTapped(_ sender: RectButton) {
         let velX = -300
         let velY = 0
@@ -865,22 +851,17 @@ class MainViewControllerTest: UIViewController {
         pushBehavior.pushDirection = CGVector(dx: velX, dy: velY)
         pushAnimator.addBehavior(pushBehavior)
         
-        //左スワイプなら画面もどる
-        //右スワイプなら、アプリをスタートする
-        
-        
-        var swipeDirection:direction
-        
-        swipeDirection = .left
         print("left swipe")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
-            //                    self.swipeHandler(swipedView: sender.view as! UserCard, direction: swipeDirection)
+        
             self.swipedEvent(sender: self.currentCard, direction: .left)
             self.moveCard(swipedView: self.currentCard)
         })
     }
     
+    //チェックボタンをおした時の挙動
+    //右スワイプと同じ処理
     @IBAction func interestingButtonTapped(_ sender: RectButton) {
         
         let velX = 300
@@ -889,13 +870,6 @@ class MainViewControllerTest: UIViewController {
         pushBehavior.pushDirection = CGVector(dx: velX, dy: velY)
         pushAnimator.addBehavior(pushBehavior)
         
-        //左スワイプなら画面もどる
-        //右スワイプなら、アプリをスタートする
-        
-        
-        var swipeDirection:direction
-        
-        swipeDirection = .right
         print("right swipe")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {

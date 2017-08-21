@@ -335,6 +335,7 @@
 				392DB5411F43DCAF000A32C2 /* Profile.storyboard */,
 				39CB9B231F493FE900C991FE /* Demo.storyboard */,
 				39CB9B7D1F49660200C991FE /* demo.mp4 */,
+				39CB9B861F4A9BC900C991FE /* First Section */,
 				39CB9B251F49401800C991FE /* Demo */,
 				399830051F45F3E700E5159B /* Main Section */,
 				399830071F45F42A00E5159B /* Profile Section */,
@@ -531,6 +532,17 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		39CB9B861F4A9BC900C991FE /* First Section */ = {
+			isa = PBXGroup;
+			children = (
+				39CB9B841F49F90800C991FE /* LounchViewController.swift */,
+				39CD026B1F3DE25D00E1273E /* LoginViewController.swift */,
+				39CD026D1F3DE28900E1273E /* RegisterMailViewController.swift */,
+				39CD026F1F3DF70300E1273E /* MailModalViewController.swift */,
+			);
+			name = "First Section";
+			sourceTree = "<group>";
+		};
 		39CD021E1F387DCE00E1273E /* EditProfileViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,17 +569,13 @@
 		39CD02241F3D23D400E1273E /* RegisterSection */ = {
 			isa = PBXGroup;
 			children = (
-				39CB9B841F49F90800C991FE /* LounchViewController.swift */,
-				39CD026B1F3DE25D00E1273E /* LoginViewController.swift */,
-				39CD026D1F3DE28900E1273E /* RegisterMailViewController.swift */,
-				39CD026F1F3DF70300E1273E /* MailModalViewController.swift */,
-				39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */,
-				392DB5031F42BC9A000A32C2 /* RegisterCompanyViewController.swift */,
 				392DB4FB1F40354F000A32C2 /* ChoiceStatusViewController.swift */,
-				39CD02711F3E831D00E1273E /* AssessmentViewController.swift */,
 				39CD02251F3D2B7A00E1273E /* RegisterBasicInfoViewController.swift */,
+				392DB5031F42BC9A000A32C2 /* RegisterCompanyViewController.swift */,
 				39CD02611F3D54C400E1273E /* RegisterEducationViewController.swift */,
 				39CD02751F3E9A8D00E1273E /* RegisterImageViewController.swift */,
+				39CD02711F3E831D00E1273E /* AssessmentViewController.swift */,
+				39CD02791F3EBACF00E1273E /* ProfileRegistrationViewController.swift */,
 				39CD02631F3D54DB00E1273E /* RegisterInterestViewController.swift */,
 				39CD02651F3D54F500E1273E /* RegisterUserFeatureViewController.swift */,
 				39CD02671F3D550F00E1273E /* RegisterSelfIntroductionViewController.swift */,

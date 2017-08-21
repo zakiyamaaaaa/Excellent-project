@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+//ログイン画面
 class LoginViewController: UIViewController,UITextFieldDelegate{
 
     @IBOutlet weak var errorMessageLabel: UILabel!
@@ -49,6 +50,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
             let textField = alert.textFields![0] as UITextField
             if textField.text != nil{
                 let auth = Auth.auth()
+                //Firebase側にパスワードリセットをリクエストする
                  auth.sendPasswordReset(withEmail: textField.text!, completion: { (Error) in
                     if Error == nil{
                         let alert = UIAlertController(title: "パスワードのリセット", message: "入力したメールアドレスに再設定用のメールを送信しました。ご確認ください", preferredStyle: .alert)
@@ -63,6 +65,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate{
                             })
                         })
                     }else{
+                        
                         let alert = UIAlertController(title: "無効なメールアドレス", message: "入力したメールアドレスは登録されていません。再度ご確認ください", preferredStyle: .alert)
                         
                         

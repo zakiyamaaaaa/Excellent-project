@@ -57,6 +57,8 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
             
 
             sectionImageView.image = #imageLiteral(resourceName: "register_recruiter")
+            
+            //anonymousがtrueだったら、会社の情報を非公開にする
             if Recruiter().anonymous == true{
                 graduationYearLabel.isHidden = false
                 graduationYearLabel.text = "企業情報を非公開に設定しています。"
@@ -120,13 +122,11 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
     }
     
     @IBAction func uploadButtonTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Confirmation", message: "Choose", preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "メディアの選択", message: nil, preferredStyle: .actionSheet)
         
         if UIImagePickerController.isSourceTypeAvailable(.camera){
-            print("Available to camera")
             
-            
-            let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {(action:UIAlertAction) in
+            let cameraAction = UIAlertAction(title: "カメラ", style: .default, handler: {(action:UIAlertAction) in
                 let ipc = UIImagePickerController()
                 ipc.sourceType = .camera
                 ipc.delegate = self
@@ -137,7 +137,7 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
         }
         
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default, handler: {(actioin:UIAlertAction) in
+            let photoLibraryAction = UIAlertAction(title: "フォトライブラリ", style: .default, handler: {(actioin:UIAlertAction) in
                 
                 let ipc :UIImagePickerController = UIImagePickerController()
                 ipc.sourceType = .photoLibrary
@@ -149,7 +149,7 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
             alertController.addAction(photoLibraryAction)
             
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        let cancelAction = UIAlertAction(title: "キャンセル", style: .default, handler: nil)
         alertController.addAction(cancelAction)
         present(alertController,animated: true,completion: nil)
     }
@@ -208,6 +208,7 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
         // Dispose of any resources that can be recreated.
     }
     
+    //Crop画面から戻ってきたときに、クロップで切り取った画像を引っ張ってくる
     @IBAction func returnToTop(segue: UIStoryboardSegue) {
         
         if segue.identifier  == "unwindCrop"{
@@ -219,8 +220,7 @@ class ProfileRegistrationViewController: UIViewController,UIImagePickerControlle
     
     
     @IBAction func updateUser(_ sender: Any) {
-        //userdefault更新して、サーバーのDBもデータ更新
-//        ServerConnection().updateBeforeValid(postImage: selectedImage)
+        
         var user = my()
         
         

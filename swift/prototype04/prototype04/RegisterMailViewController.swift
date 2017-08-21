@@ -8,7 +8,7 @@
 
 import UIKit
 import Firebase
-
+//メール登録する画面。Firebaseで管理
 class RegisterMailViewController: UIViewController,UITextFieldDelegate{
 
     @IBOutlet weak var errorMessageLabel: UILabel!
@@ -38,20 +38,19 @@ class RegisterMailViewController: UIViewController,UITextFieldDelegate{
         let inputEmail = emailTextField.text
         let inputPassword = passwordTextField.text
         
+        //Firebaseにメール認証でのユーザー登録をする
         Auth.auth().createUser(withEmail: inputEmail!, password: inputPassword!, completion: { (user, Error) in
             if Error == nil{
                 user?.sendEmailVerification(completion: { (Error) in
                     if Error == nil{
                         //認証メール送信成功
-                        print("success to send Email")
                         self.performSegue(withIdentifier: "sendMailSegue", sender: nil)
-                        //                        self.successMessage.isHidden = false
-                        //                        self.successMessage.text = "入力したアドレスに確認メールを送信しました。\nご確認ください"
+                        
                     }else{
                         //認証メール送信失敗
                         //アラート表示
-//                        self.errorMessageLabel?.isHidden = false
-//                        self.errorMessageLabel?.text = Error?.localizedDescription
+                        self.errorMessageLabel?.isHidden = false
+                        self.errorMessageLabel?.text = "送信に失敗しました。通信状況を確認し、時間をおいて再度行ってください"
                         print(Error!.localizedDescription + "1")
                     }
                 })
